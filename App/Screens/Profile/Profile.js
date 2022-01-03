@@ -34,25 +34,35 @@ const DATA = [
   {
     id: 3,
     img: Images.ArrowDown,
-    label: 'Deposit',
+    label: 'Deposit cash',
   },
   {
     id: 4,
     img: Images.ArrowDown,
-    label: 'Withdraw',
+    label: 'Deposit crypto',
   },
   {
     id: 5,
+    img: Images.ArrowDown,
+    label: 'Bank withdraw',
+  },
+  {
+    id: 6,
+    img: Images.ArrowDown,
+    label: 'Mobile money withdraw',
+  },
+  {
+    id: 7,
+    img: Images.ArrowDown,
+    label: 'Paypal withdraw',
+  },
+  {
+    id: 8,
     img: Images.Shield,
     label: 'Security',
   },
   {
-    id: 6,
-    img: Images.Wallet,
-    label: 'Banking',
-  },
-  {
-    id: 7,
+    id: 9,
     img: Images.Wallet,
     label: 'Logout',
   },
@@ -128,7 +138,7 @@ const Profile = ({navigation}) => {
               </Text>
               <View style={styles.innerRow}>
                 <Text style={styles.Vip}>VIP 0</Text>
-                <Text style={styles.verifiedText}>Not Verified</Text>
+                {/* <Text style={styles.verifiedText}>Not Verified</Text> */}
               </View>
             </View>
           </View>
@@ -167,7 +177,6 @@ const Profile = ({navigation}) => {
           />
         </View>
       </ScrollView>
-      <View style={styles.centeredView}>
         <Modal
           animationType="slide"
           transparent={true}
@@ -189,7 +198,32 @@ const Profile = ({navigation}) => {
             </View>
           </View>
         </Modal>
-      </View>
+        {/* <TouchableWithoutFeedback
+        onPress={() => setModalVisible(!modalVisible)}
+        style={{flex: 1}}>
+        <ReactNativeModal
+          animationOut={'bounceOut'}
+          animationIn={'bounceIn'}
+          isVisible={modalVisible}
+          transparent={true}
+          onBackdropPress={() => setModalVisible(!modalVisible)}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalRow}>
+                <AntDesign name="close" size={20} color={Theme.white} />
+                <Text style={styles.modalHeading}>
+                  {'Receive ' + selectedCoin}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(!modalVisible)}
+                  style={styles.close}>
+                  <AntDesign name="close" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </ReactNativeModal>
+      </TouchableWithoutFeedback> */}
     </View>
   );
 };
@@ -257,7 +291,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   Vip: {
-    color: Theme.yellowOrange,
+    color: Theme.orange,
     fontWeight: 'bold',
   },
   verifiedText: {
@@ -304,7 +338,7 @@ const styles = StyleSheet.create({
     marginBottom: '8%',
   },
   referText: {
-    color: Theme.yellowOrange,
+    color: Theme.orange,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -347,5 +381,18 @@ const styles = StyleSheet.create({
     marginBottom:"10%",
     fontSize:15,
     fontWeight:'bold'
-  }
+  },
+  modalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  modalHeading: {
+    color: Theme.black,
+    fontSize: Theme.headingtext,
+    fontWeight: 'bold',
+  },
+  close: {
+    paddingHorizontal: 5,
+  },
 });

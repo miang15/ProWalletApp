@@ -37,6 +37,7 @@ import Swap from '../Screens/Swap';
 import Tabs from '../Screens/Tabs';
 import Profile from '../Screens/Profile/Profile';
 import Exchange from '../Screens/Exchange/Exchange';
+import CoinsDeposit from '../Screens/CoinsDeposit';
 
 const Stack = createNativeStackNavigator();
 function MainStack() {
@@ -46,11 +47,12 @@ function MainStack() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Splash">
+        initialRouteName="Profile">
         <Stack.Screen
           name="TransactionHistory"
           component={TransactionHistory}
         />
+        <Stack.Screen name="CoinsDeposit" component={CoinsDeposit} />
         <Stack.Screen name="Exchange" component={Exchange} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="UploadVideo" component={UploadVideo} />

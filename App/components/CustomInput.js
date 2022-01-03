@@ -17,6 +17,7 @@ export default function CustomInput({
   LeftIcons,
   RightIcons,
   width,
+  backgroundColor
 }) {
   const styles = StyleSheet.create({
     rowView: {
@@ -24,7 +25,7 @@ export default function CustomInput({
       borderWidth: 1,
       borderRadius: 8,
       marginVertical: '3%',
-      backgroundColor: Theme.black,
+      backgroundColor: backgroundColor ? backgroundColor : Theme.black,
       borderColor: Theme.border,
       alignItems: 'center',
       paddingHorizontal: 5,

@@ -34,6 +34,7 @@ const Images = {
   plus: require('../assets/Images/plus.png'),
   minus: require('../assets/Images/minus.png'),
   yellowLine: require('../assets/Images/yellowLine.png'),
+  QRAddress: require('../assets/Images/QRAddress.png'),
 };
 
 export default Images;

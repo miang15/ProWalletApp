@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icons from '../constants/Icons';
 import Theme from '../utils/Theme';
-const SendComponent = ({icon, category, cash, bchPrice, cashPrice}) => {
+const SendComponent = ({icon, category, bchPrice,}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imgTextBg}>

@@ -32,15 +32,27 @@ const WalletComponent = ({width, leftIcon, title, onPress, value}) => {
       width: '100%',
       height: '100%',
       alignSelf: 'center',
-      transform: [{rotate: title === 'Withdraw' ? '180deg' : '360deg'}],
+      transform: [{rotate: title === 'Bank withdraw'
+      ? '180deg'
+      : title === 'Mobile money withdraw'
+      ? '180deg'
+      : title === 'Paypal withdraw'
+      ? '180deg' : '360deg'}],
     },
     title: {
-      color: title === 'Withdraw' ? Theme.yellowOrange : Theme.white,
+      color:
+        title === 'Bank withdraw'
+          ? Theme.yellowOrange
+          : title === 'Mobile money withdraw'
+          ? Theme.yellowOrange
+          : title === 'Paypal withdraw'
+          ? Theme.yellowOrange
+          : Theme.white,
       marginLeft: '5%',
       width: '65%',
     },
     Balance: {
-      color: Theme.green,
+      color: Theme.orange,
     },
   });
   return (

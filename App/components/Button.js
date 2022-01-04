@@ -20,6 +20,8 @@ export default function Button({
   transparent,
   top,
   paddingVertical,
+  backgroundColor,
+  borderColor,
   horizontal
 }) {
   const styles = StyleSheet.create({
@@ -29,10 +31,10 @@ export default function Button({
       borderRadius: 6,
       backgroundColor:
         isDisable || loading
-          ? Theme.white
+          ? backgroundColor ? backgroundColor : Theme.white
           : yellow
-          ? Theme.green
-          : Theme.green,
+          ? backgroundColor ? backgroundColor : Theme.green
+          : backgroundColor ? backgroundColor : Theme.green,
      
       marginBottom: bottom && bottom,
       marginTop: top && top,
@@ -79,9 +81,9 @@ export default function Button({
         <View
           style={{
             ...styles.btn,
-            backgroundColor: Theme.green,
+            backgroundColor: backgroundColor ? backgroundColor : Theme.green,
             borderWidth: 1,
-            borderColor: Theme.green,
+            borderColor: borderColor ? borderColor : Theme.green,
             paddingHorizontal: 10,
             paddingVertical: paddingVertical ? paddingVertical : 10,
           }}>

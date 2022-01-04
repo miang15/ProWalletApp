@@ -19,8 +19,10 @@ export default function CustomInput({
   width,
   backgroundColor,
   borderWidth,
+  borderColor,
   color,
-  marginVertical
+  marginVertical,
+  editable,
 }) {
   const styles = StyleSheet.create({
     rowView: {
@@ -29,36 +31,39 @@ export default function CustomInput({
       borderRadius: 8,
       marginVertical: marginVertical ? marginVertical : '3%',
       backgroundColor: backgroundColor ? backgroundColor : Theme.black,
-      borderColor: Theme.border,
+      borderColor: borderColor ? borderColor : Theme.border,
       alignItems: 'center',
       paddingHorizontal: 5,
     },
     inputStyle: {
-      marginLeft:'1%',
-      marginRight: RightIcons ? "3%" : '1%',
+      marginLeft: '1%',
+      marginRight: RightIcons ? '3%' : '1%',
       width: width ? width : '80%',
       fontSize: 14,
       color: color ? color : Theme.white,
     },
     iconView: {
-      width:20,
-      height:20,
-      overflow:'hidden',
-      alignItems:'center'
+      width: 20,
+      height: 20,
+      overflow: 'hidden',
+      alignItems: 'center',
     },
     icon: {
-      width:'100%',
-      height:'100%',
-      alignSelf:'center'
-    }
+      width: '100%',
+      height: '100%',
+      alignSelf: 'center',
+    },
   });
 
   return (
     <View style={styles.rowView}>
-    { LeftIcons ?  <View style={styles.iconView}>
-        <Image style={styles.icon} source={LeftIcons} />
-      </View> : null }
+      {LeftIcons ? (
+        <View style={styles.iconView}>
+          <Image resizeMode="contain" style={styles.icon} source={LeftIcons} />
+        </View>
+      ) : null}
       <TextInput
+        editable={editable}
         theme={{colors: {text: Theme.white, primary: Theme.border}}}
         style={styles.inputStyle}
         placeholder={placeholder}
@@ -67,9 +72,11 @@ export default function CustomInput({
         onChangeText={onChangeText}
         placeholderTextColor={Theme.border}
       />
-    { RightIcons ?  <TouchableOpacity style={styles.iconView}>
-        <Image style={styles.icon} source={RightIcons} />
-      </TouchableOpacity> : null }
+      {RightIcons ? (
+        <TouchableOpacity style={styles.iconView}>
+          <Image resizeMode="contain" style={styles.icon} source={RightIcons} />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 }

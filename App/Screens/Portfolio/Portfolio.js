@@ -101,17 +101,19 @@ const Portfolio = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>Jack’s Portfolio</Text>
+      <Text style={styles.headingText}>Balance</Text>
       <Text style={styles.balance}>$292,339.64</Text>
       <View style={styles.changeProfitBg}>
         <View style={styles.changeBg}>
           <Text style={styles.time}>24H Change</Text>
           <TouchableOpacity style={styles.iconChangeBg}>
+            <View style={styles.iconView}>
             <Image
               style={styles.icon}
               source={Icons.downBold}
               resizeMode="contain"
             />
+            </View>
             <Text style={styles.changeText}>6,376.79(-2.13%)</Text>
           </TouchableOpacity>
         </View>
@@ -119,11 +121,13 @@ const Portfolio = () => {
         <View style={styles.changeBg}>
           <Text style={styles.time}>Profit</Text>
           <TouchableOpacity style={styles.iconChangeBg}>
+            <View style={styles.iconView}>
             <Image
               style={{...styles.icon, tintColor: Theme.green}}
               source={Icons.upBold}
               resizeMode="contain"
             />
+            </View>
             <Text style={{...styles.changeText, color: Theme.green}}>
               292,294.64
             </Text>
@@ -256,17 +260,21 @@ const styles = StyleSheet.create({
   headingText: {
     color: Theme.white,
     textAlign: 'center',
-    fontSize: Theme.medium,
+    fontSize: Theme.headingtext,
     fontWeight: 'bold',
     marginTop: '10%',
   },
   balance: {
-    color: Theme.white,
+    color: Theme.orange,
     textAlign: 'center',
-    fontSize: Theme.title,
+    fontSize: Theme.heading,
     fontFamily: Theme.fontFamily,
+    backgroundColor:Theme.darkGrey,
     fontWeight: 'bold',
     marginTop: '10%',
+    paddingVertical:3,
+    marginHorizontal:'3%',
+    borderRadius:8
   },
   changeProfitBg: {
     flexDirection: 'row',
@@ -288,12 +296,19 @@ const styles = StyleSheet.create({
   iconChangeBg: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft:"3%"
+  },
+  iconView: {
+    width:10,
+    height:10,
+    alignItems:"center",
+    overflow:'hidden',
+    marginRight: '5%',
   },
   icon: {
-    width: 13,
-    height: 13,
+    width: '100%',
+    height: '100%',
     tintColor: Theme.orange,
-    marginRight: '5%',
   },
   changeText: {
     color: Theme.orange,

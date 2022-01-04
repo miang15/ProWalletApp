@@ -22,6 +22,7 @@ import Clipboard from '@react-native-community/clipboard';
 import ReactNativeModal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomInput from '../../components/CustomInput';
+import Button from '../../components/Button';
 
 const DATA = [
   {
@@ -77,6 +78,7 @@ const Profile = ({navigation}) => {
   const [profileImage, setProfileImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [paypalModal, setPaypalModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   const [invitationCode, setInvitationCode] = useState('526116597...');
   const [copiedText, setCopiedText] = useState('');
 
@@ -259,7 +261,71 @@ const Profile = ({navigation}) => {
                   color={Theme.black}
                   placeholder={'$0.00'}
                 />
-                <Text style={styles.payout} >Payout amount = $00.00</Text>
+                <Text style={styles.payout}>Payout amount = $00.00</Text>
+                <View
+                  style={{
+                    paddingHorizontal: 10,
+                    marginTop: '10%',
+                    marginBottom: '5%',
+                  }}>
+                  <Button
+                    onPress={() => {
+                      setPaypalModal(!paypalModal), setConfirmModal(true);
+                    }}
+                    title={'Confirm'}
+                    backgroundColor={Theme.orange}
+                    borderColor={Theme.orange}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </ReactNativeModal>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => setConfirmModal(!confirmModal)}
+        style={{flex: 1}}>
+        <ReactNativeModal
+          animationOut={'bounceOut'}
+          animationIn={'bounceIn'}
+          isVisible={confirmModal}
+          transparent={true}
+          onBackdropPress={() => setConfirmModal(!confirmModal)}>
+          <View style={styles.centeredView}>
+            <View style={styles.paypalModalView}>
+              <View style={styles.modalRow}>
+                <AntDesign name="close" size={20} color={Theme.white} />
+                <Text style={styles.modalHeading}>Confirm Withdraw</Text>
+                <TouchableOpacity
+                  onPress={() => setConfirmModal(!confirmModal)}
+                  style={styles.close}>
+                  <AntDesign name="close" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View style={{margin: '3%'}}>
+                <View style={styles.confirmRow}>
+                  <Text style={styles.mailText}>Paypal ID :</Text>
+                  <Text style={styles.mailText}>brian@gmail.com</Text>
+                </View>
+                <View style={styles.confirmRow}>
+                  <Text style={styles.mailText}>Payout amount :</Text>
+                  <Text style={{...styles.mailText, color: Theme.orange}}>
+                    $200.90
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    paddingHorizontal: 5,
+                    marginTop: '10%',
+                    marginBottom: '5%',
+                  }}>
+                  <Button
+                    onPress={() => setConfirmModal(!confirmModal)}
+                    title={'Continue'}
+                    backgroundColor={Theme.orange}
+                    borderColor={Theme.orange}
+                  />
+                </View>
               </View>
             </View>
           </View>
@@ -458,5 +524,22 @@ const styles = StyleSheet.create({
     color: Theme.black,
     fontSize: Theme.medium,
     marginTop: '2%',
+  },
+  payout: {
+    color: Theme.black,
+    fontSize: Theme.normal,
+    fontWeight: 'bold',
+    marginVertical: '5%',
+  },
+  confirmRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: '2%',
+    paddingHorizontal: 3,
+  },
+  mailText: {
+    color: Theme.black,
+    fontSize: Theme.medium,
   },
 });

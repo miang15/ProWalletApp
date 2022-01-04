@@ -12,13 +12,7 @@ const Swap = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(1);
   const [coin, setCoin] = useState('BTC');
-  const [list, setList] = useState([
-    'BTC',
-    'ETH',
-    'LTC',
-    'BNB',
-    'BCH',
-  ]);
+  const [list, setList] = useState(['BTC', 'ETH', 'LTC', 'BNB', 'BCH']);
   const refRBSheet = useRef();
 
   const handleSelectedItem = val => {
@@ -38,7 +32,9 @@ const Swap = () => {
           <Text style={styles.label}>Swap</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {setSelected(1), navigation.navigate("Exchange")}}
+          onPress={() => {
+            setSelected(1), navigation.navigate('Exchange');
+          }}
           style={{
             ...styles.BtnStyle,
             width: '36%',
@@ -47,7 +43,9 @@ const Swap = () => {
           <Text style={styles.label}>Exchange</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {setSelected(1), navigation.navigate("Buy")}}
+          onPress={() => {
+            setSelected(1), navigation.navigate('Buy');
+          }}
           style={{
             ...styles.BtnStyle,
             backgroundColor: selected === 3 ? '#303030' : Theme.darkRow,
@@ -72,8 +70,12 @@ const Swap = () => {
           }}>
           1 ETH= 26.8188923 BTC
         </Text>
-        <TouchableOpacity>
-          <Image source={Icons.arrow} style={styles.arrow} />
+        <TouchableOpacity style={styles.arrowView}>
+          <Image
+            resizeMode="contain"
+            source={Icons.arrow}
+            style={styles.arrow}
+          />
         </TouchableOpacity>
       </View>
       <TradeComponent
@@ -83,7 +85,13 @@ const Swap = () => {
         btc={coin}
         onPress={() => refRBSheet.current.open()}
       />
-      <Button title="Swap" top="15%" horizontal="3%" />
+      <Button
+        title="Swap"
+        top="15%"
+        horizontal="3%"
+        backgroundColor={Theme.orange}
+        borderColor={Theme.orange}
+      />
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
@@ -153,11 +161,19 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     alignSelf: 'center',
   },
+  arrowView: {
+    width: 30,
+    height: 30,
+    overflow: 'hidden',
+    alignItems: 'center',
+    backgroundColor: Theme.grey,
+    marginHorizontal: '3%',
+    padding: 8,
+    borderRadius: 15,
+  },
   arrow: {
-    width: 38,
-    height: 38,
-    marginRight: 8,
-    marginLeft: 10,
+    width: '100%',
+    height: '100%',
     alignSelf: 'center',
   },
   card: {

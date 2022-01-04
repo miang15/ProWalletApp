@@ -38,6 +38,9 @@ import Tabs from '../Screens/Tabs';
 import Profile from '../Screens/Profile/Profile';
 import Exchange from '../Screens/Exchange/Exchange';
 import CoinsDeposit from '../Screens/CoinsDeposit';
+import MobileMoneyWithdraw from '../Screens/Withdraw/MobileMoneyWithdraw';
+import DepositScreen from '../Screens/Withdraw/DepositScreen';
+import Amount from '../Screens/Withdraw/Amount';
 
 const Stack = createNativeStackNavigator();
 function MainStack() {
@@ -47,11 +50,14 @@ function MainStack() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Profile">
+        initialRouteName="Amount">
         <Stack.Screen
           name="TransactionHistory"
           component={TransactionHistory}
         />
+        <Stack.Screen name="Amount" component={Amount} />
+        <Stack.Screen name="DepositScreen" component={DepositScreen} />
+        <Stack.Screen name="MobileMoneyWithdraw" component={MobileMoneyWithdraw} />
         <Stack.Screen name="CoinsDeposit" component={CoinsDeposit} />
         <Stack.Screen name="Exchange" component={Exchange} />
         <Stack.Screen name="Profile" component={Profile} />

@@ -9,6 +9,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import Header from '../../components/Header';
@@ -18,6 +19,9 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import ImagePicker from 'react-native-image-crop-picker';
 import Clipboard from '@react-native-community/clipboard';
+import ReactNativeModal from 'react-native-modal';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import CustomInput from '../../components/CustomInput';
 
 const DATA = [
   {
@@ -67,12 +71,14 @@ const DATA = [
     label: 'Logout',
   },
 ];
+
 const Profile = ({navigation}) => {
   const [hide, setHide] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [invitationCode, setInvitationCode] = useState("526116597...")
-  const [copiedText, setCopiedText] = useState('')
+  const [paypalModal, setPaypalModal] = useState(false);
+  const [invitationCode, setInvitationCode] = useState('526116597...');
+  const [copiedText, setCopiedText] = useState('');
 
   const pickImage = async () => {
     ImagePicker.openPicker({
@@ -94,14 +100,13 @@ const Profile = ({navigation}) => {
       navigation.navigate('Welcome');
     } else if (val === 'Balance') {
       navigation.navigate('Balance');
-    } else if (val === 'Deposit') {
+    } else if (val === 'Deposit cash') {
       navigation.navigate('Deposit');
-    } else if (val === 'Withdraw') {
-      navigation.navigate('Withdraw');
+    } else if (val === 'Paypal withdraw') {
+      setPaypalModal(true);
     } else if (val === 'Banking') {
       navigation.navigate('BankingDetails');
-    }
-     else {
+    } else {
       Alert.alert('Screen Not Available');
     }
   };
@@ -116,12 +121,16 @@ const Profile = ({navigation}) => {
 
   const copyToClipboard = () => {
     setModalVisible(!modalVisible);
-    Clipboard.setString (invitationCode)
-  }
+    Clipboard.setString(invitationCode);
+  };
 
   return (
     <View style={styles.container}>
-      <Header title={'Account'} onPress={() => navigation.goBack()} backgroundColor={Theme.darkGrey} />
+      <Header
+        title={'Account'}
+        onPress={() => navigation.goBack()}
+        backgroundColor={Theme.darkGrey}
+      />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.innerContainer}>
           <View style={styles.topRow}>
@@ -166,7 +175,9 @@ const Profile = ({navigation}) => {
           <TouchableOpacity
             onPress={() => setModalVisible(true)}
             style={styles.referBtn}>
-            <Text style={styles.referText}>{copiedText ? copiedText : "Refer Friends to Earn"}</Text>
+            <Text style={styles.referText}>
+              {copiedText ? copiedText : 'Refer Friends to Earn'}
+            </Text>
           </TouchableOpacity>
           <Text style={styles.heading}>Wallet</Text>
           <FlatList
@@ -177,53 +188,83 @@ const Profile = ({navigation}) => {
           />
         </View>
       </ScrollView>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Copy Invitation Code</Text>
-              <TouchableOpacity onPress={() => copyToClipboard()} style={styles.copyRow}>
-                <Text style={styles.copyText} numberOfLines={1}>
-                  {invitationCode}
-                </Text>
-                <View style={styles.copyIconView}>
-                  <Image style={styles.copyImg} source={Images.copyIcon} />
-                </View>
-              </TouchableOpacity>
-            </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Copy Invitation Code</Text>
+            <TouchableOpacity
+              onPress={() => copyToClipboard()}
+              style={styles.copyRow}>
+              <Text style={styles.copyText} numberOfLines={1}>
+                {invitationCode}
+              </Text>
+              <View style={styles.copyIconView}>
+                <Image style={styles.copyImg} source={Images.copyIcon} />
+              </View>
+            </TouchableOpacity>
           </View>
-        </Modal>
-        {/* <TouchableWithoutFeedback
-        onPress={() => setModalVisible(!modalVisible)}
+        </View>
+      </Modal>
+      <TouchableWithoutFeedback
+        onPress={() => setPaypalModal(!paypalModal)}
         style={{flex: 1}}>
         <ReactNativeModal
           animationOut={'bounceOut'}
           animationIn={'bounceIn'}
-          isVisible={modalVisible}
+          isVisible={paypalModal}
           transparent={true}
-          onBackdropPress={() => setModalVisible(!modalVisible)}>
+          onBackdropPress={() => setPaypalModal(!paypalModal)}>
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+            <View style={styles.paypalModalView}>
               <View style={styles.modalRow}>
                 <AntDesign name="close" size={20} color={Theme.white} />
-                <Text style={styles.modalHeading}>
-                  {'Receive ' + selectedCoin}
-                </Text>
+                <Text style={styles.modalHeading}>Paypal Info</Text>
                 <TouchableOpacity
-                  onPress={() => setModalVisible(!modalVisible)}
+                  onPress={() => setPaypalModal(!paypalModal)}
                   style={styles.close}>
                   <AntDesign name="close" size={24} color="black" />
                 </TouchableOpacity>
               </View>
+              <View style={{margin: '3%'}}>
+                <Text style={styles.label}>Paypal ID</Text>
+                <CustomInput
+                  width={'100%'}
+                  backgroundColor={Theme.grayInput}
+                  borderWidth={0.5}
+                  marginVertical={'2%'}
+                  color={Theme.black}
+                  placeholder={'Enter Paypal ID'}
+                />
+                <Text style={styles.label}>Withdraw Amount</Text>
+                <CustomInput
+                  width={'100%'}
+                  backgroundColor={Theme.grayInput}
+                  borderWidth={0.5}
+                  marginVertical={'2%'}
+                  color={Theme.black}
+                  placeholder={'Enter Amount'}
+                />
+                <Text style={styles.label}>Processing fees</Text>
+                <CustomInput
+                  width={'100%'}
+                  backgroundColor={Theme.grayInput}
+                  borderWidth={0.5}
+                  marginVertical={'2%'}
+                  color={Theme.black}
+                  placeholder={'$0.00'}
+                />
+                <Text style={styles.payout} >Payout amount = $00.00</Text>
+              </View>
             </View>
           </View>
         </ReactNativeModal>
-      </TouchableWithoutFeedback> */}
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -245,11 +286,11 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: Theme.darkRow,
-    borderWidth:1,
-    borderColor:Theme.green,
+    borderWidth: 1,
+    borderColor: Theme.green,
     borderRadius: 20,
     paddingVertical: 50,
-    paddingHorizontal:25,
+    paddingHorizontal: 25,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -376,16 +417,34 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   modalText: {
-    color:Theme.white,
-    textAlign:'center',
-    marginBottom:"10%",
-    fontSize:15,
-    fontWeight:'bold'
+    color: Theme.white,
+    textAlign: 'center',
+    marginBottom: '10%',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  paypalModalView: {
+    marginVertical: '5%',
+    backgroundColor: Theme.white,
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    overflow: 'hidden',
   },
   modalRow: {
+    paddingHorizontal: 5,
+    paddingVertical: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    borderBottomWidth: 0.3,
+    borderColor: Theme.border,
   },
   modalHeading: {
     color: Theme.black,
@@ -394,5 +453,10 @@ const styles = StyleSheet.create({
   },
   close: {
     paddingHorizontal: 5,
+  },
+  label: {
+    color: Theme.black,
+    fontSize: Theme.medium,
+    marginTop: '2%',
   },
 });

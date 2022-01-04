@@ -8,6 +8,7 @@ const Theme = {
   white: '#FFFFFF',
   whiteText: '#CFCFCF',
   golden: '#FABC44',
+  grayInput:"#F2F2F2",
   green: '#39B54A',
   border: '#7F8D81',
   sky: '#40BFFF',

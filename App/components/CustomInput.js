@@ -17,14 +17,17 @@ export default function CustomInput({
   LeftIcons,
   RightIcons,
   width,
-  backgroundColor
+  backgroundColor,
+  borderWidth,
+  color,
+  marginVertical
 }) {
   const styles = StyleSheet.create({
     rowView: {
       flexDirection: 'row',
-      borderWidth: 1,
+      borderWidth: borderWidth ? borderWidth : 1,
       borderRadius: 8,
-      marginVertical: '3%',
+      marginVertical: marginVertical ? marginVertical : '3%',
       backgroundColor: backgroundColor ? backgroundColor : Theme.black,
       borderColor: Theme.border,
       alignItems: 'center',
@@ -32,10 +35,10 @@ export default function CustomInput({
     },
     inputStyle: {
       marginLeft:'1%',
-      marginRight:"3%",
+      marginRight: RightIcons ? "3%" : '1%',
       width: width ? width : '80%',
       fontSize: 14,
-      color: Theme.white,
+      color: color ? color : Theme.white,
     },
     iconView: {
       width:20,

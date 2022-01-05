@@ -24,7 +24,6 @@ const MobileMoneyWithdraw = ({navigation}) => {
     refRBSheet.current.close();
     setCoin(val);
   };
-
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} />

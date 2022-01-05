@@ -1,4 +1,4 @@
-import React, {createRef, useEffect} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -15,6 +15,7 @@ import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
+import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 
 const Data = [
   {
@@ -87,7 +88,22 @@ const Data = [
   },
 ];
 
+const ModalDATA = [
+  {
+    id: 1,
+    label: 'Bitcoin Amount',
+    value: '0.172090',
+  },
+  {
+    id: 2,
+    label: 'Bitcoin Rate',
+    value: '$60,000',
+  },
+];
+
 const Amount = () => {
+  const [modal, setModal] = useState(false);
+
   const inputRef = createRef();
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
@@ -122,44 +138,45 @@ const Amount = () => {
             </View>
           </View>
           <View>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={Data}
-            renderItem={({item}) => (
-              <TouchableOpacity style={styles.BitcoinRowView}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View
-                    style={{
-                      ...styles.imgBackground,
-                      backgroundColor: item.backgroundColor,
-                    }}>
-                    <View style={styles.bitcoinImgView}>
-                      <Image
-                        resizeMode="contain"
-                        style={{...styles.bitCoin, tintColor: item.tintColor}}
-                        source={item.icon}
-                      />
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={Data}
+              renderItem={({item}) => (
+                <TouchableOpacity style={styles.BitcoinRowView}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <View
+                      style={{
+                        ...styles.imgBackground,
+                        backgroundColor: item.backgroundColor,
+                      }}>
+                      <View style={styles.bitcoinImgView}>
+                        <Image
+                          resizeMode="contain"
+                          style={{...styles.bitCoin, tintColor: item.tintColor}}
+                          source={item.icon}
+                        />
+                      </View>
+                    </View>
+                    <View>
+                      <Text style={styles.bitCoinValue}>{item.category}</Text>
+                      <Text style={styles.label}>{item.cash}</Text>
                     </View>
                   </View>
-                  <View>
-                    <Text style={styles.bitCoinValue}>{item.category}</Text>
-                    <Text style={styles.label}>{item.cash}</Text>
+                  <View style={styles.downarrowView}>
+                    <Image
+                      resizeMode="contain"
+                      style={styles.downarrowImg}
+                      source={Images.arrow}
+                    />
                   </View>
-                </View>
-                <View style={styles.downarrowView}>
-                  <Image
-                    resizeMode="contain"
-                    style={styles.downarrowImg}
-                    source={Images.arrow}
-                  />
-                </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item.id}
-          />
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => item.id}
+            />
           </View>
           <View style={styles.bottomBtn}>
             <Button
+              onPress={() => setModal(true)}
               title={'Continue'}
               backgroundColor={Theme.orange}
               borderColor={Theme.orange}
@@ -167,6 +184,15 @@ const Amount = () => {
           </View>
         </View>
       </ScrollView>
+      <ConfirmTradeModal
+        heading={'Confirm Trade'}
+        DATA={ModalDATA}
+        show={modal}
+        setShow={() => setModal(!modal)}
+        onPress={() => setModal(!modal)}
+        btnText={'Buy'}
+        equal={true}
+      />
     </View>
   );
 };
@@ -184,7 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     marginTop: '5%',
-    marginBottom:"15%"
+    marginBottom: '15%',
   },
   textInput: {
     color: Theme.white,
@@ -206,7 +232,7 @@ const styles = StyleSheet.create({
   },
   BitcoinRowView: {
     flexDirection: 'row',
-    marginVertical:'3%',
+    marginVertical: '3%',
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 8,
@@ -254,7 +280,5 @@ const styles = StyleSheet.create({
   label: {
     color: Theme.textGrey,
   },
-  bottomBtn: {
-
-  },
+  bottomBtn: {},
 });

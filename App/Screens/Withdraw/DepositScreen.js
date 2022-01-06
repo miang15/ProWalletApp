@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -14,8 +14,28 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../../components/DropDown';
+import ConfirmTradeModal from '../../components/ConfirmTradeModal';
+
+const ModalDATA = [
+  {
+    id: 1,
+    label: 'Deposit Amount :',
+    value: '$2300.00',
+  },
+  {
+    id: 2,
+    label: 'Deposit Fees (3.9%) :',
+    value: '$89.70',
+  },
+  {
+    id: 3,
+    label: 'Total Deposit :',
+    value: '$2,210.0',
+  },
+];
 
 const DepositScreen = ({navigation}) => {
+  const [modal, setModal] = useState(false)
   const [coin, setCoin] = useState('GHS');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
   const refRBSheet = useRef();
@@ -33,7 +53,12 @@ const DepositScreen = ({navigation}) => {
           <Text style={styles.heading}>BAL $292,339.64</Text>
           <Text style={styles.text1}>How much do you want to deposit?</Text>
           <Text style={styles.label}>Country</Text>
-          <Picker onLeftPress={() => refRBSheet.current.open()} label={coin} valueText={'0.00'} width={'100%'} />
+          <Picker
+            onLeftPress={() => refRBSheet.current.open()}
+            label={coin}
+            valueText={'0.00'}
+            width={'100%'}
+          />
           <Text style={styles.values}>1 GHS = 0.0017USD</Text>
           <Text style={styles.label}>Mobile Payment</Text>
           <TouchableOpacity style={{marginBottom: '3%'}}>
@@ -60,6 +85,13 @@ const DepositScreen = ({navigation}) => {
             borderColor={Theme.darkRow}
             backgroundColor={Theme.darkRow}
           />
+          <Text style={styles.label}>Recipient’s Email Address</Text>
+          <CustomInput
+            width={'95%'}
+            placeholder={'Email Address'}
+            borderColor={Theme.darkRow}
+            backgroundColor={Theme.darkRow}
+          />
           <View
             style={{
               flexDirection: 'row',
@@ -74,6 +106,7 @@ const DepositScreen = ({navigation}) => {
               width={'48%'}
             />
             <Button
+            onPress={() => setModal(true)}
               title={'Confirm Deposit'}
               backgroundColor={Theme.orange}
               borderColor={Theme.orange}
@@ -82,6 +115,17 @@ const DepositScreen = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
+      <ConfirmTradeModal
+      margin={'1%'}
+        heading={'Confirm Deposit'}
+        DATA={ModalDATA}
+        show={modal}
+        setShow={() => setModal(!modal)}
+        onPress={() => setModal(!modal)}
+        btnText={'Confirm Deposit'}
+        btnBackground={Theme.orange}
+        btnBorder={Theme.orange}
+      />
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}

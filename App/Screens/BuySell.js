@@ -6,10 +6,10 @@ import Theme from '../utils/Theme';
 import {LineChart} from 'react-native-chart-kit';
 import Button from '../components/Button';
 
-const BuySell = () => {
+const BuySell = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Header rightIcon={Images.upload2} />
+      <Header onPress={() => navigation.goBack()} rightIcon={Images.upload2} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{margin: '3%'}}>
           <Text style={styles.text1}>BTC Offered by Pepper</Text>
@@ -50,8 +50,9 @@ const BuySell = () => {
             }}
           />
           <View style={styles.btnRow}>
-            <Button title={'Buy'} width={'48%'} />
+            <Button title={'Buy'} width={'48%'} onPress={() => {navigation.navigate("Amount", {item:'Buy'})}} />
             <Button
+            onPress={() => {navigation.navigate("Amount", {item:'Sell'})}}
               title={'Sell'}
               width={'48%'}
               backgroundColor={Theme.orange}

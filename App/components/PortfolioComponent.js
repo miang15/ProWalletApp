@@ -8,6 +8,7 @@ const PortfolioComponent = ({
   cash,
   backgroundColor,
   bchDigit,
+  onPress,
   cashDigit,
   tintColor,
   bchPrice,
@@ -64,7 +65,7 @@ const PortfolioComponent = ({
   });
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.imgTextBg}>
         <View style={styles.iconBg}>
           <Image style={styles.bitCoin} source={icon} resizeMode="contain" />

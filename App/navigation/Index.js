@@ -52,7 +52,7 @@ function MainStack() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="BankWithdraw">
+        initialRouteName="Splash">
         <Stack.Screen
           name="TransactionHistory"
           component={TransactionHistory}

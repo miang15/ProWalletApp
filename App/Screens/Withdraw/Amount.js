@@ -3,6 +3,7 @@ import {
   FlatList,
   Image,
   InteractionManager,
+  Keyboard,
   ScrollView,
   StyleSheet,
   Text,
@@ -21,7 +22,7 @@ const Data = [
   {
     id: '1',
     icon: Icons.bitIcon,
-    backgroundColor: '#453217',
+    backgroundColor: Theme.yellowOrange,
     category: 'Bitcoin',
     cash: 'BTC',
     bchDigit: '98,582,.84',
@@ -29,63 +30,63 @@ const Data = [
     bchPrice: '$104,00',
     cashPrice: '+0.18%',
   },
-  {
-    id: '2',
-    backgroundColor: '#454545',
-    icon: Images.ETH,
-    tintColor: Theme.white,
-    category: 'Ethereum',
-    cash: 'ETH',
-    bchDigit: '98,582,.84',
-    cashDigit: '625,849.756ARDR',
-    bchPrice: '$104,00',
-    cashPrice: '-0.18%',
-  },
-  {
-    id: '3',
-    icon: Images.liteCoin,
-    backgroundColor: '#1E2733',
-    category: 'Litecoin',
-    cash: 'LTC',
-    bchDigit: '98,582,.84',
-    cashDigit: '625,849.756ARDR',
-    bchPrice: '$204,00',
-    cashPrice: '+0.91%',
-  },
-  {
-    id: '4',
-    backgroundColor: Theme.darkGrey,
-    icon: Images.greenBit,
-    backgroundColor: '#202832',
-    category: 'Bitcoin Cash',
-    cash: 'BCH',
-    bchDigit: '98,582,.84',
-    cashDigit: '625,849.756ARDR',
-    bchPrice: '$304,00',
-    cashPrice: '+0.18%',
-  },
-  {
-    id: '5',
-    icon: Images.Doge,
-    backgroundColor: '#202832',
-    category: 'Dogecoin',
-    cash: 'DOGE',
-    bchDigit: '10,000 DOGE',
-    cashDigit: '625,849.756ARDR',
-    bchPrice: '$104,00',
-    cashPrice: '-0.9175',
-  },
-  {
-    id: '6',
-    icon: Images.Doge,
-    backgroundColor: '#202832',
-    category: 'Pepper Token',
-    cash: 'PEPE',
-    bchDigit: '30,000 PEPE',
-    cashDigit: '625,849.756ARDR',
-    bchPrice: '$204,00',
-    cashPrice: '-0.9175',
-  },
+  // {
+  //   id: '2',
+  //   backgroundColor: '#454545',
+  //   icon: Images.ETH,
+  //   tintColor: Theme.white,
+  //   category: 'Ethereum',
+  //   cash: 'ETH',
+  //   bchDigit: '98,582,.84',
+  //   cashDigit: '625,849.756ARDR',
+  //   bchPrice: '$104,00',
+  //   cashPrice: '-0.18%',
+  // },
+  // {
+  //   id: '3',
+  //   icon: Images.liteCoin,
+  //   backgroundColor: '#1E2733',
+  //   category: 'Litecoin',
+  //   cash: 'LTC',
+  //   bchDigit: '98,582,.84',
+  //   cashDigit: '625,849.756ARDR',
+  //   bchPrice: '$204,00',
+  //   cashPrice: '+0.91%',
+  // },
+  // {
+  //   id: '4',
+  //   backgroundColor: Theme.darkGrey,
+  //   icon: Images.greenBit,
+  //   backgroundColor: '#202832',
+  //   category: 'Bitcoin Cash',
+  //   cash: 'BCH',
+  //   bchDigit: '98,582,.84',
+  //   cashDigit: '625,849.756ARDR',
+  //   bchPrice: '$304,00',
+  //   cashPrice: '+0.18%',
+  // },
+  // {
+  //   id: '5',
+  //   icon: Images.Doge,
+  //   backgroundColor: '#202832',
+  //   category: 'Dogecoin',
+  //   cash: 'DOGE',
+  //   bchDigit: '10,000 DOGE',
+  //   cashDigit: '625,849.756ARDR',
+  //   bchPrice: '$104,00',
+  //   cashPrice: '-0.9175',
+  // },
+  // {
+  //   id: '6',
+  //   icon: Images.Doge,
+  //   backgroundColor: '#202832',
+  //   category: 'Pepper Token',
+  //   cash: 'PEPE',
+  //   bchDigit: '30,000 PEPE',
+  //   cashDigit: '625,849.756ARDR',
+  //   bchPrice: '$204,00',
+  //   cashPrice: '-0.9175',
+  // },
 ];
 
 const ModalDATA = [
@@ -101,18 +102,25 @@ const ModalDATA = [
   },
 ];
 
-const Amount = () => {
+const Amount = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
-
+  const trade = route?.params?.item;
   const inputRef = createRef();
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
       inputRef.current.focus();
     });
   }, []);
+
+  
   return (
     <View style={styles.container}>
-      <Header title={'Enter Amount'} rightIcon={Images.upload2} />
+      <View style={{marginBottom:"10%"}}>
+      <Header
+        onPress={() => navigation.goBack()}
+        title={'Enter Amount'}
+        rightIcon={Images.upload2}
+      />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{margin: '3%'}}>
           <View style={styles.inputRow}>
@@ -139,6 +147,7 @@ const Amount = () => {
           </View>
           <View>
             <FlatList
+            style={{flexGrow:0}}
               showsVerticalScrollIndicator={false}
               data={Data}
               renderItem={({item}) => (
@@ -174,25 +183,28 @@ const Amount = () => {
               keyExtractor={item => item.id}
             />
           </View>
-          <View style={styles.bottomBtn}>
-            <Button
-              onPress={() => setModal(true)}
-              title={'Continue'}
-              backgroundColor={Theme.orange}
-              borderColor={Theme.orange}
-            />
-          </View>
         </View>
       </ScrollView>
+      </View>
       <ConfirmTradeModal
         heading={'Confirm Trade'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
         onPress={() => setModal(!modal)}
-        btnText={'Buy'}
+        btnText={trade === 'Buy' ? 'Buy' : 'Sell'}
+        btnBorder={trade === 'Buy' ? Theme.green : Theme.orange}
+        btnBackground={trade === 'Buy' ? Theme.green : Theme.orange}
         equal={true}
       />
+      <View style={styles.bottomBtn}>
+        <Button
+          onPress={() => setModal(true)}
+          title={'Continue'}
+          backgroundColor={Theme.orange}
+          borderColor={Theme.orange}
+        />
+      </View>
     </View>
   );
 };
@@ -203,6 +215,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.black,
+    justifyContent:"space-between",
   },
   inputRow: {
     flexDirection: 'row',
@@ -280,5 +293,7 @@ const styles = StyleSheet.create({
   label: {
     color: Theme.textGrey,
   },
-  bottomBtn: {},
+  bottomBtn: {
+    margin:"3%"
+  }
 });

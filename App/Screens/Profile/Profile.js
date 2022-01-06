@@ -103,11 +103,16 @@ const Profile = ({navigation}) => {
     } else if (val === 'Balance') {
       navigation.navigate('Balance');
     } else if (val === 'Deposit cash') {
-      navigation.navigate('Deposit');
-    } else if (val === 'Paypal withdraw') {
+      navigation.navigate('DepositScreen');
+    } else if (val === 'Deposit crypto') {
+      navigation.navigate('CoinsDeposit');
+    } else if (val === 'Bank withdraw') {
+      navigation.navigate('BankWithdraw');
+    }else if (val === 'Mobile money withdraw') {
+      navigation.navigate('MobileMoneyWithdraw');
+    }
+     else if (val === 'Paypal withdraw') {
       setPaypalModal(true);
-    } else if (val === 'Banking') {
-      navigation.navigate('BankingDetails');
     } else {
       Alert.alert('Screen Not Available');
     }

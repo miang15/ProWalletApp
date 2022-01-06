@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {useState} from 'react';
 import {
   ScrollView,
@@ -10,10 +10,12 @@ import {
 import Button from '../../components/Button';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import CustomInput from '../../components/CustomInput';
+import DropDown from '../../components/DropDown';
 import Header from '../../components/Header';
 import Picker from '../../components/Picker';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const DATA = [
   {
@@ -42,15 +44,29 @@ const DATA = [
     value: 'Abdul Al Mamun',
   },
 ];
-const BankWithdraw = () => {
+const BankWithdraw = ({navigation}) => {
   const [transferModal, setTransferModal] = useState(false);
+  const [coin, setCoin] = useState('USD');
+  const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
+  const refRBSheet = useRef();
+
+  const handleSelectedItem = val => {
+    refRBSheet.current.close();
+    setCoin(val);
+  };
+
   return (
     <View style={styles.container}>
-      <Header />
+      <Header onPress={() => navigation.goBack()} />
       <ScrollView>
         <View style={{margin: '3%'}}>
           <Text style={styles.label}>Select Withdraw Amount</Text>
-          <Picker label={'USD'} valueText={'0.00'} width={'100%'} />
+          <Picker
+            onLeftPress={() => refRBSheet.current.open()}
+            label={coin}
+            valueText={'0.00'}
+            width={'100%'}
+          />
           <Text style={styles.values}>1 GHS = 0.0017USD</Text>
           <Text style={styles.label}>Recipient’s Country</Text>
           <TouchableOpacity style={{marginBottom: '3%'}}>
@@ -165,6 +181,22 @@ const BankWithdraw = () => {
         setShow={() => setTransferModal(!transferModal)}
         btnText={'Confirm Transfer'}
       />
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown={true}
+        closeOnPressMask={false}
+        height={250}
+        customStyles={{
+          wrapper: {backgroundColor: 'transparent'},
+          draggableIcon: {backgroundColor: Theme.white},
+          container: {
+            borderTopLeftRadius: 30,
+            borderTopRightRadius: 30,
+            backgroundColor: Theme.darkGrey,
+          },
+        }}>
+        <DropDown list={list} selectedItem={val => handleSelectedItem(val)} />
+      </RBSheet>
     </View>
   );
 };

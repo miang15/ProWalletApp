@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -14,8 +14,29 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../../components/DropDown';
+import ConfirmTradeModal from '../../components/ConfirmTradeModal';
+import Icons from '../../constants/Icons';
+
+const ModalDATA = [
+  {
+    id: 1,
+    label: 'Withdraw Amount :',
+    value: '$2300.00',
+  },
+  {
+    id: 2,
+    label: 'Withdraw Fees (3.9%) :',
+    value: '$89.70',
+  },
+  {
+    id: 3,
+    label: 'Total Withdraw :',
+    value: '$2,210.0',
+  },
+];
 
 const MobileMoneyWithdraw = ({navigation}) => {
+  const [modal, setModal] = useState(false);
   const [coin, setCoin] = useState('GHS');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
   const refRBSheet = useRef();
@@ -32,7 +53,12 @@ const MobileMoneyWithdraw = ({navigation}) => {
           <Text style={styles.heading}>BAL $292,339.64</Text>
           <Text style={styles.text1}>How much do you want to withdraw?</Text>
           <Text style={styles.label}>Country</Text>
-          <Picker onLeftPress={() => refRBSheet.current.open()} label={coin} valueText={'0.00'} width={'100%'} />
+          <Picker
+            onLeftPress={() => refRBSheet.current.open()}
+            label={coin}
+            valueText={'0.00'}
+            width={'100%'}
+          />
           <Text style={styles.values}>0.0017USD = 1 GHS</Text>
           <Text style={styles.label}>Mobile Payment</Text>
           <TouchableOpacity style={{marginBottom: '3%'}}>
@@ -40,7 +66,7 @@ const MobileMoneyWithdraw = ({navigation}) => {
               width={'89%'}
               editable={false}
               placeholder={'Select Network'}
-              RightIcons={Images.upDown}
+              RightIcons={Icons.downBold}
               backgroundColor={Theme.darkRow}
               borderColor={Theme.darkRow}
             />
@@ -59,6 +85,13 @@ const MobileMoneyWithdraw = ({navigation}) => {
             borderColor={Theme.darkRow}
             backgroundColor={Theme.darkRow}
           />
+          <Text style={styles.label}>Recipient’s Email Address</Text>
+          <CustomInput
+            width={'95%'}
+            placeholder={'Enter email Address'}
+            borderColor={Theme.darkRow}
+            backgroundColor={Theme.darkRow}
+          />
           <View
             style={{
               flexDirection: 'row',
@@ -73,6 +106,7 @@ const MobileMoneyWithdraw = ({navigation}) => {
               width={'48%'}
             />
             <Button
+            onPress={() => setModal(true)}
               title={'Confirm Withdraw'}
               backgroundColor={Theme.orange}
               borderColor={Theme.orange}
@@ -81,6 +115,17 @@ const MobileMoneyWithdraw = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
+      <ConfirmTradeModal
+      margin={'1%'}
+        heading={'Confirm Withdraw'}
+        DATA={ModalDATA}
+        show={modal}
+        setShow={() => setModal(!modal)}
+        onPress={() => setModal(!modal)}
+        btnText={'Confirm Withdraw'}
+        btnBackground={Theme.orange}
+        btnBorder={Theme.orange}
+      />
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}

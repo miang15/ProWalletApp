@@ -6,7 +6,8 @@ import Images from '../constants/Images';
 import Theme from '../utils/Theme';
 import Setting from '../Screens/Setting/Setting';
 import Balance from '../Screens/Portfolio/Balance';
-import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Profile from '../Screens/Profile/Profile';
 import Swap from '../Screens/Swap';
 import TransactionHistory from '../Screens/TransactionHistory/TransactionHistory';
@@ -32,10 +33,10 @@ const BottomTab = () => {
         },
       }}>
       <Tab.Screen
-        name="Portfolio"
-        component={Portfolio}
+        name="Swap"
+        component={Swap}
         options={{
-          tabBarLabel: 'Portfolio',
+          tabBarLabel: 'Swap',
           tabBarIcon: ({color, size}) => (
             <View style={styles.tabIconView}>
               <Image
@@ -48,8 +49,8 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Swap"
-        component={Swap}
+        name="Portfolio"
+        component={Portfolio}
         options={{
           tabBarLabel: 'Trade',
           tabBarIcon: ({color, size}) => (
@@ -64,28 +65,19 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Balance"
-        component={Balance}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color, size}) => (
-            <Entypo name="home" size={25} color={Theme.text} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
           tabBarLabel: 'Account',
           tabBarIcon: ({color, size}) => (
-            <View style={styles.tabIconView}>
-              <Image
-                resizeMode="cover"
-                style={styles.tabIcon}
-                source={Images.setting}
-              />
-            </View>
+<FontAwesome5 name="user-alt" size={20} color={Theme.text} />
+            // <View style={styles.tabIconView}>
+            //   <Image
+            //     resizeMode="cover"
+            //     style={styles.tabIcon}
+            //     source={Images.setting}
+            //   />
+            // </View>
           ),
         }}
       />
@@ -95,13 +87,14 @@ const BottomTab = () => {
         options={{
           tabBarLabel: 'History',
           tabBarIcon: ({color, size}) => (
-            <View style={styles.tabIconView}>
-              <Image
-                resizeMode="cover"
-                style={styles.tabIcon}
-                source={Images.more}
-              />
-            </View>
+            <MaterialCommunityIcons name="clock" size={20} color={Theme.text} />
+            // <View style={styles.tabIconView}>
+            //   <Image
+            //     resizeMode="cover"
+            //     style={styles.tabIcon}
+            //     source={Images.more}
+            //   />
+            // </View>
           ),
         }}
       />

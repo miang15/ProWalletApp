@@ -17,7 +17,7 @@ const Data = [
   {
     id: '1',
     icon: Icons.bitIcon,
-    backgroundColor: "#453217",
+    backgroundColor: '#453217',
     category: 'Bitcoin',
     cash: 'BTC',
     bchDigit: '0.002 BTC',
@@ -27,9 +27,9 @@ const Data = [
   },
   {
     id: '2',
-    backgroundColor: "#454545",
+    backgroundColor: '#454545',
     icon: Images.ETH,
-    tintColor:Theme.white,
+    tintColor: Theme.white,
     category: 'Ethereum',
     cash: 'ETH',
     bchDigit: '30.00 ETH',
@@ -40,7 +40,7 @@ const Data = [
   {
     id: '3',
     icon: Images.liteCoin,
-    backgroundColor: "#1E2733",
+    backgroundColor: '#1E2733',
     category: 'Litecoin',
     cash: 'LTC',
     bchDigit: '20.00 LTC',
@@ -52,7 +52,7 @@ const Data = [
     id: '4',
     backgroundColor: Theme.darkGrey,
     icon: Images.greenBit,
-    backgroundColor: "#202832",
+    backgroundColor: '#202832',
     category: 'Bitcoin Cash',
     cash: 'BCH',
     bchDigit: '4.00 BCH',
@@ -63,7 +63,7 @@ const Data = [
   {
     id: '5',
     icon: Images.Doge,
-    backgroundColor: "#202832",
+    backgroundColor: '#202832',
     category: 'Dogecoin',
     cash: 'DOGE',
     bchDigit: '10,000 DOGE',
@@ -74,7 +74,7 @@ const Data = [
   {
     id: '6',
     icon: Images.Doge,
-    backgroundColor: "#202832",
+    backgroundColor: '#202832',
     category: 'Pepper Token',
     cash: 'PEPE',
     bchDigit: '30,000 PEPE',
@@ -84,9 +84,10 @@ const Data = [
   },
 ];
 
-const Portfolio = () => {
+const Portfolio = ({navigation}) => {
   const renderItem = ({item, index}) => (
     <PortfolioComponent
+      onPress={() => navigation.navigate('BuySell')}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
       icon={item.icon}
@@ -108,11 +109,11 @@ const Portfolio = () => {
           <Text style={styles.time}>24H Change</Text>
           <TouchableOpacity style={styles.iconChangeBg}>
             <View style={styles.iconView}>
-            <Image
-              style={styles.icon}
-              source={Icons.downBold}
-              resizeMode="contain"
-            />
+              <Image
+                style={styles.icon}
+                source={Icons.downBold}
+                resizeMode="contain"
+              />
             </View>
             <Text style={styles.changeText}>6,376.79(-2.13%)</Text>
           </TouchableOpacity>
@@ -122,11 +123,11 @@ const Portfolio = () => {
           <Text style={styles.time}>Profit</Text>
           <TouchableOpacity style={styles.iconChangeBg}>
             <View style={styles.iconView}>
-            <Image
-              style={{...styles.icon, tintColor: Theme.green}}
-              source={Icons.upBold}
-              resizeMode="contain"
-            />
+              <Image
+                style={{...styles.icon, tintColor: Theme.green}}
+                source={Icons.upBold}
+                resizeMode="contain"
+              />
             </View>
             <Text style={{...styles.changeText, color: Theme.green}}>
               292,294.64
@@ -269,12 +270,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: Theme.heading,
     fontFamily: Theme.fontFamily,
-    backgroundColor:Theme.darkGrey,
+    backgroundColor: Theme.darkGrey,
     fontWeight: 'bold',
     marginTop: '10%',
-    paddingVertical:3,
-    marginHorizontal:'3%',
-    borderRadius:8
+    paddingVertical: 3,
+    marginHorizontal: '3%',
+    borderRadius: 8,
   },
   changeProfitBg: {
     flexDirection: 'row',
@@ -296,13 +297,13 @@ const styles = StyleSheet.create({
   iconChangeBg: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft:"3%"
+    marginLeft: '3%',
   },
   iconView: {
-    width:10,
-    height:10,
-    alignItems:"center",
-    overflow:'hidden',
+    width: 10,
+    height: 10,
+    alignItems: 'center',
+    overflow: 'hidden',
     marginRight: '5%',
   },
   icon: {
@@ -338,9 +339,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     paddingVertical: 8,
-    marginBottom:"5%",
+    marginBottom: '5%',
     paddingHorizontal: '5%',
-    paddingLeft:"8%"
+    paddingLeft: '8%',
   },
   iconTextBg: {
     flexDirection: 'row',

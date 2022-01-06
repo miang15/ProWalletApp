@@ -22,7 +22,7 @@ const Swap = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topRowView}>
+      {/* <View style={styles.topRowView}>
         <TouchableOpacity
           onPress={() => setSelected(1)}
           style={{
@@ -52,7 +52,8 @@ const Swap = () => {
           }}>
           <Text style={styles.label}>Fiat</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
+            <Text style={styles.headingText}>Swap</Text>
       <TradeComponent
         heading="You send"
         title="0.01 BTC"
@@ -126,6 +127,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: '2%',
     marginVertical: '15%',
+  },
+  headingText: {
+    color: Theme.white,
+    textAlign: 'center',
+    fontSize: Theme.headingtext,
+    fontWeight: 'bold',
+    marginTop: '10%',
+    marginBottom:"15%"
   },
   BtnStyle: {
     width: '32%',

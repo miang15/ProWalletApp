@@ -43,8 +43,8 @@ export default function CustomInput({
       color: color ? color : Theme.white,
     },
     iconView: {
-      width: 20,
-      height: 20,
+      width: 15,
+      height: 15,
       overflow: 'hidden',
       alignItems: 'center',
     },
@@ -52,6 +52,7 @@ export default function CustomInput({
       width: '100%',
       height: '100%',
       alignSelf: 'center',
+      tintColor:Theme.border
     },
   });
 

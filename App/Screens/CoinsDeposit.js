@@ -122,7 +122,7 @@ const Data = [
   },
 ];
 
-const CoinsDeposit = () => {
+const CoinsDeposit = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState('');
   const [address, setAddress] = useState('1B4evPk29C29alkjfkasdf9Fkjkjf9FkK');
@@ -150,7 +150,7 @@ const CoinsDeposit = () => {
   );
   return (
     <View style={styles.container}>
-      <Header title={'Coins'} />
+      <Header title={'Coins'} onPress={() => navigation.goBack()} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <FlatList
           showsVerticalScrollIndicator={false}

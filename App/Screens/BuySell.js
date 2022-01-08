@@ -35,7 +35,7 @@ const BuySell = ({navigation}) => {
             height={200}
             withInnerLines={false}
             withOuterLines={false}
-            // withHorizontalLabels={false}
+            withHorizontalLabels={false}
             withDots={false}
             chartConfig={{
               backgroundGradientFrom: '#1E2923',

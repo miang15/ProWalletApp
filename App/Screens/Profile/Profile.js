@@ -23,6 +23,7 @@ import ReactNativeModal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
+import Congratulations from '../../components/Congratulations';
 
 const DATA = [
   {
@@ -63,11 +64,16 @@ const DATA = [
   },
   {
     id: 8,
+    img: Images.ArrowDown,
+    label: 'USDC withdraw',
+  },
+  {
+    id: 9,
     img: Images.Shield,
     label: 'Security',
   },
   {
-    id: 9,
+    id: 10,
     img: Images.Wallet,
     label: 'Logout',
   },
@@ -77,6 +83,7 @@ const Profile = ({navigation}) => {
   const [hide, setHide] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [congrats, setCongrats] = useState(false);
   const [paypalModal, setPaypalModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [invitationCode, setInvitationCode] = useState('526116597...');
@@ -108,10 +115,9 @@ const Profile = ({navigation}) => {
       navigation.navigate('CoinsDeposit');
     } else if (val === 'Bank withdraw') {
       navigation.navigate('BankWithdraw');
-    }else if (val === 'Mobile money withdraw') {
+    } else if (val === 'Mobile money withdraw') {
       navigation.navigate('MobileMoneyWithdraw');
-    }
-     else if (val === 'Paypal withdraw') {
+    } else if (val === 'Paypal withdraw') {
       setPaypalModal(true);
     } else {
       Alert.alert('Screen Not Available');
@@ -325,7 +331,9 @@ const Profile = ({navigation}) => {
                     marginBottom: '5%',
                   }}>
                   <Button
-                    onPress={() => setConfirmModal(!confirmModal)}
+                    onPress={() => {
+                      setConfirmModal(!confirmModal), setCongrats(true);
+                    }}
                     title={'Continue'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -336,6 +344,11 @@ const Profile = ({navigation}) => {
           </View>
         </ReactNativeModal>
       </TouchableWithoutFeedback>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your withdraw has been completed successfully'}
+      />
     </View>
   );
 };

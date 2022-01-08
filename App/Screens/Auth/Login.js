@@ -1,5 +1,13 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+} from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
@@ -11,41 +19,38 @@ const Login = ({}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Image source={Images.logo} style={styles.imageContainer} />
-      <ScrollView>
-        <View style={{margin:"3%"}}>
-      <Text style={styles.text}>Welcome to Pepper Wallet</Text>
-
-      <CustomInput placeholder="Username/Email" LeftIcons={Icons.Profile} />
-
-      <CustomInput placeholder="Password" LeftIcons={Icons.Lock} />
-      <View style={styles.rowView}>        
-      <TouchableOpacity
-        style={{alignSelf:'flex-end',paddingVertical:5,}}
-        activeOpacity="0.6"
-        onPress={() => navigation.navigate('Fingerprint')}>
-        <Text style={styles.password}>Use FingerPrint</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{alignSelf:'flex-end',paddingVertical:5,}}
-        activeOpacity="0.6"
-        onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.password}>Forgot password?</Text>
-      </TouchableOpacity>
-      </View>
+      <ImageBackground
+        resizeMode="cover"
+        style={styles.background}
+        source={Images.loginBackground}>
+        <View style={styles.innerContainer}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.logoRow}>
+              <View style={styles.logoView}>
+                <Image
+                  style={styles.logo}
+                  source={Images.splashIcon}
+                  resizeMode="cover"
+                />
+              </View>
+              <Text style={styles.appName}>PEPPER PRO</Text>
+            </View>
+            <Text style={styles.description}>
+              Buy, Sell & Trade Cryptocurrencies
+            </Text>
+          </ScrollView>
+        </View>
+      </ImageBackground>
       <Button
-        title="Login"
-        top="15%"
-        onPress={() => navigation.navigate('BackupWallet')}
+        top={'20%'}
+        horizontal={'3%'}
+        title={'Login'}
+        backgroundColor={Theme.orange}
+        borderColor={Theme.orange}
       />
-      <TouchableOpacity
-        style={{flexDirection: 'row', alignItems:'center', marginTop:"15%", marginBottom:"3%", alignSelf:'center'}}
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.title}>Don’t have a account? </Text>
-        <Text style={{...styles.title, color: Theme.sky}}> Register</Text>
-      </TouchableOpacity>
-      </View>
-      </ScrollView>
+      <Text style={styles.text1}>No account yet? 
+          <Text style={styles.BtnText}> Sign up now.</Text>
+      </Text>
     </View>
   );
 };
@@ -57,29 +62,54 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.black,
   },
-  text: {
-    color: Theme.white,
-    fontSize: Theme.title,
-    marginTop: '10%',
+  background: {
+    width: '100%',
+    height: 450,
+  },
+  innerContainer: {
+    position: 'absolute',
+    top: '45%',
+  },
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    justifyContent: 'space-between',
+    marginLeft: '10%',
+    marginBottom: '5%',
+  },
+  logoView: {
+    width: 30,
+    height: 30,
+    overflow: 'hidden',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
     alignSelf: 'center',
   },
-  imageContainer: {
-    height: 105,
-    width: 105,
-    marginTop: '15%',
-    alignSelf: 'center',
+  appName: {
+    color: Theme.orange,
+    fontSize: 25,
+    marginHorizontal: '3%',
+    fontWeight: 'bold',
   },
-  rowView: {
-    flexDirection:'row',
-    alignItems:"center",
-    justifyContent:"space-between"
-  },
-  password: {
-    fontSize: Theme.normal,
+  description: {
     color: Theme.white,
+    fontSize: 25,
+    marginLeft: '10%',
+    marginVertical: '5%',
+    lineHeight: 35,
   },
-  title: {
-    fontSize: Theme.small,
-    color: Theme.text,
+  text1: {
+    color:Theme.border,
+    alignSelf:"center",
+    marginVertical:'5%',
+    fontSize:15,
   },
+  BtnText: {
+    color:Theme.white,
+    fontWeight:"bold",
+  }
 });

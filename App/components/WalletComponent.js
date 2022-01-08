@@ -37,7 +37,10 @@ const WalletComponent = ({width, leftIcon, title, onPress, value}) => {
       : title === 'Mobile money withdraw'
       ? '180deg'
       : title === 'Paypal withdraw'
-      ? '180deg' : '360deg'}],
+      ? '180deg'
+      : title === 'USDC withdraw'
+      ? '180deg'
+      : '360deg'}],
     },
     title: {
       color:
@@ -46,6 +49,8 @@ const WalletComponent = ({width, leftIcon, title, onPress, value}) => {
           : title === 'Mobile money withdraw'
           ? Theme.yellowOrange
           : title === 'Paypal withdraw'
+          ? Theme.yellowOrange
+          : title === 'USDC withdraw'
           ? Theme.yellowOrange
           : Theme.white,
       marginLeft: '5%',

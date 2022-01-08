@@ -37,6 +37,8 @@ const Images = {
   QRAddress: require('../assets/Images/QRAddress.png'),
   upDown: require('../assets/Images/upDown.png'),
   upload2: require('../assets/Images/Upload2.png'),
+  group48: require('../assets/Images/Group48.png'),
+  loginBackground: require('../assets/Images/loginBackground.png'),
 };
 
 export default Images;

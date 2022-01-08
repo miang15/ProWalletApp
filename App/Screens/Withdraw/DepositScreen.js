@@ -15,6 +15,7 @@ import Theme from '../../utils/Theme';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../../components/DropDown';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
+import Congratulations from '../../components/Congratulations';
 
 const ModalDATA = [
   {
@@ -35,6 +36,7 @@ const ModalDATA = [
 ];
 
 const DepositScreen = ({navigation}) => {
+  const [congrats, setCongrats] = useState(false)
   const [modal, setModal] = useState(false)
   const [coin, setCoin] = useState('GHS');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
@@ -115,13 +117,18 @@ const DepositScreen = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your deposition has been completed successfully'}
+      />
       <ConfirmTradeModal
       margin={'1%'}
         heading={'Confirm Deposit'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => setModal(!modal)}
+        onPress={() => {setModal(!modal), setCongrats(true)}}
         btnText={'Confirm Deposit'}
         btnBackground={Theme.orange}
         btnBorder={Theme.orange}

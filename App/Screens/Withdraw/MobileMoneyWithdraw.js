@@ -16,6 +16,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../../components/DropDown';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import Icons from '../../constants/Icons';
+import Congratulations from '../../components/Congratulations';
 
 const ModalDATA = [
   {
@@ -37,6 +38,7 @@ const ModalDATA = [
 
 const MobileMoneyWithdraw = ({navigation}) => {
   const [modal, setModal] = useState(false);
+  const [congrats, setCongrats] = useState(false);
   const [coin, setCoin] = useState('GHS');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
   const refRBSheet = useRef();
@@ -115,13 +117,18 @@ const MobileMoneyWithdraw = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your withdraw has been completed successfully'}
+      />
       <ConfirmTradeModal
       margin={'1%'}
         heading={'Confirm Withdraw'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => setModal(!modal)}
+        onPress={() => {setModal(!modal), setCongrats(true)}}
         btnText={'Confirm Withdraw'}
         btnBackground={Theme.orange}
         btnBorder={Theme.orange}

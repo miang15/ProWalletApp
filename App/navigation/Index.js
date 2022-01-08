@@ -43,6 +43,7 @@ import DepositScreen from '../Screens/Withdraw/DepositScreen';
 import Amount from '../Screens/Withdraw/Amount';
 import BuySell from '../Screens/BuySell';
 import BankWithdraw from '../Screens/Withdraw/BankWithdraw';
+import Congratulations from '../components/Congratulations';
 
 const Stack = createNativeStackNavigator();
 function MainStack() {
@@ -57,6 +58,7 @@ function MainStack() {
           name="TransactionHistory"
           component={TransactionHistory}
         />
+        <Stack.Screen name="Congratulations" component={Congratulations} />
         <Stack.Screen name="BankWithdraw" component={BankWithdraw} />
         <Stack.Screen name="BuySell" component={BuySell} />
         <Stack.Screen name="Amount" component={Amount} />

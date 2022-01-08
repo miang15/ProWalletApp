@@ -16,6 +16,7 @@ import Picker from '../../components/Picker';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import Congratulations from '../../components/Congratulations';
 
 const DATA = [
   {
@@ -45,6 +46,7 @@ const DATA = [
   },
 ];
 const BankWithdraw = ({navigation}) => {
+  const [congrats, setCongrats] = useState(false);
   const [transferModal, setTransferModal] = useState(false);
   const [coin, setCoin] = useState('USD');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
@@ -170,6 +172,11 @@ const BankWithdraw = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your transfer has been completed successfully'}
+      />
       <ConfirmTradeModal
         margin={'0.5%'}
         btnBackground={Theme.orange}
@@ -177,7 +184,7 @@ const BankWithdraw = ({navigation}) => {
         heading={'Confirm Transfer'}
         DATA={DATA}
         show={transferModal}
-        onPress={() => setTransferModal(!transferModal)}
+        onPress={() => {setTransferModal(!transferModal), setCongrats(true)}}
         setShow={() => setTransferModal(!transferModal)}
         btnText={'Confirm Transfer'}
       />

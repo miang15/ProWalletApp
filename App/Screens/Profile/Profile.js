@@ -24,6 +24,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
 import Congratulations from '../../components/Congratulations';
+import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 
 const DATA = [
   {
@@ -79,9 +80,26 @@ const DATA = [
   },
 ];
 
+const RECIPIENTDATA = [
+  {
+    id: 1,
+    label: 'Recipient address :',
+    value: '1B4evPk29C29alkjfkasdf9Fkjkjf9FkK',
+    color:Theme.orange
+  },
+  {
+    id: 2,
+    label: 'Amount sent :',
+    value: '970 USDC',
+  },
+];
+
 const Profile = ({navigation}) => {
   const [hide, setHide] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [usdcModal, setUsdcModal] = useState(false);
+  const [usdcConfirm, setUsdcConfirm] = useState(false);
+  const [usdcCongrats, setUsdcCongrats] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [congrats, setCongrats] = useState(false);
   const [paypalModal, setPaypalModal] = useState(false);
@@ -119,6 +137,10 @@ const Profile = ({navigation}) => {
       navigation.navigate('MobileMoneyWithdraw');
     } else if (val === 'Paypal withdraw') {
       setPaypalModal(true);
+    } else if (val === 'USDC withdraw') {
+      setUsdcModal(true);
+    } else if (val === 'Logout') {
+      navigation.navigate('Login');
     } else {
       Alert.alert('Screen Not Available');
     }
@@ -181,7 +203,7 @@ const Profile = ({navigation}) => {
             )}
           </View>
           {hide ? (
-            <Text style={styles.valueText}>123456</Text>
+            <Text style={{...styles.valueText, letterSpacing:1}}>$292,339.64</Text>
           ) : (
             <Text style={styles.valueText}>******</Text>
           )}
@@ -344,6 +366,76 @@ const Profile = ({navigation}) => {
           </View>
         </ReactNativeModal>
       </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => setUsdcModal(!usdcModal)}
+        style={{flex: 1}}>
+        <ReactNativeModal
+          animationOut={'bounceOut'}
+          animationIn={'bounceIn'}
+          isVisible={usdcModal}
+          transparent={true}
+          onBackdropPress={() => setUsdcModal(!usdcModal)}>
+          <View style={styles.centeredView}>
+            <View style={{...styles.paypalModalView, paddingHorizontal: 10}}>
+              <View style={styles.headingRow}>
+                <Text style={styles.usdcText1}>USDC(ECR20)</Text>
+                <Text style={styles.usdcText2}>5,000.00</Text>
+              </View>
+              <Text style={styles.usdcLabel}>Recipient address</Text>
+              <CustomInput
+                placeholder={'Enter recipient address'}
+                backgroundColor={Theme.grayInput}
+                borderColor={Theme.grayInput}
+                color={Theme.black}
+                marginVertical={'2%'}
+                width={'100%'}
+              />
+              <Text style={{...styles.usdcLabel, marginTop: '2%'}}>Amount</Text>
+              <CustomInput
+                value={'1000'}
+                backgroundColor={Theme.grayInput}
+                borderColor={Theme.grayInput}
+                color={Theme.black}
+                marginVertical={'2%'}
+                width={'100%'}
+              />
+              <View style={{...styles.row1, marginTop: '5%'}}>
+                <Text style={styles.rowText}>Blockchain Fees</Text>
+                <Text style={styles.rowText}>30 USDC</Text>
+              </View>
+              <View style={styles.row1}>
+                <Text style={styles.rowText}>Total amount</Text>
+                <Text style={styles.rowText}>970 USDC</Text>
+              </View>
+              <Button
+                onPress={() => {
+                  setUsdcModal(!usdcModal), setUsdcConfirm(true);
+                }}
+                title={'Confirm Withdraw'}
+                backgroundColor={Theme.orange}
+                borderColor={Theme.orange}
+                top={'10%'}
+                bottom={'8%'}
+              />
+            </View>
+          </View>
+        </ReactNativeModal>
+      </TouchableWithoutFeedback>
+      <ConfirmTradeModal
+        show={usdcConfirm}
+        setShow={() => setUsdcConfirm(!usdcConfirm)}
+        onPress={() => {setUsdcConfirm(!usdcConfirm), setUsdcCongrats(true)}}
+        heading={'Confirm Withdraw'}
+        DATA={RECIPIENTDATA}
+        btnText={"Confirm Withdraw"}
+        btnBackground={Theme.orange}
+        btnBorder={Theme.orange}
+      />
+            <Congratulations
+        visible={usdcCongrats}
+        setVisible={() => setUsdcCongrats(!usdcCongrats)}
+        description={'Your transaction has been completed successfully'}
+      />
       <Congratulations
         visible={congrats}
         setVisible={() => setCongrats(!congrats)}
@@ -559,5 +651,39 @@ const styles = StyleSheet.create({
   mailText: {
     color: Theme.black,
     fontSize: Theme.medium,
+  },
+  headingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: 0.5,
+    borderColor: Theme.border,
+    marginVertical: '3%',
+    paddingBottom: 5,
+  },
+  usdcText1: {
+    color: Theme.black,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  usdcText2: {
+    color: Theme.orange,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  usdcLabel: {
+    color: Theme.black,
+    fontSize: 15,
+    marginTop: '5%',
+  },
+  row1: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: '2%',
+  },
+  rowText: {
+    color: Theme.black,
+    fontSize: 15,
   },
 });

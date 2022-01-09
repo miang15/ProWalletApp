@@ -15,7 +15,7 @@ const BalanceComponent = ({
   const styles = StyleSheet.create({
     container: {
       width: width ? width : '100%',
-      backgroundColor: Theme.grey,
+      backgroundColor: Theme.darkRow,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',

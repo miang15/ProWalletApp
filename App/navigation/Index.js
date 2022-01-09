@@ -9,8 +9,6 @@ import Notification from '../Screens/Notification/Notification';
 import BackupWallet from '../Screens/Wallet/BackupWallet';
 import Account from '../Screens/Auth/Account';
 import ForgotPin from '../Screens/Wallet/ForgotPin';
-import Portfolio from '../Screens/Portfolio/Portfolio';
-import Balance from '../Screens/Portfolio/Balance';
 import BottomTab from './BottomTab';
 import Setting from '../Screens/Setting/Setting';
 import TopTabs from '../components/TopTabs';
@@ -43,7 +41,9 @@ import DepositScreen from '../Screens/Withdraw/DepositScreen';
 import Amount from '../Screens/Withdraw/Amount';
 import BuySell from '../Screens/BuySell';
 import BankWithdraw from '../Screens/Withdraw/BankWithdraw';
-import Congratulations from '../components/Congratulations';
+import Portfolio from '../Screens/Portfolio/Portfolio';
+import Balance from '../Screens/Portfolio/Balance';
+import Invest from '../Screens/Portfolio/Invest';
 
 const Stack = createNativeStackNavigator();
 function MainStack() {
@@ -58,7 +58,7 @@ function MainStack() {
           name="TransactionHistory"
           component={TransactionHistory}
         />
-        <Stack.Screen name="Congratulations" component={Congratulations} />
+        <Stack.Screen name="Invest" component={Invest} />
         <Stack.Screen name="BankWithdraw" component={BankWithdraw} />
         <Stack.Screen name="BuySell" component={BuySell} />
         <Stack.Screen name="Amount" component={Amount} />

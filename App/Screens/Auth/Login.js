@@ -42,15 +42,19 @@ const Login = ({}) => {
         </View>
       </ImageBackground>
       <Button
+      onPress={() => navigation.navigate("BottomTab")}
         top={'20%'}
         horizontal={'3%'}
         title={'Login'}
         backgroundColor={Theme.orange}
         borderColor={Theme.orange}
       />
-      <Text style={styles.text1}>No account yet? 
-          <Text style={styles.BtnText}> Sign up now.</Text>
-      </Text>
+      <View style={styles.bottomText}>
+        <Text style={styles.text1}>No account yet?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+        <Text style={styles.BtnText}> Sign up now.</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -98,18 +102,22 @@ const styles = StyleSheet.create({
   description: {
     color: Theme.white,
     fontSize: 25,
-    marginLeft: '10%',
+    marginLeft: '11%',
     marginVertical: '5%',
     lineHeight: 35,
   },
+  bottomText: {
+    flexDirection:"row",
+    alignItems:"center",
+    alignSelf: 'center',
+  },
   text1: {
-    color:Theme.border,
-    alignSelf:"center",
-    marginVertical:'5%',
-    fontSize:15,
+    color: Theme.border,
+    marginVertical: '5%',
+    fontSize: 15,
   },
   BtnText: {
-    color:Theme.white,
-    fontWeight:"bold",
-  }
+    color: Theme.white,
+    fontWeight: 'bold',
+  },
 });

@@ -20,7 +20,8 @@ const ConfirmTradeModal = ({
   setShow,
   onPress,
   show,
-  margin
+  margin,
+  valueColor
 }) => {
   const styles = StyleSheet.create({
     centeredView: {
@@ -100,10 +101,25 @@ const ConfirmTradeModal = ({
               showsVerticalScrollIndicator={false}
               data={DATA}
               renderItem={({item}) => (
-                <View style={styles.rowView}>
+                <View
+                  style={{
+                    ...styles.rowView,
+                    flexDirection: item.value.length > 15 ? 'column' : 'row',
+                    alignItems:
+                      item.value.length > 15 ? 'flex-start' : 'center',
+                  }}>
                   <Text style={styles.label}>{item.label}</Text>
                   {equal ? <Text style={styles.equal}>=</Text> : null}
-                  <Text style={styles.value}>{item.value}</Text>
+                  <Text
+                    style={{
+                      ...styles.value,
+                      width: item.value.length > 15 ? '100%' : '40%',
+                      textAlign: item.value.length > 15 ? 'left' : 'right',
+                      color: item.color ? item.color : Theme.black,
+                      marginVertical: item.value.length > 15 ? '2%' : 0
+                    }}>
+                    {item.value}
+                  </Text>
                 </View>
               )}
               keyExtractor={item => item.id}

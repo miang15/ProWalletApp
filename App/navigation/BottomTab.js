@@ -1,16 +1,17 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Portfolio from '../Screens/Portfolio/Portfolio';
 import Images from '../constants/Images';
 import Theme from '../utils/Theme';
 import Setting from '../Screens/Setting/Setting';
-import Balance from '../Screens/Portfolio/Balance';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Profile from '../Screens/Profile/Profile';
 import Swap from '../Screens/Swap';
 import TransactionHistory from '../Screens/TransactionHistory/TransactionHistory';
+import Balance from '../Screens/Portfolio/Balance';
+import Icons from '../constants/Icons';
+import Invest from '../Screens/Portfolio/Invest';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,6 +39,26 @@ const BottomTab = () => {
         options={{
           tabBarLabel: 'Swap',
           tabBarIcon: ({color, size}) => (
+            <View style={{...styles.tabIconView, width: 20, height: 20}}>
+              <Image
+                resizeMode="cover"
+                style={{
+                  ...styles.tabIcon,
+                  transform: [{rotate: '90deg'}],
+                  tintColor: Theme.text,
+                }}
+                source={Icons.arrow}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Balance"
+        component={Balance}
+        options={{
+          tabBarLabel: 'Portfolio',
+          tabBarIcon: ({color, size}) => (
             <View style={styles.tabIconView}>
               <Image
                 resizeMode="cover"
@@ -49,18 +70,12 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Portfolio"
-        component={Portfolio}
+        name="Invest"
+        component={Invest}
         options={{
-          tabBarLabel: 'Trade',
+          tabBarLabel: 'Invest',
           tabBarIcon: ({color, size}) => (
-            <View style={styles.tabIconView}>
-              <Image
-                resizeMode="cover"
-                style={styles.tabIcon}
-                source={Images.trade}
-              />
-            </View>
+            <FontAwesome5 name="wallet" size={20} color={Theme.text} />
           ),
         }}
       />
@@ -70,14 +85,7 @@ const BottomTab = () => {
         options={{
           tabBarLabel: 'Account',
           tabBarIcon: ({color, size}) => (
-<FontAwesome5 name="user-alt" size={20} color={Theme.text} />
-            // <View style={styles.tabIconView}>
-            //   <Image
-            //     resizeMode="cover"
-            //     style={styles.tabIcon}
-            //     source={Images.setting}
-            //   />
-            // </View>
+            <FontAwesome5 name="user-alt" size={20} color={Theme.text} />
           ),
         }}
       />
@@ -88,13 +96,6 @@ const BottomTab = () => {
           tabBarLabel: 'History',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="clock" size={20} color={Theme.text} />
-            // <View style={styles.tabIconView}>
-            //   <Image
-            //     resizeMode="cover"
-            //     style={styles.tabIcon}
-            //     source={Images.more}
-            //   />
-            // </View>
           ),
         }}
       />

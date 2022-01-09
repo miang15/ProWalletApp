@@ -8,7 +8,7 @@ export default class Splash extends Component {
     setTimeout(() => {
       const navigation = this.props.navigation;
       const navigate = navigation.navigate;
-      navigate('Account');
+      navigate('Login');
     }, 1500);
   }
   render() {

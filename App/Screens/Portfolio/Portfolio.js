@@ -7,85 +7,86 @@ import {
   Image,
   FlatList,
 } from 'react-native';
+import BalanceComponent from '../../components/BalanceComponent';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
-import {LineChart} from 'react-native-chart-kit';
-
 const Data = [
   {
     id: '1',
     icon: Icons.bitIcon,
-    backgroundColor: '#453217',
+    backgroundColor: "#453217",
     category: 'Bitcoin',
     cash: 'BTC',
-    bchDigit: '0.002 BTC',
+    bchDigit: '0.008BTC',
     cashDigit: '625,849.756ARDR',
     bchPrice: '$50,123',
-    cashPrice: '+0.18%',
+    cashPrice: '$50,123',
   },
   {
     id: '2',
-    backgroundColor: '#454545',
+    backgroundColor: "#454545",
     icon: Images.ETH,
-    tintColor: Theme.white,
+    tintColor:Theme.white,
     category: 'Ethereum',
     cash: 'ETH',
     bchDigit: '30.00 ETH',
     cashDigit: '625,849.756ARDR',
-    bchPrice: '$3,400',
-    cashPrice: '-0.18%',
+    bchPrice: '$50,123',
+    cashPrice: '$50,123',
   },
   {
     id: '3',
     icon: Images.liteCoin,
-    backgroundColor: '#1E2733',
+    backgroundColor: "#1E2733",
     category: 'Litecoin',
     cash: 'LTC',
     bchDigit: '20.00 LTC',
     cashDigit: '625,849.756ARDR',
-    bchPrice: '$180,00',
-    cashPrice: '+0.91%',
+    bchPrice: '$50,123',
+    cashPrice: '$50,123',
   },
   {
     id: '4',
     backgroundColor: Theme.darkGrey,
     icon: Images.greenBit,
-    backgroundColor: '#202832',
+    backgroundColor: "#202832",
     category: 'Bitcoin Cash',
     cash: 'BCH',
     bchDigit: '4.00 BCH',
     cashDigit: '625,849.756ARDR',
-    bchPrice: '$700.00',
-    cashPrice: '+0.18%',
+    bchPrice: '$50,123',
+    cashPrice: '$50,123',
   },
   {
-    id: '5',
+    id: '5',bchPrice: '$50,123',
+    cashPrice: '$50,123',
     icon: Images.Doge,
-    backgroundColor: '#202832',
+    backgroundColor: "#202832",
     category: 'Dogecoin',
     cash: 'DOGE',
     bchDigit: '10,000 DOGE',
     cashDigit: '625,849.756ARDR',
-    bchPrice: '$0.24',
-    cashPrice: '-0.9175',
+    bchPrice: '$50,123',
+    cashPrice: '$50,123',
   },
   {
     id: '6',
     icon: Images.Doge,
-    backgroundColor: '#202832',
+    backgroundColor: "#202832",
     category: 'Pepper Token',
     cash: 'PEPE',
     bchDigit: '30,000 PEPE',
     cashDigit: '625,849.756ARDR',
-    bchPrice: '$0.0005',
-    cashPrice: '-0.9175',
+    bchPrice: '$50,123',
+    cashPrice: '$50,123',
   },
-];
 
+];
 const Portfolio = ({navigation}) => {
   const renderItem = ({item, index}) => (
+
     <PortfolioComponent
       onPress={() => navigation.navigate('BuySell')}
       backgroundColor={item.backgroundColor}
@@ -94,153 +95,28 @@ const Portfolio = ({navigation}) => {
       category={item.category}
       cash={item.cash}
       bchDigit={item.bchDigit}
-      // cashDigit={item.cashDigit}
       bchPrice={item.bchPrice}
-      // cashPrice={item.cashPrice}
+      cashPrice={item.cashPrice}
+      priceColor={Theme.green}
+      underLine={true}
     />
-  );
 
+  );
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>Balance</Text>
-      <Text style={styles.balance}>$292,339.64</Text>
-      <View style={styles.changeProfitBg}>
-        <View style={styles.changeBg}>
-          <Text style={styles.time}>24H Change</Text>
-          <TouchableOpacity style={styles.iconChangeBg}>
-            <View style={styles.iconView}>
-              <Image
-                style={styles.icon}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </View>
-            <Text style={styles.changeText}>6,376.79(-2.13%)</Text>
-          </TouchableOpacity>
+      <Text style={styles.heading}>Portfolio Value</Text>
+      <Text style={styles.value}>$292,339.64</Text>
+      <Text style={styles.text1}>+$986.51 (3.56%)</Text>
+      <Text style={styles.text2}>Fiat Balances</Text>
+      <View style={styles.rowView}>
+        <View style={styles.textRow}>
+          <Text style={styles.dollar} >$</Text>
+          <Text style={styles.text3}>US Dollar</Text>
+          <Text style={styles.text4}>USD</Text>
         </View>
-        <View style={styles.divider} />
-        <View style={styles.changeBg}>
-          <Text style={styles.time}>Profit</Text>
-          <TouchableOpacity style={styles.iconChangeBg}>
-            <View style={styles.iconView}>
-              <Image
-                style={{...styles.icon, tintColor: Theme.green}}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </View>
-            <Text style={{...styles.changeText, color: Theme.green}}>
-              292,294.64
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.text5}>$5000</Text>
       </View>
-      {/* <LineChart
-      style={{marginHorizontal:'3%'}}
-        data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [
-            {
-              data: [20, 45, 28, 80, 99, 43],
-            },
-          ],
-        }}
-        width={400}
-        height={120}
-        withInnerLines={false}
-        withOuterLines={false}
-        withVerticalLabels={false}
-        withHorizontalLabels={false}
-        verticalLabelRotation={30}
-        chartConfig={{
-          backgroundGradientFrom: '#1E2923',
-          backgroundGradientFromOpacity: 0,
-          backgroundGradientTo: '#08130D',
-          backgroundGradientToOpacity: 0.5,
-          color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-          strokeWidth: 2, // optional, default 3
-          barPercentage: 0.5,
-          useShadowColorFromDataset: false,
-        }}
-        bezier={true}
-      /> */}
-      <View style={styles.menuBg}>
-        <View style={styles.iconTextBg}>
-          <Text style={styles.menu}>Coins</Text>
-          {/* <View style={{marginLeft: '5%'}}>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View> */}
-        </View>
-        <View style={styles.iconTextBg}>
-          <Text style={styles.menu}>Holdings</Text>
-          {/* <View style={{marginLeft: '5%'}}>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View> */}
-        </View>
-        <View style={styles.iconTextBg}>
-          <Text style={styles.menu}>Price</Text>
-          {/* <View style={{marginLeft: '5%'}}>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View> */}
-        </View>
-      </View>
+      <Text style={styles.crypto}>Crypto Balances</Text>
       <FlatList
         data={Data}
         renderItem={renderItem}
@@ -258,98 +134,81 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.black,
     paddingHorizontal: '3%',
   },
-  headingText: {
-    color: Theme.white,
-    textAlign: 'center',
-    fontSize: Theme.headingtext,
-    fontWeight: 'bold',
-    marginTop: '10%',
+  heading: {
+    color:Theme.white,
+    fontSize:18,
+    fontWeight:"bold",
+    marginTop:"15%",
+    marginHorizontal:"2%"
   },
-  balance: {
-    color: Theme.orange,
-    textAlign: 'center',
-    fontSize: Theme.heading,
-    fontFamily: Theme.fontFamily,
-    backgroundColor: Theme.darkGrey,
-    fontWeight: 'bold',
-    marginTop: '10%',
-    paddingVertical: 3,
-    marginHorizontal: '3%',
-    borderRadius: 8,
+  value: {
+    color:Theme.orange,
+    fontSize:30,
+    fontWeight:'bold',
+    marginVertical:"1%",
+    marginHorizontal:"2%"
   },
-  changeProfitBg: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginVertical: '10%',
+  text1: {
+    color:Theme.green,
+    fontSize:Theme.normal,
+    marginHorizontal:"2%"
   },
-  changeBg: {
-    flexDirection: 'column',
+  text2: {
+    color:Theme.textGrey,
+    fontSize:Theme.normal,
+    marginTop:'5%',
+    marginBottom:"3%",
+    marginHorizontal:"2%"
   },
-  time: {
-    color: Theme.text,
-    fontSize: Theme.medium,
-    fontWeight: 'bold',
-    alignSelf: 'center',
-    marginBottom: '2%',
+  underline: {
+    borderWidth:0.3,
+    borderColor:Theme.border,
+    marginHorizontal:"2%"
   },
-  iconChangeBg: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: '3%',
+  rowView: {
+    flexDirection:'row',
+    alignItems:"center",
+    justifyContent:"space-between",
+    marginHorizontal:"2%",
+    borderTopWidth:0.5,
+    borderBottomWidth:0.5,
+    paddingVertical:8,
+    borderColor:Theme.border
   },
-  iconView: {
-    width: 10,
-    height: 10,
-    alignItems: 'center',
-    overflow: 'hidden',
-    marginRight: '5%',
+  textRow: {
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"space-between"
   },
-  icon: {
-    width: '100%',
-    height: '100%',
-    tintColor: Theme.orange,
+  dollar: {
+    color:Theme.white,
+    fontSize:18,
+    backgroundColor:Theme.darkGrey,
+    paddingVertical:3,
+    paddingHorizontal:10,
+    borderRadius:20
   },
-  changeText: {
-    color: Theme.orange,
-    fontSize: Theme.medium,
-    fontWeight: 'bold',
+  text3: {
+    color:Theme.white,
+    fontSize:Theme.normal,
+    fontWeight:'bold',
+    marginHorizontal:'2%'
   },
-  divider: {
-    width: 1,
-    height: 35,
-    backgroundColor: Theme.text,
+  text4: {
+    color:Theme.textGrey,
+    fontSize:Theme.normal
   },
-  graphBg: {
-    width: 250,
-    height: 150,
-    backgroundColor: Theme.text,
-    width: '100%',
-    paddingVertical: '7%',
-    borderRadius: 10,
+  text5: {
+    color:Theme.orange,
+    fontSize:Theme.normal,
+    fontWeight:'bold'
   },
-  graph: {
-    width: '100%',
-    height: '100%',
-  },
-  menuBg: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '100%',
-    paddingVertical: 8,
-    marginBottom: '5%',
-    paddingHorizontal: '5%',
-    paddingLeft: '8%',
-  },
-  iconTextBg: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  menu: {
-    color: Theme.white,
-    fontFamily: Theme.fontFamily,
-  },
+  crypto: {
+    color:Theme.textGrey,
+    fontSize:Theme.normal,
+    borderBottomWidth:0.5,
+    borderColor:Theme.border,
+    paddingVertical:12,
+    marginHorizontal:"2%"
+  }
 });

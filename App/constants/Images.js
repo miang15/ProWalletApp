@@ -39,6 +39,7 @@ const Images = {
   upload2: require('../assets/Images/Upload2.png'),
   group48: require('../assets/Images/Group48.png'),
   loginBackground: require('../assets/Images/loginBackground.png'),
+  chartIcon: require('../assets/Images/chartIcon.png'),
 };
 
 export default Images;

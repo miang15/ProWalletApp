@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  ImageBackground,
 } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import Icons from '../../constants/Icons';
@@ -17,44 +16,56 @@ import {useNavigation} from '@react-navigation/core';
 
 const Login = ({}) => {
   const navigation = useNavigation();
+  const [textEntry, setTextEntry] = useState(true);
   return (
     <View style={styles.container}>
-      <ImageBackground
-        resizeMode="cover"
-        style={styles.background}
-        source={Images.loginBackground}>
-        <View style={styles.innerContainer}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.logoRow}>
-              <View style={styles.logoView}>
-                <Image
-                  style={styles.logo}
-                  source={Images.splashIcon}
-                  resizeMode="cover"
-                />
-              </View>
-              <Text style={styles.appName}>PEPPER PRO</Text>
-            </View>
-            <Text style={styles.description}>
-              Buy, Sell & Trade Cryptocurrencies
-            </Text>
-          </ScrollView>
+      <Image source={Images.logo} style={styles.imageContainer} />
+      <ScrollView>
+        <View style={{margin: '3%'}}>
+          <Text style={styles.text}>Welcome to Pepper Wallet</Text>
+
+          <CustomInput placeholder="Username/Email" LeftIcons={Icons.Profile} />
+
+          <CustomInput
+            secureTextEntry={textEntry}
+            placeholder="Password"
+            LeftIcons={Icons.Lock}
+            onRightIcon={() => setTextEntry(!textEntry)}
+            RightIcons={textEntry ? Icons.Hide : Icons.eye}
+          />
+          <View style={styles.rowView}>
+            <TouchableOpacity
+              style={{alignSelf: 'flex-end', paddingVertical: 5}}
+              activeOpacity="0.6"
+              onPress={() => navigation.navigate('Fingerprint')}>
+              <Text style={styles.password}>Use FingerPrint</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{alignSelf: 'flex-end', paddingVertical: 5}}
+              activeOpacity="0.6"
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={styles.password}>Forgot password?</Text>
+            </TouchableOpacity>
+          </View>
+          <Button
+            title="Login"
+            top="15%"
+            onPress={() => navigation.navigate('BackupWallet')}
+          />
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: '15%',
+              marginBottom: '3%',
+              alignSelf: 'center',
+            }}
+            onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.title}>Don’t have a account? </Text>
+            <Text style={{...styles.title, color: Theme.sky}}> Register</Text>
+          </TouchableOpacity>
         </View>
-      </ImageBackground>
-      <Button
-      onPress={() => navigation.navigate("BottomTab")}
-        top={'20%'}
-        horizontal={'3%'}
-        title={'Login'}
-        backgroundColor={Theme.orange}
-        borderColor={Theme.orange}
-      />
-      <View style={styles.bottomText}>
-        <Text style={styles.text1}>No account yet?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-        <Text style={styles.BtnText}> Sign up now.</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -66,58 +77,29 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.black,
   },
-  background: {
-    width: '100%',
-    height: 450,
+  text: {
+    color: Theme.white,
+    fontSize: Theme.title,
+    marginTop: '10%',
+    alignSelf: 'center',
   },
-  innerContainer: {
-    position: 'absolute',
-    top: '45%',
+  imageContainer: {
+    height: 105,
+    width: 105,
+    marginTop: '15%',
+    alignSelf: 'center',
   },
-  logoRow: {
+  rowView: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'flex-start',
     justifyContent: 'space-between',
-    marginLeft: '10%',
-    marginBottom: '5%',
   },
-  logoView: {
-    width: 30,
-    height: 30,
-    overflow: 'hidden',
-    alignItems: 'center',
-  },
-  logo: {
-    width: '100%',
-    height: '100%',
-    alignSelf: 'center',
-  },
-  appName: {
-    color: Theme.orange,
-    fontSize: 25,
-    marginHorizontal: '3%',
-    fontWeight: 'bold',
-  },
-  description: {
+  password: {
+    fontSize: Theme.normal,
     color: Theme.white,
-    fontSize: 25,
-    marginLeft: '11%',
-    marginVertical: '5%',
-    lineHeight: 35,
   },
-  bottomText: {
-    flexDirection:"row",
-    alignItems:"center",
-    alignSelf: 'center',
-  },
-  text1: {
-    color: Theme.border,
-    marginVertical: '5%',
-    fontSize: 15,
-  },
-  BtnText: {
-    color: Theme.white,
-    fontWeight: 'bold',
+  title: {
+    fontSize: Theme.small,
+    color: Theme.text,
   },
 });

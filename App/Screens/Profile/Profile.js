@@ -85,7 +85,7 @@ const RECIPIENTDATA = [
     id: 1,
     label: 'Recipient address :',
     value: '1B4evPk29C29alkjfkasdf9Fkjkjf9FkK',
-    color:Theme.orange
+    color: Theme.orange,
   },
   {
     id: 2,
@@ -140,7 +140,9 @@ const Profile = ({navigation}) => {
     } else if (val === 'USDC withdraw') {
       setUsdcModal(true);
     } else if (val === 'Logout') {
-      navigation.navigate('Login');
+      Alert.alert('Success!', 'Log out Successfully', [
+        {text: 'OK', onPress: () => navigation.navigate('Login')},
+      ]);
     } else {
       Alert.alert('Screen Not Available');
     }
@@ -203,7 +205,9 @@ const Profile = ({navigation}) => {
             )}
           </View>
           {hide ? (
-            <Text style={{...styles.valueText, letterSpacing:1}}>$292,339.64</Text>
+            <Text style={{...styles.valueText, letterSpacing: 1}}>
+              $292,339.64
+            </Text>
           ) : (
             <Text style={styles.valueText}>******</Text>
           )}
@@ -424,14 +428,16 @@ const Profile = ({navigation}) => {
       <ConfirmTradeModal
         show={usdcConfirm}
         setShow={() => setUsdcConfirm(!usdcConfirm)}
-        onPress={() => {setUsdcConfirm(!usdcConfirm), setUsdcCongrats(true)}}
+        onPress={() => {
+          setUsdcConfirm(!usdcConfirm), setUsdcCongrats(true);
+        }}
         heading={'Confirm Withdraw'}
         DATA={RECIPIENTDATA}
-        btnText={"Confirm Withdraw"}
+        btnText={'Confirm Withdraw'}
         btnBackground={Theme.orange}
         btnBorder={Theme.orange}
       />
-            <Congratulations
+      <Congratulations
         visible={usdcCongrats}
         setVisible={() => setUsdcCongrats(!usdcCongrats)}
         description={'Your transaction has been completed successfully'}

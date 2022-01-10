@@ -1,9 +1,7 @@
-import React, {createRef, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   FlatList,
   Image,
-  InteractionManager,
-  Keyboard,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,76 +15,58 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Congratulations from '../../components/Congratulations';
 
 const Data = [
   {
-    id: '1',
-    icon: Icons.bitIcon,
-    backgroundColor: Theme.yellowOrange,
-    category: 'Bitcoin',
-    cash: 'BTC',
-    bchDigit: '98,582,.84',
-    cashDigit: '625,849.756ARDR',
-    bchPrice: '$104,00',
-    cashPrice: '+0.18%',
+    id: 1,
+    num: 1,
   },
-  // {
-  //   id: '2',
-  //   backgroundColor: '#454545',
-  //   icon: Images.ETH,
-  //   tintColor: Theme.white,
-  //   category: 'Ethereum',
-  //   cash: 'ETH',
-  //   bchDigit: '98,582,.84',
-  //   cashDigit: '625,849.756ARDR',
-  //   bchPrice: '$104,00',
-  //   cashPrice: '-0.18%',
-  // },
-  // {
-  //   id: '3',
-  //   icon: Images.liteCoin,
-  //   backgroundColor: '#1E2733',
-  //   category: 'Litecoin',
-  //   cash: 'LTC',
-  //   bchDigit: '98,582,.84',
-  //   cashDigit: '625,849.756ARDR',
-  //   bchPrice: '$204,00',
-  //   cashPrice: '+0.91%',
-  // },
-  // {
-  //   id: '4',
-  //   backgroundColor: Theme.darkGrey,
-  //   icon: Images.greenBit,
-  //   backgroundColor: '#202832',
-  //   category: 'Bitcoin Cash',
-  //   cash: 'BCH',
-  //   bchDigit: '98,582,.84',
-  //   cashDigit: '625,849.756ARDR',
-  //   bchPrice: '$304,00',
-  //   cashPrice: '+0.18%',
-  // },
-  // {
-  //   id: '5',
-  //   icon: Images.Doge,
-  //   backgroundColor: '#202832',
-  //   category: 'Dogecoin',
-  //   cash: 'DOGE',
-  //   bchDigit: '10,000 DOGE',
-  //   cashDigit: '625,849.756ARDR',
-  //   bchPrice: '$104,00',
-  //   cashPrice: '-0.9175',
-  // },
-  // {
-  //   id: '6',
-  //   icon: Images.Doge,
-  //   backgroundColor: '#202832',
-  //   category: 'Pepper Token',
-  //   cash: 'PEPE',
-  //   bchDigit: '30,000 PEPE',
-  //   cashDigit: '625,849.756ARDR',
-  //   bchPrice: '$204,00',
-  //   cashPrice: '-0.9175',
-  // },
+  {
+    id: 2,
+    num: 2,
+  },
+  {
+    id: 3,
+    num: 3,
+  },
+  {
+    id: 4,
+    num: 4,
+  },
+  {
+    id: 5,
+    num: 5,
+  },
+  {
+    id: 6,
+    num: 6,
+  },
+  {
+    id: 7,
+    num: 7,
+  },
+  {
+    id: 8,
+    num: 8,
+  },
+  {
+    id: 9,
+    num: 9,
+  },
+  {
+    id: 10,
+    num: '     ',
+  },
+  {
+    id: 11,
+    num: 0,
+  },
+  {
+    id: 12,
+    num: <Entypo name="erase" size={24} color={Theme.white} />,
+  },
 ];
 
 const ModalDATA = [
@@ -104,107 +84,133 @@ const ModalDATA = [
 
 const Amount = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
+  const [inputNum, setInputNum] = useState('');
+  const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
-  const inputRef = createRef();
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      inputRef.current.focus();
-    });
-  }, []);
 
-  
+  const handleNumInput = (item, index) => {
+    if(index === 11){
+      let b = inputNum.slice(0, inputNum.length -1 );
+      setInputNum(b);
+      console.log("SLICE: ",b); 
+    }else if (inputNum) {
+      let a = inputNum.toString().concat(item.toString());
+      setInputNum(a);
+      console.log("value ",a)
+    } else {
+      setInputNum(item.toString());
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View style={{marginBottom:"10%"}}>
-      <Header
-        onPress={() => navigation.goBack()}
-        title={'Enter Amount'}
-        rightIcon={Images.upload2}
-      />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{margin: '3%'}}>
-          <View style={styles.inputRow}>
-            <View style={styles.arrowView}>
-              <Image
-                style={{...styles.arrowImg, tintColor: Theme.black}}
-                source={Icons.arrow}
+      <View style={{marginBottom: '10%'}}>
+        <Header
+          onPress={() => navigation.goBack()}
+          title={'Enter Amount'}
+          rightIcon={Images.upload2}
+        />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={{margin: '3%'}}>
+            <View style={styles.inputRow}>
+              {/* <View style={styles.arrowView}>
+                <Image
+                  style={{...styles.arrowImg, tintColor: Theme.black}}
+                  source={Icons.arrow}
+                />
+              </View> */}
+              <TextInput
+              selectionColor={Theme.black}
+                value={inputNum}
+                onChangeText={setInputNum}
+                style={styles.textInput}
+                placeholder="00"
+                placeholderTextColor={Theme.white}
+                keyboardType="numeric"
               />
+              <View style={styles.arrowView}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.arrowImg}
+                  source={Icons.arrow}
+                />
+              </View>
             </View>
-            <TextInput
-              ref={inputRef}
-              style={styles.textInput}
-              placeholder="$25"
-              placeholderTextColor={Theme.white}
-              keyboardType="numeric"
-            />
-            <View style={styles.arrowView}>
-              <Image
-                resizeMode="contain"
-                style={styles.arrowImg}
-                source={Icons.arrow}
-              />
-            </View>
-          </View>
-          <View>
-            <FlatList
-            style={{flexGrow:0}}
-              showsVerticalScrollIndicator={false}
-              data={Data}
-              renderItem={({item}) => (
-                <TouchableOpacity style={styles.BitcoinRowView}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <View
-                      style={{
-                        ...styles.imgBackground,
-                        backgroundColor: item.backgroundColor,
-                      }}>
-                      <View style={styles.bitcoinImgView}>
-                        <Image
-                          resizeMode="contain"
-                          style={{...styles.bitCoin, tintColor: item.tintColor}}
-                          source={item.icon}
-                        />
-                      </View>
-                    </View>
-                    <View>
-                      <Text style={styles.bitCoinValue}>{item.category}</Text>
-                      <Text style={styles.label}>{item.cash}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.downarrowView}>
+            <TouchableOpacity style={styles.BitcoinRowView}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View
+                  style={{
+                    ...styles.imgBackground,
+                    backgroundColor: Theme.yellowOrange,
+                  }}>
+                  <View style={styles.bitcoinImgView}>
                     <Image
                       resizeMode="contain"
-                      style={styles.downarrowImg}
-                      source={Images.arrow}
+                      style={styles.bitCoin}
+                      source={Icons.bitIcon}
                     />
                   </View>
-                </TouchableOpacity>
-              )}
-              keyExtractor={item => item.id}
-            />
+                </View>
+                <View>
+                  <Text style={styles.bitCoinValue}>Bitcoin</Text>
+                  <Text style={styles.label}>BTC</Text>
+                </View>
+              </View>
+              <View style={styles.downarrowView}>
+                <Image
+                  resizeMode="contain"
+                  style={styles.downarrowImg}
+                  source={Images.arrow}
+                />
+              </View>
+            </TouchableOpacity>
+            <View style={{marginTop: '15%'}}>
+              <FlatList
+                numColumns={3}
+                columnWrapperStyle={{
+                  justifyContent: 'space-around',
+                  marginBottom: '10%',
+                }}
+                style={{flexGrow: 0}}
+                showsVerticalScrollIndicator={false}
+                data={Data}
+                renderItem={({item, index}) => (
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => handleNumInput(item.num, index)}
+                      style={styles.numBtn}>
+                      <Text style={styles.numPad}>{item.num}</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                keyExtractor={item => item.id}
+              />
+              <Button
+                onPress={() => setModal(true)}
+                title={'Continue'}
+                backgroundColor={Theme.orange}
+                borderColor={Theme.orange}
+              />
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
       </View>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your ' + trade +  ' has been completed successfully'}
+      />
       <ConfirmTradeModal
         heading={'Confirm Trade'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => setModal(!modal)}
+        onPress={() => {setModal(!modal), setCongrats(true)}}
         btnText={trade === 'Buy' ? 'Buy' : 'Sell'}
         btnBorder={trade === 'Buy' ? Theme.green : Theme.orange}
         btnBackground={trade === 'Buy' ? Theme.green : Theme.orange}
         equal={true}
       />
-      <View style={styles.bottomBtn}>
-        <Button
-          onPress={() => setModal(true)}
-          title={'Continue'}
-          backgroundColor={Theme.orange}
-          borderColor={Theme.orange}
-        />
-      </View>
     </View>
   );
 };
@@ -215,7 +221,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.black,
-    justifyContent:"space-between",
   },
   inputRow: {
     flexDirection: 'row',
@@ -227,7 +232,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: Theme.white,
-    width: '30%',
+    width: '90%',
+    textAlign: 'center',
     fontSize: 50,
     fontWeight: 'bold',
   },
@@ -293,7 +299,18 @@ const styles = StyleSheet.create({
   label: {
     color: Theme.textGrey,
   },
-  bottomBtn: {
-    margin:"3%"
-  }
+  numRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  numBtn: {
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+  },
+  numPad: {
+    color: Theme.white,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });

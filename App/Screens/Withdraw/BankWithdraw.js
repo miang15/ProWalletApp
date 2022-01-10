@@ -46,15 +46,41 @@ const DATA = [
   },
 ];
 const BankWithdraw = ({navigation}) => {
+  const [selected, setSelected] = useState(1);
   const [congrats, setCongrats] = useState(false);
   const [transferModal, setTransferModal] = useState(false);
   const [coin, setCoin] = useState('USD');
+  const [coinValue, setCoinValue] = useState('0.00');
+  const [country, setCountry] = useState('');
+  const [account, setAccount] = useState('');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
+  const [list2, setList2] = useState(['0.00', '0.10', '0.50', '0.30', '0.80']);
+  const [list3, setList3] = useState([
+    'United States',
+    'United Kingdom',
+    'Sweden',
+    'Australia',
+  ]);
+  const [list4, setList4] = useState([
+    'United States',
+    'United Kingdom',
+    'Sweden',
+    'Australia',
+  ]);
+
   const refRBSheet = useRef();
 
   const handleSelectedItem = val => {
     refRBSheet.current.close();
-    setCoin(val);
+    if (selected === 1) {
+      setCoin(val);
+    } else if (selected === 2) {
+      setCoinValue(val);
+    } else if (selected === 3) {
+      setCountry(val);
+    } else {
+      setAccount(val);
+    }
   };
 
   return (
@@ -64,19 +90,32 @@ const BankWithdraw = ({navigation}) => {
         <View style={{margin: '3%'}}>
           <Text style={styles.label}>Select Withdraw Amount</Text>
           <Picker
-            onLeftPress={() => refRBSheet.current.open()}
+            onLeftPress={() => {
+              setSelected(1), refRBSheet.current.open();
+            }}
             label={coin}
-            valueText={'0.00'}
+            valueText={coinValue}
             width={'100%'}
+            onRightPress={() => {
+              setSelected(2), refRBSheet.current.open();
+            }}
           />
           <Text style={styles.values}>1 GHS = 0.0017USD</Text>
           <Text style={styles.label}>Recipient’s Country</Text>
-          <TouchableOpacity style={{marginBottom: '3%'}}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelected(3), refRBSheet.current.open();
+            }}
+            style={{marginBottom: '3%'}}>
             <CustomInput
               width={'89%'}
               editable={false}
+              value={country}
               placeholder={'United States'}
               RightIcons={Images.Down}
+              onRightIcon={() => {
+                setSelected(3), refRBSheet.current.open();
+              }}
               backgroundColor={Theme.darkRow}
               borderColor={Theme.darkRow}
             />
@@ -89,12 +128,20 @@ const BankWithdraw = ({navigation}) => {
             backgroundColor={Theme.darkRow}
           />
           <Text style={styles.label}>Account Type</Text>
-          <TouchableOpacity style={{marginBottom: '3%'}}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelected(4), refRBSheet.current.open();
+            }}
+            style={{marginBottom: '3%'}}>
             <CustomInput
               width={'89%'}
               editable={false}
+              value={account}
               placeholder={'United States'}
               RightIcons={Images.Down}
+              onRightIcon={() => {
+                setSelected(4), refRBSheet.current.open();
+              }}
               backgroundColor={Theme.darkRow}
               borderColor={Theme.darkRow}
             />
@@ -184,7 +231,9 @@ const BankWithdraw = ({navigation}) => {
         heading={'Confirm Transfer'}
         DATA={DATA}
         show={transferModal}
-        onPress={() => {setTransferModal(!transferModal), setCongrats(true)}}
+        onPress={() => {
+          setTransferModal(!transferModal), setCongrats(true);
+        }}
         setShow={() => setTransferModal(!transferModal)}
         btnText={'Confirm Transfer'}
       />
@@ -202,7 +251,18 @@ const BankWithdraw = ({navigation}) => {
             backgroundColor: Theme.darkGrey,
           },
         }}>
-        <DropDown list={list} selectedItem={val => handleSelectedItem(val)} />
+        <DropDown
+          list={
+            selected === 1
+              ? list
+              : selected === 2
+              ? list2
+              : selected === 3
+              ? list3
+              : list4
+          }
+          selectedItem={val => handleSelectedItem(val)}
+        />
       </RBSheet>
     </View>
   );

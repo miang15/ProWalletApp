@@ -16,6 +16,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../../components/DropDown';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import Congratulations from '../../components/Congratulations';
+import Icons from '../../constants/Icons';
 
 const ModalDATA = [
   {
@@ -36,15 +37,32 @@ const ModalDATA = [
 ];
 
 const DepositScreen = ({navigation}) => {
-  const [congrats, setCongrats] = useState(false)
-  const [modal, setModal] = useState(false)
+  const [congrats, setCongrats] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [selected, setSelected] = useState(1);
   const [coin, setCoin] = useState('GHS');
+  const [coinValue, setCoinValue] = useState('0.00');
+  const [network, setNetwork] = useState('');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
+  const [list2, setList2] = useState(['0.00', '0.10', '0.50', '0.30', '0.80']);
+  const [list3, setList3] = useState([
+    'easypaisa',
+    'jazzcash',
+    'UBL',
+    'HBL',
+    'ABL',
+  ]);
   const refRBSheet = useRef();
 
   const handleSelectedItem = val => {
     refRBSheet.current.close();
-    setCoin(val);
+    if (selected === 1) {
+      setCoin(val);
+    } else if (selected === 2) {
+      setCoinValue(val);
+    } else {
+      setNetwork(val);
+    }
   };
 
   return (
@@ -56,19 +74,32 @@ const DepositScreen = ({navigation}) => {
           <Text style={styles.text1}>How much do you want to deposit?</Text>
           <Text style={styles.label}>Country</Text>
           <Picker
-            onLeftPress={() => refRBSheet.current.open()}
+            onLeftPress={() => {
+              setSelected(1), refRBSheet.current.open();
+            }}
             label={coin}
-            valueText={'0.00'}
+            valueText={coinValue}
             width={'100%'}
+            onRightPress={() => {
+              setSelected(2), refRBSheet.current.open();
+            }}
           />
           <Text style={styles.values}>1 GHS = 0.0017USD</Text>
           <Text style={styles.label}>Mobile Payment</Text>
-          <TouchableOpacity style={{marginBottom: '3%'}}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelected(3), refRBSheet.current.open();
+            }}
+            style={{marginBottom: '3%'}}>
             <CustomInput
               width={'89%'}
               editable={false}
+              value={network}
+              onRightIcon={() => {
+                setSelected(3), refRBSheet.current.open();
+              }}
               placeholder={'Select Network'}
-              RightIcons={Images.upDown}
+              RightIcons={Icons.downBold}
               backgroundColor={Theme.darkRow}
               borderColor={Theme.darkRow}
             />
@@ -108,7 +139,7 @@ const DepositScreen = ({navigation}) => {
               width={'48%'}
             />
             <Button
-            onPress={() => setModal(true)}
+              onPress={() => setModal(true)}
               title={'Confirm Deposit'}
               backgroundColor={Theme.orange}
               borderColor={Theme.orange}
@@ -123,12 +154,14 @@ const DepositScreen = ({navigation}) => {
         description={'Your deposition has been completed successfully'}
       />
       <ConfirmTradeModal
-      margin={'1%'}
+        margin={'1%'}
         heading={'Confirm Deposit'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => {setModal(!modal), setCongrats(true)}}
+        onPress={() => {
+          setModal(!modal), setCongrats(true);
+        }}
         btnText={'Confirm Deposit'}
         btnBackground={Theme.orange}
         btnBorder={Theme.orange}
@@ -147,7 +180,10 @@ const DepositScreen = ({navigation}) => {
             backgroundColor: Theme.darkGrey,
           },
         }}>
-        <DropDown list={list} selectedItem={val => handleSelectedItem(val)} />
+        <DropDown
+          list={selected === 1 ? list : selected === 2 ? list2 : list3}
+          selectedItem={val => handleSelectedItem(val)}
+        />
       </RBSheet>
     </View>
   );

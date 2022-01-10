@@ -12,13 +12,14 @@ import TransactionHistory from '../Screens/TransactionHistory/TransactionHistory
 import Balance from '../Screens/Portfolio/Balance';
 import Icons from '../constants/Icons';
 import Invest from '../Screens/Portfolio/Invest';
+import Portfolio from '../Screens/Portfolio/Portfolio';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTab = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Balance"
+      initialRouteName="Invest"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -54,8 +55,8 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Balance"
-        component={Balance}
+        name="Portfolio"
+        component={Portfolio}
         options={{
           tabBarLabel: 'Portfolio',
           tabBarIcon: ({color, size}) => (

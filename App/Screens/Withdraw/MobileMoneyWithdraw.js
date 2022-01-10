@@ -39,14 +39,32 @@ const ModalDATA = [
 const MobileMoneyWithdraw = ({navigation}) => {
   const [modal, setModal] = useState(false);
   const [congrats, setCongrats] = useState(false);
+  const [selected, setSelected] = useState(1);
   const [coin, setCoin] = useState('GHS');
+  const [coinValue, setCoinValue] = useState('0.00');
+  const [network, setNetwork] = useState('');
   const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
+  const [list2, setList2] = useState(['0.00', '0.10', '0.50', '0.30', '0.80']);
+  const [list3, setList3] = useState([
+    'easypaisa',
+    'jazzcash',
+    'UBL',
+    'HBL',
+    'ABL',
+  ]);
   const refRBSheet = useRef();
 
   const handleSelectedItem = val => {
     refRBSheet.current.close();
-    setCoin(val);
+    if (selected === 1) {
+      setCoin(val);
+    } else if (selected === 2) {
+      setCoinValue(val);
+    } else {
+      setNetwork(val);
+    }
   };
+
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} />
@@ -56,19 +74,32 @@ const MobileMoneyWithdraw = ({navigation}) => {
           <Text style={styles.text1}>How much do you want to withdraw?</Text>
           <Text style={styles.label}>Country</Text>
           <Picker
-            onLeftPress={() => refRBSheet.current.open()}
+            onLeftPress={() => {
+              setSelected(1), refRBSheet.current.open();
+            }}
             label={coin}
-            valueText={'0.00'}
+            valueText={coinValue}
+            onRightPress={() => {
+              setSelected(2), refRBSheet.current.open();
+            }}
             width={'100%'}
           />
           <Text style={styles.values}>0.0017USD = 1 GHS</Text>
           <Text style={styles.label}>Mobile Payment</Text>
-          <TouchableOpacity style={{marginBottom: '3%'}}>
+          <TouchableOpacity
+            onPress={() => {
+              setSelected(3), refRBSheet.current.open();
+            }}
+            style={{marginBottom: '3%'}}>
             <CustomInput
               width={'89%'}
               editable={false}
+              value={network}
               placeholder={'Select Network'}
               RightIcons={Icons.downBold}
+              onRightIcon={() => {
+                setSelected(3), refRBSheet.current.open();
+              }}
               backgroundColor={Theme.darkRow}
               borderColor={Theme.darkRow}
             />
@@ -108,7 +139,7 @@ const MobileMoneyWithdraw = ({navigation}) => {
               width={'48%'}
             />
             <Button
-            onPress={() => setModal(true)}
+              onPress={() => setModal(true)}
               title={'Confirm Withdraw'}
               backgroundColor={Theme.orange}
               borderColor={Theme.orange}
@@ -123,12 +154,14 @@ const MobileMoneyWithdraw = ({navigation}) => {
         description={'Your withdraw has been completed successfully'}
       />
       <ConfirmTradeModal
-      margin={'1%'}
+        margin={'1%'}
         heading={'Confirm Withdraw'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => {setModal(!modal), setCongrats(true)}}
+        onPress={() => {
+          setModal(!modal), setCongrats(true);
+        }}
         btnText={'Confirm Withdraw'}
         btnBackground={Theme.orange}
         btnBorder={Theme.orange}
@@ -147,7 +180,10 @@ const MobileMoneyWithdraw = ({navigation}) => {
             backgroundColor: Theme.darkGrey,
           },
         }}>
-        <DropDown list={list} selectedItem={val => handleSelectedItem(val)} />
+        <DropDown
+          list={selected === 1 ? list : selected === 2 ? list2 : list3}
+          selectedItem={val => handleSelectedItem(val)}
+        />
       </RBSheet>
     </View>
   );

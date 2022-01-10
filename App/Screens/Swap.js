@@ -12,54 +12,28 @@ const Swap = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(1);
   const [coin, setCoin] = useState('BTC');
+  const [coin2, setCoin2] = useState('ETH');
   const [list, setList] = useState(['BTC', 'ETH', 'LTC', 'BNB', 'BCH']);
   const refRBSheet = useRef();
 
   const handleSelectedItem = val => {
     refRBSheet.current.close();
-    setCoin(val);
+    if(selected === 1){
+      setCoin(val);
+    } else {
+      setCoin2(val)
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.topRowView}>
-        <TouchableOpacity
-          onPress={() => setSelected(1)}
-          style={{
-            ...styles.BtnStyle,
-            backgroundColor: selected === 1 ? '#303030' : Theme.darkRow,
-          }}>
-          <Text style={styles.label}>Swap</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setSelected(1), navigation.navigate('Exchange');
-          }}
-          style={{
-            ...styles.BtnStyle,
-            width: '36%',
-            backgroundColor: selected === 2 ? '#303030' : Theme.darkRow,
-          }}>
-          <Text style={styles.label}>Exchange</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setSelected(1), navigation.navigate('Buy');
-          }}
-          style={{
-            ...styles.BtnStyle,
-            backgroundColor: selected === 3 ? '#303030' : Theme.darkRow,
-          }}>
-          <Text style={styles.label}>Fiat</Text>
-        </TouchableOpacity>
-      </View> */}
-            <Text style={styles.headingText}>Swap</Text>
+      <Text style={styles.headingText}>Swap</Text>
       <TradeComponent
         heading="You send"
         title="0.01 BTC"
         bitcoin="Bitcoin"
         btc={coin}
-        onPress={() => refRBSheet.current.open()}
+        onPress={() => { setSelected(1), refRBSheet.current.open()}}
       />
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text
@@ -83,8 +57,8 @@ const Swap = () => {
         heading="You receive approximately"
         title="~2.6751845"
         bitcoin="Ethereum"
-        btc={coin}
-        onPress={() => refRBSheet.current.open()}
+        btc={coin2}
+        onPress={() => { setSelected(2), refRBSheet.current.open()}}
       />
       <Button
         title="Swap"
@@ -134,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize: Theme.headingtext,
     fontWeight: 'bold',
     marginTop: '10%',
-    marginBottom:"15%"
+    marginBottom: '15%',
   },
   BtnStyle: {
     width: '32%',

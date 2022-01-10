@@ -23,6 +23,7 @@ export default function CustomInput({
   color,
   marginVertical,
   editable,
+  onRightIcon
 }) {
   const styles = StyleSheet.create({
     rowView: {
@@ -38,7 +39,7 @@ export default function CustomInput({
     inputStyle: {
       marginLeft: '1%',
       marginRight: RightIcons ? '3%' : '1%',
-      width: width ? width : '80%',
+      width: width ? width : '85%',
       fontSize: 14,
       color: color ? color : Theme.white,
     },
@@ -74,7 +75,7 @@ export default function CustomInput({
         placeholderTextColor={Theme.border}
       />
       {RightIcons ? (
-        <TouchableOpacity style={styles.iconView}>
+        <TouchableOpacity onPress={onRightIcon} style={styles.iconView}>
           <Image resizeMode="contain" style={styles.icon} source={RightIcons} />
         </TouchableOpacity>
       ) : null}

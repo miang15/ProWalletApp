@@ -13,34 +13,43 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
+import {useState} from 'react';
 const Register = () => {
   const navigation = useNavigation();
   const navigate = navigation.navigate;
+  const [textEntry, setTextEntry] = useState(true);
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{margin:'3%'}}>
+        <View style={{margin: '3%'}}>
           <Image source={Images.logo} style={styles.imageContainer} />
           <Text style={styles.text}>Creat New Account</Text>
 
           <CustomInput LeftIcons={Icons.Profile} placeholder="Username" />
           <CustomInput LeftIcons={Icons.Email} placeholder="Email" />
           <CustomInput
+            secureTextEntry={textEntry}
             LeftIcons={Icons.Lock}
             placeholder=" Create Password"
-            RightIcons={Icons.Hide}
+            onRightIcon={() => setTextEntry(!textEntry)}
+            RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
           <CustomInput
+            onRightIcon={() => setTextEntry(!textEntry)}
+            secureTextEntry={textEntry}
             LeftIcons={Icons.Lock}
             placeholder=" Confirm Password"
-            RightIcons={Icons.Hide}
+            RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
-          <Button
-            title="SignUp"
-            top="10%"
-          />
+          <Button title="SignUp" top="10%" />
           <TouchableOpacity
-            style={{flexDirection: 'row', alignItems:'center', marginVertical:"5%", alignSelf:'center'}}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: '5%',
+              alignSelf: 'center',
+            }}
             onPress={() => navigate('Login')}>
             <Text style={styles.title}>Already have a account? </Text>
             <Text style={{...styles.title, color: Theme.sky}}> Login</Text>
@@ -61,15 +70,15 @@ const styles = StyleSheet.create({
   text: {
     color: Theme.white,
     fontSize: Theme.title,
-    alignSelf:'center',
-    marginBottom:"3%"
+    alignSelf: 'center',
+    marginBottom: '3%',
   },
   imageContainer: {
     height: 105,
     width: 105,
-    alignSelf:'center',
-    marginTop:'5%',
-    marginBottom:'10%'
+    alignSelf: 'center',
+    marginTop: '5%',
+    marginBottom: '10%',
   },
   password: {
     fontSize: Theme.normal,

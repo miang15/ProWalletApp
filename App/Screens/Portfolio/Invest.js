@@ -1,5 +1,5 @@
-import React from 'react';
-import {FlatList, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
+import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
@@ -99,32 +99,95 @@ const Data = [
     bchPrice: '$3,400',
     cashPrice: '1.304B',
   },
+  {
+    id: '9',
+    icon: Images.Doge,
+    backgroundColor: '#202832',
+    category: 'Pepper Token',
+    cash: 'PEPE',
+    bchDigit: '30,000 PEPE',
+    cashDigit: '625,849.756ARDR',
+    bchPrice: '$34,525.49',
+    cashPrice: '21.58B',
+  },
+  {
+    id: '10',
+    icon: Icons.bitIcon,
+    backgroundColor: '#453217',
+    category: 'Bitcoin',
+    cash: 'BTC',
+    bchDigit: '0.008BTC',
+    cashDigit: '625,849.756ARDR',
+    bchPrice: '$137.41',
+    cashPrice: '1.304B',
+  },
+  {
+    id: '11',
+    backgroundColor: '#454545',
+    icon: Images.ETH,
+    tintColor: Theme.white,
+    category: 'Ethereum',
+    cash: 'ETH',
+    bchDigit: '30.00 ETH',
+    cashDigit: '625,849.756ARDR',
+    bchPrice: '$3,400',
+    cashPrice: '1.304B',
+  },
 ];
 
 const Invest = ({navigation}) => {
-  const renderItem = ({item, index}) => (
-    <PortfolioComponent
-    indexNum={index + 1}
-      onPress={() => navigation.navigate('BuySell')}
-      backgroundColor={item.backgroundColor}
-      tintColor={item?.tintColor}
-      icon={item.icon}
-      category={item.category}
-      cash={item.cash}
-      bchDigit={item.bchDigit}
-      bchPrice={item.bchPrice}
-      cashPrice={item.cashPrice}
-      priceColor={Theme.green}
-      underLine={true}
-      chart={true}
-    />
-  );
+  const [searchedItem, setSearchedItem] = useState('');
+  const renderItem = ({item, index}) => {
+    if (searchedItem) {
+      if (item.category.toLocaleLowerCase().includes(searchedItem.toLocaleLowerCase()) ) {
+        return (
+          <PortfolioComponent
+            indexNum={index + 1}
+            onPress={() => navigation.navigate('BuySell')}
+            backgroundColor={item.backgroundColor}
+            tintColor={item?.tintColor}
+            icon={item.icon}
+            category={item.category}
+            cash={item.cash}
+            bchDigit={item.bchDigit}
+            bchPrice={item.bchPrice}
+            cashPrice={item.cashPrice}
+            priceColor={Theme.green}
+            underLine={true}
+            chart={true}
+          />
+        );
+      }
+    } else {
+      return (
+        <PortfolioComponent
+          indexNum={index + 1}
+          onPress={() => navigation.navigate('BuySell')}
+          backgroundColor={item.backgroundColor}
+          tintColor={item?.tintColor}
+          icon={item.icon}
+          category={item.category}
+          cash={item.cash}
+          bchDigit={item.bchDigit}
+          bchPrice={item.bchPrice}
+          cashPrice={item.cashPrice}
+          priceColor={Theme.green}
+          underLine={true}
+          chart={true}
+        />
+      );
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Track and Invest</Text>
       <View style={styles.searchRow}>
+        <TouchableOpacity >
         <Feather name="search" size={24} color={Theme.textGrey} />
+        </TouchableOpacity>
         <TextInput
+          value={searchedItem}
+          onChangeText={setSearchedItem}
           style={styles.input}
           placeholder="Search coins"
           placeholderTextColor={Theme.whiteText}
@@ -175,10 +238,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subHeading: {
-      color:Theme.orange,
-      marginHorizontal:"3%",
-      fontSize:30,
-      fontWeight:"bold",
-      marginVertical:"3%"
-  }
+    color: Theme.orange,
+    marginHorizontal: '3%',
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginVertical: '3%',
+  },
 });

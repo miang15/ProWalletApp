@@ -84,19 +84,19 @@ const ModalDATA = [
 
 const Amount = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
-  const [inputNum, setInputNum] = useState('');
+  const [inputNum, setInputNum] = useState('00');
   const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
 
   const handleNumInput = (item, index) => {
-    if(index === 11){
-      let b = inputNum.slice(0, inputNum.length -1 );
+    if (index === 11) {
+      let b = inputNum.slice(0, inputNum.length - 1);
       setInputNum(b);
-      console.log("SLICE: ",b); 
-    }else if (inputNum) {
+      console.log('SLICE: ', b);
+    } else if (inputNum) {
       let a = inputNum.toString().concat(item.toString());
       setInputNum(a);
-      console.log("value ",a)
+      console.log('value ', a);
     } else {
       setInputNum(item.toString());
     }
@@ -113,21 +113,7 @@ const Amount = ({route, navigation}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{margin: '3%'}}>
             <View style={styles.inputRow}>
-              {/* <View style={styles.arrowView}>
-                <Image
-                  style={{...styles.arrowImg, tintColor: Theme.black}}
-                  source={Icons.arrow}
-                />
-              </View> */}
-              <TextInput
-              selectionColor={Theme.black}
-                value={inputNum}
-                onChangeText={setInputNum}
-                style={styles.textInput}
-                placeholder="00"
-                placeholderTextColor={Theme.white}
-                keyboardType="numeric"
-              />
+              <Text style={styles.textInput}>{inputNum}</Text>
               <View style={styles.arrowView}>
                 <Image
                   resizeMode="contain"
@@ -177,6 +163,7 @@ const Amount = ({route, navigation}) => {
                 renderItem={({item, index}) => (
                   <View>
                     <TouchableOpacity
+                      disabled={index === 9 ? true : false}
                       onPress={() => handleNumInput(item.num, index)}
                       style={styles.numBtn}>
                       <Text style={styles.numPad}>{item.num}</Text>
@@ -198,14 +185,16 @@ const Amount = ({route, navigation}) => {
       <Congratulations
         visible={congrats}
         setVisible={() => setCongrats(!congrats)}
-        description={'Your ' + trade +  ' has been completed successfully'}
+        description={'Your ' + trade + ' has been completed successfully'}
       />
       <ConfirmTradeModal
         heading={'Confirm Trade'}
         DATA={ModalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => {setModal(!modal), setCongrats(true)}}
+        onPress={() => {
+          setModal(!modal), setCongrats(true);
+        }}
         btnText={trade === 'Buy' ? 'Buy' : 'Sell'}
         btnBorder={trade === 'Buy' ? Theme.green : Theme.orange}
         btnBackground={trade === 'Buy' ? Theme.green : Theme.orange}

@@ -19,10 +19,10 @@ const Login = ({}) => {
   const [textEntry, setTextEntry] = useState(true);
   return (
     <View style={styles.container}>
-      <Image source={Images.logo} style={styles.imageContainer} />
+        <Text style={styles.appName}>{'Pepper' + '\n' + 'Pro'}</Text>
       <ScrollView>
         <View style={{margin: '3%'}}>
-          <Text style={styles.text}>Welcome to Pepper Wallet</Text>
+          <Text style={styles.text}>Welcome to Pepper Pro</Text>
 
           <CustomInput placeholder="Username/Email" LeftIcons={Icons.Profile} />
 
@@ -50,9 +50,9 @@ const Login = ({}) => {
           <Button
             title="Login"
             top="15%"
-            onPress={() => navigation.navigate('BackupWallet')}
+            onPress={() => navigation.navigate('BottomTab')}
           />
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -63,7 +63,7 @@ const Login = ({}) => {
             onPress={() => navigation.navigate('Register')}>
             <Text style={styles.title}>Don’t have a account? </Text>
             <Text style={{...styles.title, color: Theme.sky}}> Register</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </View>
@@ -76,6 +76,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.black,
+  },
+  appName: {
+    color:Theme.white,
+    alignSelf:"center",
+    marginTop:"15%",
+    backgroundColor:Theme.darkGreen,
+    paddingVertical:40,
+    paddingHorizontal:30,
+    borderRadius:70,
+    fontSize:20,
+    textAlign:'center',
+    fontWeight:"bold"
   },
   text: {
     color: Theme.white,

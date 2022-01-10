@@ -21,9 +21,9 @@ const Register = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.appName}>{'Pepper' + '\n' + 'Pro'}</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{margin: '3%'}}>
-          <Image source={Images.logo} style={styles.imageContainer} />
           <Text style={styles.text}>Creat New Account</Text>
 
           <CustomInput LeftIcons={Icons.Profile} placeholder="Username" />
@@ -43,7 +43,7 @@ const Register = () => {
             RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
           <Button title="SignUp" top="10%" />
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -53,7 +53,7 @@ const Register = () => {
             onPress={() => navigate('Login')}>
             <Text style={styles.title}>Already have a account? </Text>
             <Text style={{...styles.title, color: Theme.sky}}> Login</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </View>
@@ -66,6 +66,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.black,
+  },
+  appName: {
+    color: Theme.white,
+    alignSelf: 'center',
+    marginTop: '15%',
+    backgroundColor: Theme.darkGreen,
+    paddingVertical: 40,
+    paddingHorizontal: 30,
+    borderRadius: 70,
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   text: {
     color: Theme.white,

@@ -40,7 +40,7 @@ const Fingerprint = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Pepper Wallet</Text>
+      <Text style={styles.text}>Pepper Pro</Text>
       <LinearGradient colors={['#0E0E0E', '#0D0D0D']} style={styles.card}>
         <Image source={Icons.scan} style={styles.image}></Image>
         <Text style={styles.fingerprint}>Use Fingerprint for Banking</Text>

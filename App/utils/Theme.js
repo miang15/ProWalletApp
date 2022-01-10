@@ -10,6 +10,7 @@ const Theme = {
   golden: '#FABC44',
   grayInput:"#F2F2F2",
   green: '#39B54A',
+  darkGreen:"#061207",
   border: '#7F8D81',
   sky: '#40BFFF',
   blue: '#487FEC',

@@ -108,7 +108,7 @@ const TransactionHistory = () => {
             alignItems: 'center',
           }}>
           <Text style={{...styles.text, fontSize: Theme.medium}}>{filter}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => refRBSheet.current.open()}>
             <Image source={Icons.Down} style={styles.down} />
           </TouchableOpacity>
         </TouchableOpacity>

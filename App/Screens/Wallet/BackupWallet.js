@@ -15,7 +15,7 @@ const BackupWallet = () => {
   const [terms, setTerms] = useState(false);
   return (
     <View style={styles.container}>
-      <Text style={styles.headingText}>Pepper Wallet</Text>
+      <Text style={styles.headingText}>Pepper Pro</Text>
       <Text style={{...styles.headingText, marginTop: '20%'}}>
         Backup you wallet
       </Text>

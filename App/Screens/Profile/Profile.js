@@ -97,6 +97,7 @@ const RECIPIENTDATA = [
 const Profile = ({navigation}) => {
   const [hide, setHide] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [logoutConfirm, setLogoutConfirm] = useState(false);
   const [usdcModal, setUsdcModal] = useState(false);
   const [usdcConfirm, setUsdcConfirm] = useState(false);
   const [usdcCongrats, setUsdcCongrats] = useState(false);
@@ -140,9 +141,7 @@ const Profile = ({navigation}) => {
     } else if (val === 'USDC withdraw') {
       setUsdcModal(true);
     } else if (val === 'Logout') {
-      Alert.alert('Success!', 'Log out Successfully', [
-        {text: 'OK', onPress: () => navigation.navigate('Login')},
-      ]);
+      setLogoutConfirm(true);
     } else {
       Alert.alert('Screen Not Available');
     }
@@ -434,6 +433,15 @@ const Profile = ({navigation}) => {
         heading={'Confirm Withdraw'}
         DATA={RECIPIENTDATA}
         btnText={'Confirm Withdraw'}
+        btnBackground={Theme.orange}
+        btnBorder={Theme.orange}
+      />
+      <ConfirmTradeModal
+        show={logoutConfirm}
+        setShow={() => setLogoutConfirm(!logoutConfirm)}
+        onPress={() => {setLogoutConfirm(!logoutConfirm), navigation.navigate("Login")}}
+        heading={'Confirm Logout'}
+        btnText={'Confirm'}
         btnBackground={Theme.orange}
         btnBorder={Theme.orange}
       />

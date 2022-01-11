@@ -84,7 +84,7 @@ const ModalDATA = [
 
 const Amount = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
-  const [inputNum, setInputNum] = useState('00');
+  const [inputNum, setInputNum] = useState('$0');
   const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
 
@@ -150,7 +150,7 @@ const Amount = ({route, navigation}) => {
                 />
               </View>
             </TouchableOpacity>
-            <View style={{marginTop: '15%'}}>
+            <View style={{marginTop: '10%'}}>
               <FlatList
                 numColumns={3}
                 columnWrapperStyle={{
@@ -172,13 +172,13 @@ const Amount = ({route, navigation}) => {
                 )}
                 keyExtractor={item => item.id}
               />
+            </View>
               <Button
                 onPress={() => setModal(true)}
                 title={'Continue'}
                 backgroundColor={Theme.orange}
                 borderColor={Theme.orange}
               />
-            </View>
           </View>
         </ScrollView>
       </View>

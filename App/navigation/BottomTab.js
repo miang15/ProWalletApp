@@ -26,6 +26,7 @@ const BottomTab = () => {
         tabBarLabelStyle: {fontSize: 12, textAlign: 'center'},
         tabBarActiveTintColor: Theme.green,
         tabBarInactiveTintColor: Theme.text,
+        tabBarHideOnKeyboard:true,
         tabBarStyle: {
           backgroundColor: Theme.darkGrey,
           height: 60,

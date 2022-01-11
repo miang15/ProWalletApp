@@ -78,10 +78,7 @@ const MobileMoneyWithdraw = ({navigation}) => {
               setSelected(1), refRBSheet.current.open();
             }}
             label={coin}
-            valueText={coinValue}
-            onRightPress={() => {
-              setSelected(2), refRBSheet.current.open();
-            }}
+            placeholder={"0.00"}
             width={'100%'}
           />
           <Text style={styles.values}>0.0017USD = 1 GHS</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {Image, TextInput} from 'react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Images from '../constants/Images';
 import Theme from '../utils/Theme';
@@ -11,6 +11,7 @@ const Picker = ({
   onRightPress,
   label,
   valueText,
+  placeholder
 }) => {
   const styles = StyleSheet.create({
     topRow: {
@@ -55,6 +56,11 @@ const Picker = ({
       paddingVertical: 5,
       width: '75%',
     },
+    input: {
+      color:Theme.white,
+      width:"75%",
+      height:40
+    }
   });
 
   return (
@@ -65,12 +71,18 @@ const Picker = ({
           <Image resizeMode="cover" style={styles.down} source={Images.Down} />
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onRightPress} style={styles.secondRow}>
+      <TextInput
+      style={styles.input}
+      placeholder={placeholder}
+      value={valueText}
+      placeholderTextColor={Theme.white}
+      />
+      {/* <TouchableOpacity onPress={onRightPress} style={styles.secondRow}>
         <Text style={styles.label}>{valueText}</Text>
         <View style={styles.downView}>
           <Image resizeMode="cover" style={styles.down} source={Images.Down} />
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

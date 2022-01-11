@@ -94,11 +94,8 @@ const BankWithdraw = ({navigation}) => {
               setSelected(1), refRBSheet.current.open();
             }}
             label={coin}
-            valueText={coinValue}
             width={'100%'}
-            onRightPress={() => {
-              setSelected(2), refRBSheet.current.open();
-            }}
+            placeholder={"0.00"}
           />
           <Text style={styles.values}>1 GHS = 0.0017USD</Text>
           <Text style={styles.label}>Recipient’s Country</Text>

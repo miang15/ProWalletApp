@@ -78,11 +78,8 @@ const DepositScreen = ({navigation}) => {
               setSelected(1), refRBSheet.current.open();
             }}
             label={coin}
-            valueText={coinValue}
+            placeholder={"0.00"}
             width={'100%'}
-            onRightPress={() => {
-              setSelected(2), refRBSheet.current.open();
-            }}
           />
           <Text style={styles.values}>1 GHS = 0.0017USD</Text>
           <Text style={styles.label}>Mobile Payment</Text>

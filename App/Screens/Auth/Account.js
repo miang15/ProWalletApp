@@ -41,7 +41,7 @@ const Account = () => {
       </ImageBackground>
       <Button
         onPress={() => navigation.navigate('Login')}
-        top={'20%'}
+        top={'10%'}
         horizontal={'3%'}
         title={'Login'}
         backgroundColor={Theme.orange}

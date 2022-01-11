@@ -65,7 +65,7 @@ const ConfirmTradeModal = ({
     label: {
       color: Theme.black,
       fontSize: Theme.normal,
-      width: '55%',
+      // width: '55%',
       textAlign: 'left',
     },
     equal: {

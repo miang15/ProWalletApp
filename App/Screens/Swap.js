@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Image} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image, ScrollView} from 'react-native';
 import Icons from '../constants/Icons';
 import Theme from '../utils/Theme';
 import TradeComponent from '../components/TradeComponent';
@@ -7,10 +7,32 @@ import Button from '../components/Button';
 import {useNavigation} from '@react-navigation/core';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../components/DropDown';
+import ConfirmTradeModal from '../components/ConfirmTradeModal';
+import Congratulations from '../components/Congratulations';
+
+const ModalDATA = [
+  {
+    id: 1,
+    label: 'Transaction Amount :',
+    value: '$2300.00',
+  },
+  {
+    id: 2,
+    label: 'Transaction Fees (3.9%) :',
+    value: '$89.70',
+  },
+  {
+    id: 3,
+    label: 'Total Transaction:',
+    value: '$2,210.0',
+  },
+];
 
 const Swap = () => {
   const navigation = useNavigation();
   const [selected, setSelected] = useState(1);
+  const [modal, setModal] = useState(false);
+  const [congrats, setCongrats] = useState(false);
   const [coin, setCoin] = useState('BTC');
   const [coin2, setCoin2] = useState('ETH');
   const [list, setList] = useState(['BTC', 'ETH', 'LTC', 'BNB', 'BCH']);
@@ -28,8 +50,9 @@ const Swap = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headingText}>Swap</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <TradeComponent
-        heading="You send"
+        heading="From"
         title="0.01 BTC"
         bitcoin="Bitcoin"
         btc={coin}
@@ -54,19 +77,21 @@ const Swap = () => {
         </TouchableOpacity>
       </View>
       <TradeComponent
-        heading="You receive approximately"
+        heading="To"
         title="~2.6751845"
         bitcoin="Ethereum"
         btc={coin2}
         onPress={() => { setSelected(2), refRBSheet.current.open()}}
       />
       <Button
+      onPress={() => setModal(true)}
         title="Swap"
         top="15%"
         horizontal="3%"
         backgroundColor={Theme.orange}
         borderColor={Theme.orange}
       />
+      </ScrollView>
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
@@ -83,6 +108,24 @@ const Swap = () => {
         }}>
         <DropDown list={list} selectedItem={val => handleSelectedItem(val)} />
       </RBSheet>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your Transaction has been completed successfully'}
+      />
+      <ConfirmTradeModal
+        margin={'1%'}
+        heading={'Confirm Transaction'}
+        DATA={ModalDATA}
+        show={modal}
+        setShow={() => setModal(!modal)}
+        onPress={() => {
+          setModal(!modal), setCongrats(true);
+        }}
+        btnText={'Confirm Transaction'}
+        btnBackground={Theme.orange}
+        btnBorder={Theme.orange}
+      />
     </View>
   );
 };

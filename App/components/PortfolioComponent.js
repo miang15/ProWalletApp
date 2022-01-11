@@ -35,8 +35,8 @@ const PortfolioComponent = ({
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
       elevation: 5,
-      marginBottom: '4%',
-      borderBottomWidth: underLine ? 0.5 : 0,
+      marginBottom: '2%',
+      borderBottomWidth: underLine ? 0.3 : 0,
       borderColor:Theme.border
     },
     imgTextBg: {
@@ -51,8 +51,8 @@ const PortfolioComponent = ({
       borderRadius: 10,
     },
     bitCoin: {
-      width: 24,
-      height: 24,
+      width: 18,
+      height: 18,
       tintColor: tintColor ? tintColor : null,
     },
     textBg: {
@@ -71,7 +71,7 @@ const PortfolioComponent = ({
     },
     chartView: {
       width:70,
-      height:30,
+      height:25,
       overflow:"hidden",
       alignItems:"center"
     },

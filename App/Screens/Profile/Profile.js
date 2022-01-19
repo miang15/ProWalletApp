@@ -35,13 +35,13 @@ const DATA = [
   {
     id: 2,
     img: Images.Wallet,
-    label: 'Balance',
+    label: 'Bank Deposit',
     value: '$292,339.64',
   },
   {
     id: 3,
     img: Images.ArrowDown,
-    label: 'Deposit cash',
+    label: 'Mobile Money Deposit',
   },
   {
     id: 4,
@@ -126,9 +126,9 @@ const Profile = ({navigation}) => {
   const handleOnClick = val => {
     if (val === 'KYC Verification') {
       navigation.navigate('Welcome');
-    } else if (val === 'Balance') {
+    } else if (val === 'Bank Deposit') {
       navigation.navigate('Balance');
-    } else if (val === 'Deposit cash') {
+    } else if (val === 'Mobile Money Deposit') {
       navigation.navigate('DepositScreen');
     } else if (val === 'Deposit crypto') {
       navigation.navigate('CoinsDeposit');
@@ -142,7 +142,10 @@ const Profile = ({navigation}) => {
       setUsdcModal(true);
     } else if (val === 'Logout') {
       setLogoutConfirm(true);
-    } else {
+    } else if(val === "Security"){
+      navigation.navigate('Fingerprint');
+    }
+     else {
       Alert.alert('Screen Not Available');
     }
   };

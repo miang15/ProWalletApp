@@ -84,7 +84,9 @@ const Swap = () => {
         onPress={() => { setSelected(2), refRBSheet.current.open()}}
       />
       <Button
-      onPress={() => setModal(true)}
+      onPress={() => {
+        setModal(modal), setCongrats(true);
+      }}
         title="Swap"
         top="15%"
         horizontal="3%"

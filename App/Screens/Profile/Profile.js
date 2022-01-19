@@ -142,7 +142,7 @@ const Profile = ({navigation}) => {
       setUsdcModal(true);
     } else if (val === 'Logout') {
       setLogoutConfirm(true);
-    } else if(val === "Security"){
+    } else if(val === "Security") {
       navigation.navigate('Fingerprint');
     }
      else {

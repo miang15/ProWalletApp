@@ -109,3 +109,137 @@ export async function payoutBank(signUp) {
   };
   return await axios.request(options);
 }
+
+export async function payoutBank(signUp) {
+  var data = new FormData();
+  data.append('currency', `NGN`);
+  data.append('network', 'bank');
+  data.append('account_bank', '044');
+  data.append('amount', '100');
+  data.append('email', 'test@gmail.com');
+  data.append('phone_number', '123123123');
+  data.append('fullname', 'test test');
+  data.append('type', 'debit_ng_account');
+  data.append('account_number', '0690000037');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'POST',
+    data: data,
+    url: Urls.charge_bank,
+  };
+  return await axios.request(options);
+}
+
+export async function payoutBank(signUp) {
+  var data = new FormData();
+  data.append('currency', `NGN`);
+  data.append('network', 'bank');
+  data.append('account_bank', '044');
+  data.append('amount', '100');
+  data.append('email', 'test@gmail.com');
+  data.append('phone_number', '123123123');
+  data.append('fullname', 'test test');
+  data.append('type', 'debit_ng_account');
+  data.append('account_number', '0690000037');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'POST',
+    data: data,
+    url: Urls.payout_bak,
+  };
+  return await axios.request(options);
+}
+
+export async function payoutBank(signUp) {
+  var data = new FormData();
+  data.append('currency', `NGN`);
+  data.append('network', 'bank');
+  data.append('account_bank', '044');
+  data.append('amount', '100');
+  data.append('email', 'test@gmail.com');
+  data.append('phone_number', '123123123');
+  data.append('fullname', 'test test');
+  data.append('type', 'debit_ng_account');
+  data.append('account_number', '0690000037');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'POST',
+    data: data,
+    url: Urls.payout_bak,
+  };
+  return await axios.request(options);
+}
+
+export async function moneyPayout(signUp) {
+  var data = new FormData();
+  data.append('currency', `NGN`);
+  data.append('amount', '100');
+  data.append('email', 'test@gmail.com');
+  data.append('phone_number', '123123123');
+  data.append('fullname', 'test test');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'POST',
+    data: data,
+    url: Urls.money_payout,
+  };
+  return await axios.request(options);
+}
+
+export async function moneyPayout(signUp) {
+  var data = new FormData();
+  data.append('currency', `NGN`);
+  data.append('amount', '100');
+  data.append('email', 'test@gmail.com');
+  data.append('phone_number', '123123123');
+  data.append('fullname', 'test test');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'POST',
+    data: data,
+    url: Urls.money_payout,
+  };
+  return await axios.request(options);
+}
+
+export async function rate(from, to) {
+  var data = new FormData();
+  data.append('from', `XAF`);
+  data.append('to', 'USD');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'Get',
+    data: data,
+    url: Urls.rate + `?from=${from}&to=${to}`,
+  };
+  return await axios.request(options);
+}
+
+export async function payoutFee(amount, currency, type) {
+  var data = new FormData();
+  data.append('amount', `100`);
+  data.append('currency', 'NGN');
+  data.append('type', 'account');
+
+  console.log('BODY DATA', data);
+
+  const options = {
+    method: 'Get',
+    data: data,
+    url:
+      Urls.payout_fee + `?amount=${amount}&currency=${currency}&type=${type}`,
+  };
+  return await axios.request(options);
+}

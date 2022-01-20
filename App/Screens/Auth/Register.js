@@ -14,11 +14,20 @@ import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
 import {useState} from 'react';
+import {signUp} from '../../Services/Apis';
 const Register = () => {
   const navigation = useNavigation();
   const navigate = navigation.navigate;
   const [textEntry, setTextEntry] = useState(true);
-
+  const _signUp = () => {
+    signUp('ds')
+      .then(({data}) => {
+        console.log('SUCCESS', data);
+      })
+      .catch(error => {
+        console.log('ERROR', error);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>{'Pepper' + '\n' + 'Pro'}</Text>
@@ -42,7 +51,7 @@ const Register = () => {
             placeholder=" Confirm Password"
             RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
-          <Button title="SignUp" top="10%" />
+          <Button onPress={_signUp} title="SignUp" top="10%" />
           {/* <TouchableOpacity
             style={{
               flexDirection: 'row',

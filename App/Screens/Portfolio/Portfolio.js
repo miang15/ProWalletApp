@@ -88,7 +88,7 @@ const Portfolio = ({navigation}) => {
   const renderItem = ({item, index}) => (
 
     <PortfolioComponent
-      onPress={() => navigation.navigate('BuySell')}
+      onPress={() => navigation.navigate('BuySell', {coinData: item})}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
       icon={item.icon}

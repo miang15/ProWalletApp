@@ -5,16 +5,19 @@ import Images from '../constants/Images';
 import Theme from '../utils/Theme';
 import {LineChart} from 'react-native-chart-kit';
 import Button from '../components/Button';
+import { useRoute } from '@react-navigation/native';
 
 const BuySell = ({navigation}) => {
+  const route = useRoute();
+  const coin = route?.params?.coinData;
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} rightIcon={Images.upload2} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={styles.text1}>BTC Offered by Pepper</Text>
-          <Text style={styles.heading}>Bitcoin (BTC)</Text>
-          <Text style={styles.heading}>$805.33</Text>
+          <Text style={styles.text1}>{coin?.cash + " Offered by Pepper"}</Text>
+          <Text style={styles.heading}>{coin?.category + " (" + coin?.cash + ")"}</Text>
+          <Text style={styles.heading}>{coin?.bchPrice}</Text>
           <Text style={styles.todayText}>$4.93 (0.62%) Today</Text>
           <View style={styles.chartView}>
             <LineChart
@@ -55,12 +58,12 @@ const BuySell = ({navigation}) => {
               title={'Buy'}
               width={'48%'}
               onPress={() => {
-                navigation.navigate('Amount', {item: 'Buy'});
+                navigation.navigate('Amount', {item: 'Buy', coinData: coin});
               }}
             />
             <Button
               onPress={() => {
-                navigation.navigate('Amount', {item: 'Sell'});
+                navigation.navigate('Amount', {item: 'Sell', coinData: coin});
               }}
               title={'Sell'}
               width={'48%'}

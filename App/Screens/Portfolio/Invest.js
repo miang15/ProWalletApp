@@ -143,7 +143,7 @@ const Invest = ({navigation}) => {
         return (
           <PortfolioComponent
             indexNum={index + 1}
-            onPress={() => navigation.navigate('BuySell')}
+            onPress={() => navigation.navigate('BuySell', {coinData: item})}
             backgroundColor={item.backgroundColor}
             tintColor={item?.tintColor}
             icon={item.icon}
@@ -162,7 +162,7 @@ const Invest = ({navigation}) => {
       return (
         <PortfolioComponent
           indexNum={index + 1}
-          onPress={() => navigation.navigate('BuySell')}
+          onPress={() => navigation.navigate('BuySell', {coinData: item})}
           backgroundColor={item.backgroundColor}
           tintColor={item?.tintColor}
           icon={item.icon}

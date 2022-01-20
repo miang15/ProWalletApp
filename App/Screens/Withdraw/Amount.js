@@ -17,6 +17,7 @@ import Button from '../../components/Button';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Congratulations from '../../components/Congratulations';
+import { useRoute } from '@react-navigation/native';
 
 const Data = [
   {
@@ -69,25 +70,27 @@ const Data = [
   },
 ];
 
-const ModalDATA = [
-  {
-    id: 1,
-    label: 'Bitcoin Amount',
-    value: '0.172090',
-  },
-  {
-    id: 2,
-    label: 'Bitcoin Rate',
-    value: '$60,000',
-  },
-];
-
-const Amount = ({route, navigation}) => {
+const Amount = ({navigation}) => {
+  const route = useRoute();
   const [modal, setModal] = useState(false);
   const [inputNum, setInputNum] = useState('$');
   const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
+  const coin = route?.params?.coinData
 
+  const [modalDATA, setModalData] = useState([
+    {
+      id: 1,
+      label: coin.category + " Amount",
+      value: '0.172090',
+    },
+    {
+      id: 2,
+      label: coin.category + ' Rate',
+      value: '$60,000',
+    },
+  ])
+  console.log("ROUTE: ",coin);
   const handleNumInput = (item, index) => {
     if (index === 11) {
       let b = inputNum.slice(0, inputNum.length - 1);
@@ -127,19 +130,19 @@ const Amount = ({route, navigation}) => {
                 <View
                   style={{
                     ...styles.imgBackground,
-                    backgroundColor: Theme.yellowOrange,
+                    backgroundColor: coin.backgroundColor ? coin.backgroundColor : Theme.yellowOrange,
                   }}>
                   <View style={styles.bitcoinImgView}>
                     <Image
                       resizeMode="contain"
-                      style={styles.bitCoin}
-                      source={Icons.bitIcon}
+                      style={{...styles.bitCoin, tintColor: coin.tintColor ? coin.tintColor : null}}
+                      source={coin.icon}
                     />
                   </View>
                 </View>
                 <View>
-                  <Text style={styles.bitCoinValue}>Bitcoin</Text>
-                  <Text style={styles.label}>BTC</Text>
+                  <Text style={styles.bitCoinValue}>{coin?.category}</Text>
+                  <Text style={styles.label}>{coin?.cash}</Text>
                 </View>
               </View>
               {/* <View style={styles.downarrowView}>
@@ -189,7 +192,7 @@ const Amount = ({route, navigation}) => {
       />
       <ConfirmTradeModal
         heading={'Confirm Trade'}
-        DATA={ModalDATA}
+        DATA={modalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
         onPress={() => {

@@ -84,7 +84,7 @@ const ModalDATA = [
 
 const Amount = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
-  const [inputNum, setInputNum] = useState('$0');
+  const [inputNum, setInputNum] = useState('$');
   const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
 
@@ -108,19 +108,19 @@ const Amount = ({route, navigation}) => {
         <Header
           onPress={() => navigation.goBack()}
           title={'Enter Amount'}
-          rightIcon={Images.upload2}
+          // rightIcon={Images.upload2}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{margin: '3%'}}>
             <View style={styles.inputRow}>
               <Text style={styles.textInput}>{inputNum}</Text>
-              <View style={styles.arrowView}>
+              {/* <View style={styles.arrowView}>
                 <Image
                   resizeMode="contain"
                   style={styles.arrowImg}
                   source={Icons.arrow}
                 />
-              </View>
+              </View> */}
             </View>
             <TouchableOpacity style={styles.BitcoinRowView}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -142,13 +142,13 @@ const Amount = ({route, navigation}) => {
                   <Text style={styles.label}>BTC</Text>
                 </View>
               </View>
-              <View style={styles.downarrowView}>
+              {/* <View style={styles.downarrowView}>
                 <Image
                   resizeMode="contain"
                   style={styles.downarrowImg}
                   source={Images.arrow}
                 />
-              </View>
+              </View> */}
             </TouchableOpacity>
             <View style={{marginTop: '10%'}}>
               <FlatList
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 50,
     fontWeight: 'bold',
+    color:'orange'
   },
   arrowView: {
     width: 30,

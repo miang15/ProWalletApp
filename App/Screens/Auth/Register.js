@@ -35,8 +35,10 @@ const Register = () => {
         <View style={{margin: '3%'}}>
           <Text style={styles.text}>Creat New Account</Text>
 
-          <CustomInput LeftIcons={Icons.Profile} placeholder="Username" />
+          <CustomInput LeftIcons={Icons.Profile} placeholder="First Name" />
+          <CustomInput LeftIcons={Icons.Profile} placeholder="Last Name" />
           <CustomInput LeftIcons={Icons.Email} placeholder="Email" />
+          <CustomInput LeftIcons={Icons.Email} placeholder="Phone Number" />
           <CustomInput
             secureTextEntry={textEntry}
             LeftIcons={Icons.Lock}

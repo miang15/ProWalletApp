@@ -45,6 +45,7 @@ const Theme = {
   smalltitle: 'rgba(255, 255, 255, 0.8)',
   grey: '#33363C',
   orangeText:"#F69510",
+  greyContact:"#BABABA",
   blackish: '#1D2027',
   darkRow: '#0D0D0D',
   fontFamily: 'ProstoOne-Regular',

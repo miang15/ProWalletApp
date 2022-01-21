@@ -23,7 +23,8 @@ export default function CustomInput({
   color,
   marginVertical,
   editable,
-  onRightIcon
+  onRightIcon,
+  horizontal
 }) {
   const styles = StyleSheet.create({
     rowView: {
@@ -35,6 +36,7 @@ export default function CustomInput({
       borderColor: borderColor ? borderColor : Theme.border,
       alignItems: 'center',
       paddingHorizontal: 5,
+      marginHorizontal: horizontal ? horizontal : null
     },
     inputStyle: {
       marginLeft: '1%',

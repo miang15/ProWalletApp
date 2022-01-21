@@ -5,6 +5,7 @@ import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Feather from 'react-native-vector-icons/Feather';
+import PayButton from '../../components/PayButton';
 const Data = [
   {
     id: '1',
@@ -180,7 +181,10 @@ const Invest = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
+      <View style={styles.topRow}>
       <Text style={styles.heading}>Track and Invest</Text>
+      <PayButton/>
+      </View>
       <View style={styles.searchRow}>
         <TouchableOpacity >
         <Feather name="search" size={24} color={Theme.textGrey} />
@@ -216,8 +220,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: '10%',
-    marginBottom: '5%',
   },
   searchRow: {
     flexDirection: 'row',
@@ -244,4 +246,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: '3%',
   },
+  topRow: {
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:'space-between',
+    marginVertical: '5%',
+    marginHorizontal:"3%"
+  }
 });

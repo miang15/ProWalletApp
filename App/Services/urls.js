@@ -11,6 +11,7 @@ const Urls = {
   money_payout: `${API_URL}/flutter/payout/mobile`,
   rate: `${API_URL}/flutter/rate`,
   payout_fee: `${API_URL}/flutter/payout/fee`,
-  money_payout: `${API_URL}/flutter/payout/mobile`,
+
+
 };
 export default Urls;

@@ -105,7 +105,7 @@ export async function payoutBank(signUp) {
   const options = {
     method: 'POST',
     data: data,
-    url: Urls.payout_bak,
+    url: Urls.payout_bank,
   };
   return await axios.request(options);
 }

@@ -25,6 +25,7 @@ import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
 import Congratulations from '../../components/Congratulations';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
+import { chargeBank, chargeMoney, moneyPayout, payoutBank, payoutFee, rate, requestPhoneVerification } from '../../Services/Apis';
 
 const DATA = [
   {
@@ -125,17 +126,47 @@ const Profile = ({navigation}) => {
 
   const handleOnClick = val => {
     if (val === 'KYC Verification') {
-      navigation.navigate('Welcome');
+      payoutFee().then(() => {
+        Alert.alert("API RUN");
+      }).catch((e) => {
+        Alert.alert("API ERROR")
+      })
+      // navigation.navigate('Welcome');
     } else if (val === 'Bank Deposit') {
-      navigation.navigate('Balance');
+      chargeBank().then(() => {
+        Alert.alert("API RUN");
+      }).catch((e) => {
+        Alert.alert("API ERROR")
+      })
+      // navigation.navigate('Balance');
     } else if (val === 'Mobile Money Deposit') {
-      navigation.navigate('DepositScreen');
+      chargeMoney().then(() => {
+        Alert.alert("API RUN");
+      }).catch((e) => {
+        Alert.alert("API ERROR")
+      })
+      // navigation.navigate('DepositScreen');
     } else if (val === 'Deposit crypto') {
-      navigation.navigate('CoinsDeposit');
+      payoutBank().then(() => {
+        Alert.alert("API RUN");
+      }).catch((e) => {
+        Alert.alert("API ERROR")
+      })
+      // navigation.navigate('CoinsDeposit');
     } else if (val === 'Bank withdraw') {
-      navigation.navigate('BankWithdraw');
+      moneyPayout().then(() => {
+        Alert.alert("API RUN");
+      }).catch((e) => {
+        Alert.alert("API ERROR")
+      })
+      // navigation.navigate('BankWithdraw');
     } else if (val === 'Mobile money withdraw') {
-      navigation.navigate('MobileMoneyWithdraw');
+      rate().then(() => {
+        Alert.alert("API RUN");
+      }).catch((e) => {
+        Alert.alert("API ERROR")
+      })
+      // navigation.navigate('MobileMoneyWithdraw');
     } else if (val === 'Paypal withdraw') {
       setPaypalModal(true);
     } else if (val === 'USDC withdraw') {

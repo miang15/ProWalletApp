@@ -14,6 +14,8 @@ import PayButton from '../../components/PayButton';
 import CustomInput from '../../components/CustomInput';
 import ContactList from '../../components/ContactList';
 import Images from '../../constants/Images';
+import Congratulations from '../../components/Congratulations';
+import { useState } from 'react';
 
 const CONTACTLIST = [
     {
@@ -49,10 +51,12 @@ const CONTACTLIST = [
         background: Theme.greyContact
     },
 ]
-const Contact = () => {
+const Contact = ({navigation}) => {
+  const [congrats, setCongrats] = useState(false);
 
     const renderContacts = ({item}) => (
         <ContactList
+        onPress={() => setCongrats(true)}
          title={item.title}
          number={item.number}
          backgroundColor={item.background} 
@@ -62,7 +66,7 @@ const Contact = () => {
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
-        <TouchableOpacity style={styles.cross}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.cross}>
           <Entypo name="cross" size={24} color={Theme.white} />
         </TouchableOpacity>
         <View style={styles.centerView}>
@@ -81,7 +85,7 @@ const Contact = () => {
           borderColor={Theme.darkGrey}
         />
         <Text style={styles.suggested}>Suggested</Text>
-        <ContactList img={Images.profilePic} title={"Armandine Takafor"} number={"+923123456789"} />
+        <ContactList onPress={() => setCongrats(true)} img={Images.profilePic} title={"Armandine Takafor"} number={"+923123456789"} />
         <Text style={styles.suggested}>Contact</Text>
         <FlatList
         showsVerticalScrollIndicator={false}
@@ -90,6 +94,11 @@ const Contact = () => {
         keyExtractor={item => item.id}
         />
       </ScrollView>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={'Your transaction has been completed successfully'}
+      />
     </View>
   );
 };

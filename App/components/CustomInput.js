@@ -24,7 +24,8 @@ export default function CustomInput({
   marginVertical,
   editable,
   onRightIcon,
-  horizontal
+  horizontal,
+  inputHeight
 }) {
   const styles = StyleSheet.create({
     rowView: {
@@ -44,6 +45,7 @@ export default function CustomInput({
       width: width ? width : '85%',
       fontSize: 14,
       color: color ? color : Theme.white,
+      height: inputHeight ? inputHeight : null
     },
     iconView: {
       width: 15,
@@ -55,7 +57,7 @@ export default function CustomInput({
       width: '100%',
       height: '100%',
       alignSelf: 'center',
-      tintColor:Theme.border
+      tintColor:Theme.white
     },
   });
 

@@ -4,7 +4,15 @@ import Images from '../constants/Images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Theme from '../utils/Theme';
 
-const ContactList = ({marginHorizontal, marginVertical, backgroundColor, img, title, number}) => {
+const ContactList = ({
+  marginHorizontal,
+  marginVertical,
+  backgroundColor,
+  img,
+  title,
+  number,
+  onPress,
+}) => {
   const styles = StyleSheet.create({
     contactRow: {
       flexDirection: 'row',
@@ -56,7 +64,7 @@ const ContactList = ({marginHorizontal, marginVertical, backgroundColor, img, ti
     },
   });
   return (
-    <TouchableOpacity style={styles.contactRow}>
+    <TouchableOpacity onPress={onPress} style={styles.contactRow}>
       <View style={styles.innerRow}>
         <View style={styles.imgView}>
           {img ? (
@@ -65,18 +73,18 @@ const ContactList = ({marginHorizontal, marginVertical, backgroundColor, img, ti
               style={styles.img}
               source={Images.profilePic}
             />
-          ) :
-          title ? 
-          (
+          ) : title ? (
             <Text style={styles.textImg}>{title?.charAt(0)}</Text>
-          ) : 
-          <AntDesign name="user" size={24} color={Theme.white} />
-        }
+          ) : (
+            <AntDesign name="user" size={24} color={Theme.white} />
+          )}
         </View>
         <View style={styles.contactView}>
-        { title ?  <Text numberOfLines={1} style={styles.contactTitle}>
-            {title}
-          </Text> : null }
+          {title ? (
+            <Text numberOfLines={1} style={styles.contactTitle}>
+              {title}
+            </Text>
+          ) : null}
           <Text numberOfLines={1} style={styles.contactNumber}>
             {number}
           </Text>

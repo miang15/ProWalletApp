@@ -183,7 +183,7 @@ const Invest = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.topRow}>
       <Text style={styles.heading}>Track and Invest</Text>
-      <PayButton/>
+      <PayButton onPress={() => navigation.navigate("PayAmount")} />
       </View>
       <View style={styles.searchRow}>
         <TouchableOpacity >

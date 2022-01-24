@@ -45,6 +45,7 @@ import Portfolio from '../Screens/Portfolio/Portfolio';
 import Balance from '../Screens/Portfolio/Balance';
 import Invest from '../Screens/Portfolio/Invest';
 import Contact from '../Screens/Withdraw/Contact';
+import PayAmount from '../Screens/Withdraw/PayAmount';
 
 const Stack = createNativeStackNavigator();
 function MainStack() {
@@ -54,11 +55,12 @@ function MainStack() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Invest">
+        initialRouteName="Splash">
         <Stack.Screen
           name="TransactionHistory"
           component={TransactionHistory}
         />
+        <Stack.Screen name="PayAmount" component={PayAmount} />
         <Stack.Screen name="Contact" component={Contact} />
         <Stack.Screen name="Invest" component={Invest} />
         <Stack.Screen name="BankWithdraw" component={BankWithdraw} />

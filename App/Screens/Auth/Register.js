@@ -15,31 +15,69 @@ import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
 import {useState} from 'react';
 import {signUp} from '../../Services/Apis';
+import {CallingCodePicker} from '@digieggs/rn-country-code-picker';
+import { TextInput } from 'react-native';
+import Congratulations from '../../components/Congratulations';
+
 const Register = () => {
   const navigation = useNavigation();
   const navigate = navigation.navigate;
   const [textEntry, setTextEntry] = useState(true);
+  const [selectedCallingCode, setSelectedCallingCode] = useState('+1');
+  const [congrats, setCongrats] = useState(false);
+
   const _signUp = () => {
     signUp('ds')
       .then(({data}) => {
-        console.log('SUCCESS', data);
+        setCongrats(true);
       })
       .catch(error => {
         console.log('ERROR', error);
       });
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.appName}>{'Pepper' + '\n' + 'Pro'}</Text>
+      <Text style={styles.appName}>PEPPER PRO</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{margin: '3%'}}>
           <Text style={styles.text}>Creat New Account</Text>
 
-          <CustomInput LeftIcons={Icons.Profile} placeholder="First Name" />
-          <CustomInput LeftIcons={Icons.Profile} placeholder="Last Name" />
-          <CustomInput LeftIcons={Icons.Email} placeholder="Email" />
-          <CustomInput LeftIcons={Icons.Email} placeholder="Phone Number" />
           <CustomInput
+            inputHeight={45}
+            marginVertical={'2%'}
+            LeftIcons={Icons.Profile}
+            placeholder="First Name"
+          />
+          <CustomInput
+            inputHeight={45}
+            marginVertical={'2%'}
+            LeftIcons={Icons.Profile}
+            placeholder="Last Name"
+          />
+          <CustomInput
+            inputHeight={45}
+            marginVertical={'2%'}
+            LeftIcons={Icons.Email}
+            placeholder="Email"
+          />
+          <View style={styles.pickerRow}>
+          <CallingCodePicker
+            style={styles.countryPicker}
+            selectedValue={selectedCallingCode}
+            onValueChange={value => setSelectedCallingCode(value)}
+            togglerLabelStyle={{color:Theme.textGrey}}
+            searchInputStyle={{color:Theme.black}}
+          />
+          <TextInput
+          style={styles.input}
+          placeholder='800-925-1234'
+          placeholderTextColor={Theme.textGrey}
+          />
+          </View>
+          <CustomInput
+            inputHeight={45}
+            marginVertical={'2%'}
             secureTextEntry={textEntry}
             LeftIcons={Icons.Lock}
             placeholder=" Create Password"
@@ -47,6 +85,8 @@ const Register = () => {
             RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
           <CustomInput
+            inputHeight={45}
+            marginVertical={'2%'}
             onRightIcon={() => setTextEntry(!textEntry)}
             secureTextEntry={textEntry}
             LeftIcons={Icons.Lock}
@@ -54,7 +94,7 @@ const Register = () => {
             RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
           <Button onPress={_signUp} title="SignUp" top="10%" />
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -63,10 +103,15 @@ const Register = () => {
             }}
             onPress={() => navigate('Login')}>
             <Text style={styles.title}>Already have a account? </Text>
-            <Text style={{...styles.title, color: Theme.sky}}> Login</Text>
-          </TouchableOpacity> */}
+            <Text style={{...styles.title, fontWeight:'bold', color: Theme.sky}}> Login</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
+      <Congratulations
+        visible={congrats}
+        setVisible={() => setCongrats(!congrats)}
+        description={"Your account has been created successfully"}
+      />
     </View>
   );
 };
@@ -79,22 +124,18 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.black,
   },
   appName: {
-    color: Theme.white,
-    alignSelf: 'center',
-    marginTop: '15%',
-    backgroundColor: Theme.darkGreen,
-    paddingVertical: 40,
-    paddingHorizontal: 30,
-    borderRadius: 70,
-    fontSize: 20,
+    color: Theme.orange,
     textAlign: 'center',
+    alignSelf: 'center',
+    marginHorizontal: '3%',
+    marginTop: '15%',
+    fontSize: 20,
     fontWeight: 'bold',
   },
   text: {
     color: Theme.white,
-    fontSize: Theme.title,
-    alignSelf: 'center',
-    marginBottom: '3%',
+    fontSize: 15,
+    marginVertical: '5%',
   },
   imageContainer: {
     height: 105,
@@ -112,4 +153,25 @@ const styles = StyleSheet.create({
     fontSize: Theme.small,
     color: Theme.text,
   },
+  pickerRow: {
+    flexDirection:'row',
+    justifyContent:"space-between",
+    borderWidth:1,
+    borderColor:Theme.border,
+    borderRadius:8,
+    paddingHorizontal:5,
+    paddingVertical:4,
+    marginVertical:"2%"
+  },
+  countryPicker: {
+    alignSelf:"center",
+    height:30,
+    borderRightWidth:1,
+    borderColor:Theme.border
+  },
+  input:{
+    height:40,
+    width:"65%",
+    color:Theme.white,
+  }
 });

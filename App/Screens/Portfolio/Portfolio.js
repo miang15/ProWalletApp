@@ -8,6 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import BalanceComponent from '../../components/BalanceComponent';
+import PayButton from '../../components/PayButton';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
@@ -104,7 +105,10 @@ const Portfolio = ({navigation}) => {
   );
   return (
     <View style={styles.container}>
+      <View style={styles.topRow}>
       <Text style={styles.heading}>Portfolio Value</Text>
+      <PayButton margin={1} onPress={() => navigation.navigate("PayAmount")} />
+      </View>
       <Text style={styles.value}>$292,339.64</Text>
       <Text style={styles.text1}>+$986.51 (3.56%)</Text>
       <Text style={styles.text2}>Fiat Balances</Text>
@@ -134,12 +138,17 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.black,
     paddingHorizontal: '3%',
   },
+  topRow: {
+    flexDirection:'row',
+    justifyContent:"space-between",
+    marginTop:"15%",
+    paddingLeft:8
+  },
   heading: {
     color:Theme.white,
     fontSize:18,
     fontWeight:"bold",
-    marginTop:"15%",
-    marginHorizontal:"2%"
+    alignSelf:"flex-end"
   },
   value: {
     color:Theme.orange,

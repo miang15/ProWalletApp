@@ -25,6 +25,7 @@ const BuySell = ({navigation}) => {
                 borderBottomWidth: 1,
                 borderColor: Theme.border,
                 marginVertical: '5%',
+                marginLeft:Theme.wp("-2%")
               }}
               data={{
                 labels: ['1D', '1W', '1M', '3M', '1Y', '5Y', '10Y'],

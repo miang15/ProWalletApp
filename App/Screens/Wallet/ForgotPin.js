@@ -15,6 +15,7 @@ import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 import {useNavigation} from '@react-navigation/core';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import CountDown from 'react-native-countdown-component';
 
 const ForgotPin = () => {
   const navigation = useNavigation();
@@ -22,40 +23,47 @@ const ForgotPin = () => {
   const [code, setCode] = useState('');
   const [timerCount, setTimer] = useState(60);
 
-  useEffect(() => {
-    if (timerCount == 0) {
-      console.log('stop');
-    } else {
-      let interval = setInterval(() => {
-        setTimer(lastTimerCount => {
-          lastTimerCount <= 1 && clearInterval(interval);
-          return lastTimerCount - 1;
-        });
-      }, 1000); //each count lasts for a second
-      //cleanup the interval on complete
-      return () => clearInterval(interval);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (timerCount == 0) {
+  //     console.log('stop');
+  //   } else {
+  //     let interval = setInterval(() => {
+  //       setTimer(lastTimerCount => {
+  //         lastTimerCount <= 1 && clearInterval(interval);
+  //         return lastTimerCount - 1;
+  //       });
+  //     }, 1000); //each count lasts for a second
+  //     //cleanup the interval on complete
+  //     return () => clearInterval(interval);
+  //   }
+  // }, []);
+
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.Timer}>00:{timerCount}</Text>
+      <CountDown
+        size={25}
+        until={60 * 10}
+        onFinish={() => alert('Finished')}
+        digitStyle={{backgroundColor: Theme.black,}}
+        digitTxtStyle={{color: Theme.white}}
+        separatorStyle={{color: Theme.white}}
+        timeToShow={['M', 'S']}
+        timeLabels={{m: null, s: null}}
+        showSeparator
+      />
+        {/* <Text style={styles.Timer}>00:{timerCount}</Text> */}
         <View style={styles.body}>
           <Text style={styles.title}>
-            {' '}
             Type the verification code{'\n'}
             we’ve sent you
           </Text>
-
           <View style={styles.pinBg}>
             <SmoothPinCodeInput
               PIN
               cellStyle={{
                 backgroundColor: Theme.PIN,
-                width: 67,
-                height: 70,
-
                 borderRadius: 15,
               }}
               cellStyleFocused={{
@@ -71,7 +79,7 @@ const ForgotPin = () => {
                 color: Theme.black,
               }}
               mask="*"
-              cellSize={36}
+              cellSize={60}
               codeLength={4}
               value={code}
               onTextChange={code => setCode(code)}

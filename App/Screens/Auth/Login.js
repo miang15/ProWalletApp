@@ -34,12 +34,12 @@ const Login = ({}) => {
             RightIcons={textEntry ? Icons.Hide : Icons.eye}
           />
           <View style={styles.rowView}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={{alignSelf: 'flex-end', paddingVertical: 5}}
               activeOpacity="0.6"
               onPress={() => navigation.navigate('Fingerprint')}>
               <Text style={styles.password}>Use FingerPrint</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={{alignSelf: 'flex-end', paddingVertical: 5}}
               activeOpacity="0.6"
@@ -52,7 +52,7 @@ const Login = ({}) => {
             top="15%"
             onPress={() => navigation.navigate('BottomTab')}
           />
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -63,7 +63,7 @@ const Login = ({}) => {
             onPress={() => navigation.navigate('Register')}>
             <Text style={styles.title}>Don’t have a account? </Text>
             <Text style={{...styles.title, color: Theme.sky}}> Register</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   rowView: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: "flex-end",
   },
   password: {
     fontSize: Theme.normal,

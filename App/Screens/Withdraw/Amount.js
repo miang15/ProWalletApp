@@ -17,7 +17,7 @@ import Button from '../../components/Button';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Congratulations from '../../components/Congratulations';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 
 const Data = [
   {
@@ -73,15 +73,16 @@ const Data = [
 const Amount = ({navigation}) => {
   const route = useRoute();
   const [modal, setModal] = useState(false);
-  const [inputNum, setInputNum] = useState('$');
+  const [sign, setSign] = useState('$');
+  const [inputNum, setInputNum] = useState('');
   const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
-  const coin = route?.params?.coinData
+  const coin = route?.params?.coinData;
 
   const [modalDATA, setModalData] = useState([
     {
       id: 1,
-      label: coin.category + " Amount",
+      label: coin.category + ' Amount',
       value: '0.172090',
     },
     {
@@ -89,17 +90,15 @@ const Amount = ({navigation}) => {
       label: coin.category + ' Rate',
       value: '$60,000',
     },
-  ])
-  console.log("ROUTE: ",coin);
+  ]);
+
   const handleNumInput = (item, index) => {
     if (index === 11) {
       let b = inputNum.slice(0, inputNum.length - 1);
       setInputNum(b);
-      console.log('SLICE: ', b);
-    } else if (inputNum) {
+    } else if (inputNum && inputNum !== '0') {
       let a = inputNum.toString().concat(item.toString());
       setInputNum(a);
-      console.log('value ', a);
     } else {
       setInputNum(item.toString());
     }
@@ -107,84 +106,76 @@ const Amount = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={{marginBottom: '10%'}}>
         <Header
           onPress={() => navigation.goBack()}
           title={'Enter Amount'}
           // rightIcon={Images.upload2}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{margin: '3%'}}>
-            <View style={styles.inputRow}>
-              <Text style={styles.textInput}>{inputNum}</Text>
-              {/* <View style={styles.arrowView}>
+          <Text numberOfLines={1} style={styles.textInput}>{sign + inputNum}</Text>
+
+        <View style={{ position:'absolute', bottom:10, width:'100%'}}>
+        <TouchableOpacity style={styles.BitcoinRowView}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View
+              style={{
+                ...styles.imgBackground,
+                backgroundColor: coin.backgroundColor
+                  ? coin.backgroundColor
+                  : Theme.yellowOrange,
+              }}>
+              <View style={styles.bitcoinImgView}>
                 <Image
                   resizeMode="contain"
-                  style={styles.arrowImg}
-                  source={Icons.arrow}
-                />
-              </View> */}
-            </View>
-            <TouchableOpacity style={styles.BitcoinRowView}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <View
                   style={{
-                    ...styles.imgBackground,
-                    backgroundColor: coin.backgroundColor ? coin.backgroundColor : Theme.yellowOrange,
-                  }}>
-                  <View style={styles.bitcoinImgView}>
-                    <Image
-                      resizeMode="contain"
-                      style={{...styles.bitCoin, tintColor: coin.tintColor ? coin.tintColor : null}}
-                      source={coin.icon}
-                    />
-                  </View>
-                </View>
-                <View>
-                  <Text style={styles.bitCoinValue}>{coin?.category}</Text>
-                  <Text style={styles.label}>{coin?.cash}</Text>
-                </View>
+                    ...styles.bitCoin,
+                    tintColor: coin.tintColor ? coin.tintColor : null,
+                  }}
+                  source={coin.icon}
+                />
               </View>
-              {/* <View style={styles.downarrowView}>
+            </View>
+            <View>
+              <Text style={styles.bitCoinValue}>{coin?.category}</Text>
+              <Text style={styles.label}>{coin?.cash}</Text>
+            </View>
+          </View>
+          {/* <View style={styles.downarrowView}>
                 <Image
                   resizeMode="contain"
                   style={styles.downarrowImg}
                   source={Images.arrow}
                 />
               </View> */}
-            </TouchableOpacity>
-            <View style={{marginTop: '10%'}}>
-              <FlatList
-                numColumns={3}
-                columnWrapperStyle={{
-                  justifyContent: 'space-around',
-                  marginBottom: '10%',
-                }}
-                style={{flexGrow: 0}}
-                showsVerticalScrollIndicator={false}
-                data={Data}
-                renderItem={({item, index}) => (
-                  <View>
-                    <TouchableOpacity
-                      disabled={index === 9 ? true : false}
-                      onPress={() => handleNumInput(item.num, index)}
-                      style={styles.numBtn}>
-                      <Text style={styles.numPad}>{item.num}</Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
-                keyExtractor={item => item.id}
-              />
-            </View>
-              <Button
-                onPress={() => setModal(true)}
-                title={'Continue'}
-                backgroundColor={Theme.orange}
-                borderColor={Theme.orange}
-              />
-          </View>
-        </ScrollView>
-      </View>
+        </TouchableOpacity>
+          <FlatList
+            numColumns={3}
+            columnWrapperStyle={{
+              justifyContent: 'space-around',
+              marginBottom: '10%',
+            }}
+            style={{flexGrow: 0}}
+            showsVerticalScrollIndicator={false}
+            data={Data}
+            renderItem={({item, index}) => (
+              <View>
+                <TouchableOpacity
+                  disabled={index === 9 ? true : false}
+                  onPress={() => handleNumInput(item.num, index)}
+                  style={styles.numBtn}>
+                  <Text style={styles.numPad}>{item.num}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={item => item.id}
+          />
+          <Button
+          horizontal={'3%'}
+            onPress={() => setModal(true)}
+            title={'Continue'}
+            backgroundColor={Theme.orange}
+            borderColor={Theme.orange}
+          />
+        </View>
       <Congratulations
         visible={congrats}
         setVisible={() => setCongrats(!congrats)}
@@ -214,21 +205,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.black,
   },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    marginTop: '5%',
-    marginBottom: '15%',
-  },
   textInput: {
     color: Theme.white,
-    width: '90%',
+    width: Theme.wp ('90%'),
     textAlign: 'center',
-    fontSize: 50,
+    fontSize: Theme.hp('5%'),
     fontWeight: 'bold',
-    color:'orange'
+    color: 'orange',
+    alignSelf:"center",
+    marginVertical:Theme.hp('5%')
   },
   arrowView: {
     width: 30,
@@ -244,7 +229,8 @@ const styles = StyleSheet.create({
   },
   BitcoinRowView: {
     flexDirection: 'row',
-    marginVertical: '3%',
+    marginVertical: '10%',
+    marginHorizontal:Theme.wp('3%'),
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 8,
@@ -303,7 +289,7 @@ const styles = StyleSheet.create({
   },
   numPad: {
     color: Theme.white,
-    fontSize: 20,
+    fontSize: Theme.hp('2.5%'),
     fontWeight: 'bold',
   },
 });

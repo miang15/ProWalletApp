@@ -74,7 +74,7 @@ const WalletComponent = ({width, leftIcon, title, onPress, value}) => {
           {title}
         </Text>
       </View>
-      <Text style={styles.Balance}>{value}</Text>
+    { value ?  <Text style={styles.Balance}>{value}</Text> : null }
     </TouchableOpacity>
   );
 };

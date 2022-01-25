@@ -37,7 +37,7 @@ const DATA = [
     id: 2,
     img: Images.Wallet,
     label: 'Bank Deposit',
-    value: '$292,339.64',
+    // value: '$292,339.64',
   },
   {
     id: 3,
@@ -184,7 +184,7 @@ const Profile = ({navigation}) => {
     <WalletComponent
       leftIcon={item.img}
       title={item.label}
-      value={item.value}
+      // value={item.value}
       onPress={() => handleOnClick(item.label)}
     />
   );
@@ -212,8 +212,19 @@ const Profile = ({navigation}) => {
               />
             </TouchableOpacity>
             <View style={styles.innerView}>
+              <View style={styles.editRow}>
+              <Text style={styles.userName} numberOfLines={1}>
+                Tamanna Hegel
+              </Text>
+              <TouchableOpacity style={styles.editView}>
+                <Image style={styles.edit} resizeMode='contain' source={Images.Edit} />
+              </TouchableOpacity>
+              </View>
               <Text style={styles.gmailText} numberOfLines={1}>
                 tuhafasa@gmail.com
+              </Text>
+              <Text style={styles.gmailText} numberOfLines={1}>
+                +99 123 294 294
               </Text>
               <View style={styles.innerRow}>
                 <Text style={styles.Vip}>VIP 0</Text>
@@ -526,7 +537,7 @@ const styles = StyleSheet.create({
   },
   topRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: Theme.darkRow,
     borderRadius: 10,
     padding: 15,
@@ -545,11 +556,11 @@ const styles = StyleSheet.create({
   },
   innerView: {
     marginLeft: '5%',
+    width:"70%",
   },
   gmailText: {
     color: Theme.white,
     fontSize: 14,
-    marginBottom: '3%',
   },
   innerRow: {
     flexDirection: 'row',
@@ -734,4 +745,25 @@ const styles = StyleSheet.create({
     color: Theme.black,
     fontSize: 15,
   },
+  editRow: {
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"space-between",
+  },
+  editView: {
+    width: 15,
+    height:15,
+    overflow:'hidden',
+    alignItems:'center'
+  },
+  edit: {
+    width:'100%',
+    height:'100%',
+    alignSelf:'center'
+  },
+  userName: {
+    color:Theme.white,
+    fontSize:16,
+    fontWeight:"bold"
+  }
 });

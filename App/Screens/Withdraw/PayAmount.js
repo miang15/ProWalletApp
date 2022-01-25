@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {
+  Alert,
   FlatList,
   Image,
   ScrollView,
@@ -71,14 +72,13 @@ const Data = [
 ];
 
 const PayAmount = ({navigation}) => {
-  const [inputNum, setInputNum] = useState('$0');
+  const [sign, setSign] = useState('$');
+  const [inputNum, setInputNum] = useState('0');
   const [congrats, setCongrats] = useState(false);
-  const [label, setLabel] = useState("USD");
+  const [label, setLabel] = useState('USD');
 
   const refRBSheet = useRef();
-  const [list, setList] = useState([
-    'GHS', 'INR', 'PKR', 'EUR', 'USD'
-  ]);
+  const [list, setList] = useState(['GHS', 'INR', 'PKR', 'EUR', 'USD']);
 
   const handleSelectedItem = val => {
     refRBSheet.current.close();
@@ -89,57 +89,64 @@ const PayAmount = ({navigation}) => {
     if (index === 11) {
       let b = inputNum.slice(0, inputNum.length - 1);
       setInputNum(b);
-      console.log('SLICE: ', b);
-    } else if (inputNum) {
+    } else if (inputNum && inputNum !== '0') {
       let a = inputNum.toString().concat(item.toString());
       setInputNum(a);
-      console.log('value ', a);
     } else {
       setInputNum(item.toString());
+    }
+  };
+
+  const handlePay = () => {
+    if (inputNum == '0') {
+      Alert.alert('Enter Amount to Pay');
+    } else {
+      let amountValue = sign.toString().concat(inputNum.toString());
+      navigation.navigate('Contact', {item: amountValue});
     }
   };
 
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{margin: '3%'}}>
-          <Text style={styles.textInput}>{inputNum}</Text>
-          <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.pickerRow}>
-            <Text style={styles.text1}>{label}</Text>
-            <AntDesign name="down" size={12} color={Theme.textGrey} />
-          </TouchableOpacity>
-          <View style={{marginTop:"10%"}}>
-            <FlatList
-              numColumns={3}
-              columnWrapperStyle={{
-                justifyContent: 'space-around',
-                marginBottom: '10%',
-              }}
-              style={{flexGrow: 0}}
-              showsVerticalScrollIndicator={false}
-              data={Data}
-              renderItem={({item, index}) => (
-                <View>
-                  <TouchableOpacity
-                    disabled={index === 9 ? true : false}
-                    onPress={() => handleNumInput(item.num, index)}
-                    style={styles.numBtn}>
-                    <Text style={styles.numPad}>{item.num}</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-              keyExtractor={item => item.id}
-            />
-          </View>
-          <Button
-            onPress={() =>navigation.navigate("Contact")}
-            title={'Pay'}
-            backgroundColor={Theme.orange}
-            borderColor={Theme.orange}
+        <Text style={styles.textInput}>{sign + inputNum}</Text>
+        
+        <View style={{ position:'absolute', bottom:10, width:'100%'}}>
+        <TouchableOpacity
+          onPress={() => refRBSheet.current.open()}
+          style={styles.pickerRow}>
+          <Text style={styles.text1}>{label}</Text>
+          <AntDesign name="down" size={12} color={Theme.textGrey} />
+        </TouchableOpacity>
+          <FlatList
+            numColumns={3}
+            columnWrapperStyle={{
+              justifyContent: 'space-around',
+              marginBottom: '10%',
+            }}
+            style={{flexGrow: 0}}
+            showsVerticalScrollIndicator={false}
+            data={Data}
+            renderItem={({item, index}) => (
+              <View>
+                <TouchableOpacity
+                  disabled={index === 9 ? true : false}
+                  onPress={() => handleNumInput(item.num, index)}
+                  style={styles.numBtn}>
+                  <Text style={styles.numPad}>{item.num}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={item => item.id}
           />
+        <Button
+          horizontal={'3%'}
+          onPress={handlePay}
+          title={'Pay'}
+          backgroundColor={Theme.orange}
+          borderColor={Theme.orange}
+        />
         </View>
-      </ScrollView>
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
@@ -170,10 +177,10 @@ const styles = StyleSheet.create({
   textInput: {
     color: Theme.white,
     width: '90%',
-    marginVertical: '15%',
+    marginVertical: Theme.hp('5%'),
     alignSelf: 'center',
     textAlign: 'center',
-    fontSize: 50,
+    fontSize: Theme.hp('5%'),
     fontWeight: 'bold',
   },
   numRow: {
@@ -187,24 +194,24 @@ const styles = StyleSheet.create({
   },
   numPad: {
     color: Theme.white,
-    fontSize: 20,
+    fontSize: Theme.hp('2.5%'),
     fontWeight: 'bold',
   },
   pickerRow: {
-      backgroundColor:Theme.darkGrey,
-      alignSelf:'center',
-      flexDirection:'row',
-      alignItems:'center',
-      justifyContent:"space-between",
-      paddingHorizontal:15,
-      paddingVertical:8,
-      borderRadius:8,
-      marginVertical:"5%"
+    backgroundColor: Theme.darkGrey,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginBottom: Theme.hp('5%'),
   },
   text1: {
-      color:Theme.white,
-      fontSize:15,
-      fontWeight:'bold',
-      marginHorizontal:"3%"
-  }
+    color: Theme.white,
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginHorizontal: '3%',
+  },
 });

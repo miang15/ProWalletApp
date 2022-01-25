@@ -1,12 +1,15 @@
+import React, {useState, useEffect} from 'react';
 import {
-    FlatList,
+  Alert,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
-import React, {useEffect} from 'react';
 import Button from '../../components/Button';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Theme from '../../utils/Theme';
@@ -15,62 +18,120 @@ import CustomInput from '../../components/CustomInput';
 import ContactList from '../../components/ContactList';
 import Images from '../../constants/Images';
 import Congratulations from '../../components/Congratulations';
-import { useState } from 'react';
+import {useRoute} from '@react-navigation/native';
+import Contacts from 'react-native-contacts';
 
 const CONTACTLIST = [
-    {
-        id:1,
-        title: "Add Members",
-        number: "+92 317 6939 2040",
-    },
-    {
-        id:2,
-        title: "Akana Tino",
-        number: "$Sakanatino",
-        background: Theme.blue
-    },
-    {
-        id:3,
-        number: "+237 9230 2050",
-        background: Theme.greyContact
-    },
-    {
-        id:4,
-        title: "Add Members",
-        number: "+92 317 6939 2040",
-    },
-    {
-        id:5,
-        title: "Akana Tino",
-        number: "$Sakanatino",
-        background: Theme.blue
-    },
-    {
-        id:6,
-        number: "+237 9230 2050",
-        background: Theme.greyContact
-    },
-]
+  {
+    id: 1,
+    title: 'Add Members',
+    number: '+92 317 6939 2040',
+  },
+  {
+    id: 2,
+    title: 'Akana Tino',
+    number: '$Sakanatino',
+    background: Theme.blue,
+  },
+  {
+    id: 3,
+    number: '+237 9230 2050',
+    background: Theme.greyContact,
+  },
+  {
+    id: 4,
+    title: 'Add Members',
+    number: '+92 317 6939 2040',
+  },
+  {
+    id: 5,
+    title: 'Akana Tino',
+    number: '$Sakanatino',
+    background: Theme.blue,
+  },
+  {
+    id: 6,
+    number: '+237 9230 2050',
+    background: Theme.greyContact,
+  },
+];
+
 const Contact = ({navigation}) => {
+  const route = useRoute();
+  const values = route?.params?.item;
   const [congrats, setCongrats] = useState(false);
 
-    const renderContacts = ({item}) => (
-        <ContactList
-        onPress={() => setCongrats(true)}
-         title={item.title}
-         number={item.number}
-         backgroundColor={item.background} 
-        />
-    )
+  const getContacts = async () => {
+    // try {
+    //   Contacts.getAll().then(contacts => {
+    //     console.log(contacts);
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // return;
+    let status = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+      {
+        title: 'Contacts',
+        message: 'This app would like to view your contacts.',
+      },
+    );
+    console.log('STATUS: ', status);
+    if (status === 'denied' || status === 'never_ask_again') {
+      Alert.alert('Permissions not granted to access Contacts');
+    } else {
+      Contacts.getAll()
+        .then(contacts => {
+          // work with contacts
+          console.log(contacts);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  };
+
+  useEffect(() => {
+    getContacts();
+  }, []);
+
+  // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+  //   title: 'Contacts',
+  //   message: 'This app would like to view your contacts.',
+  //   buttonPositive: 'Please accept bare mortal',
+  // }).then(
+  //   Contacts.getAll()
+  //     .then(contacts => {
+  //       // work with contacts
+  //       console.log(contacts);
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     }),
+  // ).catch((e) => {
+  //   console.log("ERROR: ",e);
+  // })
+
+  const renderContacts = ({item}) => (
+    <ContactList
+      onPress={() => setCongrats(true)}
+      title={item.title}
+      number={item.number}
+      backgroundColor={item.background}
+    />
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.cross}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.cross}>
           <Entypo name="cross" size={24} color={Theme.white} />
         </TouchableOpacity>
         <View style={styles.centerView}>
-          <Text style={styles.dollar}>$10</Text>
+          <Text style={styles.dollar}>{values}</Text>
           <Text style={styles.pepper}>PEPPER PRO</Text>
         </View>
         <PayButton margin={1} />
@@ -85,13 +146,18 @@ const Contact = ({navigation}) => {
           borderColor={Theme.darkGrey}
         />
         <Text style={styles.suggested}>Suggested</Text>
-        <ContactList onPress={() => setCongrats(true)} img={Images.profilePic} title={"Armandine Takafor"} number={"+923123456789"} />
+        <ContactList
+          onPress={() => setCongrats(true)}
+          img={Images.profilePic}
+          title={'Armandine Takafor'}
+          number={'+923123456789'}
+        />
         <Text style={styles.suggested}>Contact</Text>
         <FlatList
-        showsVerticalScrollIndicator={false}
-        data={CONTACTLIST}
-        renderItem={renderContacts}
-        keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          data={CONTACTLIST}
+          renderItem={renderContacts}
+          keyExtractor={item => item.id}
         />
       </ScrollView>
       <Congratulations
@@ -140,11 +206,11 @@ const styles = StyleSheet.create({
     marginHorizontal: '4%',
   },
   suggested: {
-      color:Theme.white,
-      fontSize:18,
-      fontWeight:"bold",
-      marginHorizontal:"3%",
-      marginTop:"5%",
-      marginBottom:"2%"
-  }
+    color: Theme.white,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginHorizontal: '3%',
+    marginTop: '5%',
+    marginBottom: '2%',
+  },
 });

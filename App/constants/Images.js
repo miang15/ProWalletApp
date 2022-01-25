@@ -40,6 +40,7 @@ const Images = {
   group48: require('../assets/Images/Group48.png'),
   loginBackground: require('../assets/Images/loginBackground.png'),
   chartIcon: require('../assets/Images/chartIcon.png'),
+  Edit: require('../assets/Images/Edit.png'),
 };
 
 export default Images;

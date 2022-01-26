@@ -60,16 +60,9 @@ const Contact = ({navigation}) => {
   const route = useRoute();
   const values = route?.params?.item;
   const [congrats, setCongrats] = useState(false);
+  const [allContacts, setAllContacts] = useState(null);
 
   const getContacts = async () => {
-    // try {
-    //   Contacts.getAll().then(contacts => {
-    //     console.log(contacts);
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // return;
     let status = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
       {
@@ -83,8 +76,7 @@ const Contact = ({navigation}) => {
     } else {
       Contacts.getAll()
         .then(contacts => {
-          // work with contacts
-          console.log(contacts);
+          setAllContacts(contacts);
         })
         .catch(e => {
           console.log(e);
@@ -96,29 +88,12 @@ const Contact = ({navigation}) => {
     getContacts();
   }, []);
 
-  // PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
-  //   title: 'Contacts',
-  //   message: 'This app would like to view your contacts.',
-  //   buttonPositive: 'Please accept bare mortal',
-  // }).then(
-  //   Contacts.getAll()
-  //     .then(contacts => {
-  //       // work with contacts
-  //       console.log(contacts);
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     }),
-  // ).catch((e) => {
-  //   console.log("ERROR: ",e);
-  // })
-
-  const renderContacts = ({item}) => (
+  const renderContacts = ({item, index}) => (
     <ContactList
       onPress={() => setCongrats(true)}
-      title={item.title}
-      number={item.number}
-      backgroundColor={item.background}
+      title={item.displayName}
+      number={item.phoneNumbers[0].number}
+      backgroundColor={index % 2 == 0 ? Theme.orange : Theme.blue}
     />
   );
 
@@ -148,14 +123,13 @@ const Contact = ({navigation}) => {
         <Text style={styles.suggested}>Suggested</Text>
         <ContactList
           onPress={() => setCongrats(true)}
-          img={Images.profilePic}
-          title={'Armandine Takafor'}
-          number={'+923123456789'}
+          title={allContacts[3].displayName}
+          number={allContacts[3].phoneNumbers[0].number}
         />
         <Text style={styles.suggested}>Contact</Text>
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={CONTACTLIST}
+          data={allContacts}
           renderItem={renderContacts}
           keyExtractor={item => item.id}
         />

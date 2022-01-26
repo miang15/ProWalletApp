@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
   PermissionsAndroid,
-  Platform,
+  ActivityIndicator,
 } from 'react-native';
 import Button from '../../components/Button';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -61,6 +61,7 @@ const Contact = ({navigation}) => {
   const values = route?.params?.item;
   const [congrats, setCongrats] = useState(false);
   const [allContacts, setAllContacts] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const getContacts = async () => {
     let status = await PermissionsAndroid.request(
@@ -77,9 +78,11 @@ const Contact = ({navigation}) => {
       Contacts.getAll()
         .then(contacts => {
           setAllContacts(contacts);
+          setLoading(false);
         })
         .catch(e => {
           console.log(e);
+          setLoading(false);
         });
     }
   };
@@ -111,29 +114,44 @@ const Contact = ({navigation}) => {
         </View>
         <PayButton margin={1} />
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.label}>To</Text>
-        <CustomInput
-          horizontal={'3%'}
-          width={'95%'}
-          placeholder={'Name, $CAshtag, SMS, Email'}
-          backgroundColor={Theme.darkGrey}
-          borderColor={Theme.darkGrey}
-        />
-        <Text style={styles.suggested}>Suggested</Text>
-        <ContactList
-          onPress={() => setCongrats(true)}
-          title={allContacts[3].displayName}
-          number={allContacts[3].phoneNumbers[0].number}
-        />
-        <Text style={styles.suggested}>Contact</Text>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={allContacts}
-          renderItem={renderContacts}
-          keyExtractor={item => item.id}
-        />
-      </ScrollView>
+      {loading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: Theme.black,
+          }}>
+          <ActivityIndicator size="small" color={Theme.orange} />
+        </View>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text style={styles.label}>To</Text>
+          <CustomInput
+            horizontal={'3%'}
+            width={'95%'}
+            placeholder={'Email'}
+            backgroundColor={Theme.darkGrey}
+            borderColor={Theme.darkGrey}
+          />
+          <Text style={styles.suggested}>Suggested</Text>
+          {allContacts ? (
+            <ContactList
+              onPress={() => setCongrats(true)}
+              title={allContacts[3]?.displayName}
+              number={allContacts[3]?.phoneNumbers[0].number}
+            />
+          ) : null}
+          <Text style={styles.suggested}>Contact</Text>
+          {allContacts ? (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              data={allContacts}
+              renderItem={renderContacts}
+              keyExtractor={item => item.id}
+            />
+          ) : null}
+        </ScrollView>
+      )}
       <Congratulations
         visible={congrats}
         setVisible={() => setCongrats(!congrats)}

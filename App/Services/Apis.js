@@ -2,12 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Urls from './urls';
 
-export async function signUp(signUp) {
+export async function signUp() {
   var data = new FormData();
   let number = Math.floor(Math.random() * 100) + 1;
   data.append('email', `pepperPro${number}@gmail.com`);
   data.append('firstName', 'test');
   data.append('lastName', 'test');
+
   console.log('BODY DATA', data);
 
   const options = {
@@ -19,7 +20,7 @@ export async function signUp(signUp) {
   return await axios.request(options);
 }
 
-export async function requestPhoneVerification(signUp) {
+export async function requestPhoneVerification() {
   var data = new FormData();
   data.append('id', `61e9053a9c291308887836e6`);
   data.append('phone', '3004699732');
@@ -47,7 +48,7 @@ export async function completePhoneVerification(signUp) {
   };
   return await axios.request(options);
 }
-export async function chargeMoney(signUp) {
+export async function chargeMoney() {
   var data = new FormData();
   data.append('currency', `XAF`);
   data.append('network', 'mobile_money_uganda');
@@ -66,7 +67,7 @@ export async function chargeMoney(signUp) {
   return await axios.request(options);
 }
 
-export async function chargeBank(signUp) {
+export async function chargeBank() {
   var data = new FormData();
   data.append('currency', `NGN`);
   data.append('network', 'bank');
@@ -88,7 +89,7 @@ export async function chargeBank(signUp) {
   return await axios.request(options);
 }
 
-export async function payoutBank(signUp) {
+export async function payoutBank() {
   var data = new FormData();
   data.append('currency', `NGN`);
   data.append('network', 'bank');
@@ -110,7 +111,7 @@ export async function payoutBank(signUp) {
   return await axios.request(options);
 }
 
-export async function moneyPayout(signUp) {
+export async function moneyPayout() {
   var data = new FormData();
   data.append('currency', `NGN`);
   data.append('amount', '100');

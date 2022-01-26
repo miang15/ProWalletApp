@@ -105,7 +105,11 @@ const Profile = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [congrats, setCongrats] = useState(false);
   const [paypalModal, setPaypalModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
+  const [name, setName] = useState("Tamanna Hegel")
+  const [email, setEmail] = useState("tuhafasa@gmail.com")
+  const [phone, setPhone] = useState("+99 123 294 294")
   const [invitationCode, setInvitationCode] = useState('526116597...');
   const [copiedText, setCopiedText] = useState('');
 
@@ -180,6 +184,7 @@ const Profile = ({navigation}) => {
       Alert.alert('Screen Not Available');
     }
   };
+
   const renderWallet = ({item}) => (
     <WalletComponent
       leftIcon={item.img}
@@ -214,17 +219,17 @@ const Profile = ({navigation}) => {
             <View style={styles.innerView}>
               <View style={styles.editRow}>
               <Text style={styles.userName} numberOfLines={1}>
-                Tamanna Hegel
+                {name}
               </Text>
-              <TouchableOpacity style={styles.editView}>
+              <TouchableOpacity onPress={() => setEditModal(true)} style={styles.editView}>
                 <Image style={styles.edit} resizeMode='contain' source={Images.Edit} />
               </TouchableOpacity>
               </View>
               <Text style={styles.gmailText} numberOfLines={1}>
-                tuhafasa@gmail.com
+                {email}
               </Text>
               <Text style={styles.gmailText} numberOfLines={1}>
-                +99 123 294 294
+                {phone}
               </Text>
               <View style={styles.innerRow}>
                 <Text style={styles.Vip}>VIP 0</Text>
@@ -294,6 +299,79 @@ const Profile = ({navigation}) => {
           </View>
         </View>
       </Modal>
+      <TouchableWithoutFeedback
+        onPress={() => setEditModal(!editModal)}
+        style={{flex: 1}}>
+        <ReactNativeModal
+          animationOut={'bounceOut'}
+          animationIn={'bounceIn'}
+          isVisible={editModal}
+          transparent={true}
+          onBackdropPress={() => setEditModal(!editModal)}>
+          <View style={styles.centeredView}>
+            <View style={styles.paypalModalView}>
+              <View style={styles.modalRow}>
+                <AntDesign name="close" size={20} color={Theme.white} />
+                <Text style={styles.modalHeading}>Edit Info</Text>
+                <TouchableOpacity
+                  onPress={() => setEditModal(!editModal)}
+                  style={styles.close}>
+                  <AntDesign name="close" size={24} color="black" />
+                </TouchableOpacity>
+              </View>
+              <View style={{margin: '3%'}}>
+                <Text style={styles.label}>Name</Text>
+                <CustomInput
+                  width={'100%'}
+                  backgroundColor={Theme.grayInput}
+                  borderWidth={0.5}
+                  marginVertical={'2%'}
+                  color={Theme.black}
+                  placeholder={'Name'}
+                  value={name}
+                  onChangeText={setName}
+                />
+                <Text style={styles.label}>Email</Text>
+                <CustomInput
+                  width={'100%'}
+                  backgroundColor={Theme.grayInput}
+                  borderWidth={0.5}
+                  marginVertical={'2%'}
+                  color={Theme.black}
+                  placeholder={'Email'}
+                  value={email}
+                  onChangeText={setEmail}
+                />
+                <Text style={styles.label}>Phone</Text>
+                <CustomInput
+                  width={'100%'}
+                  backgroundColor={Theme.grayInput}
+                  borderWidth={0.5}
+                  marginVertical={'2%'}
+                  color={Theme.black}
+                  placeholder={'Phone Number'}
+                  value={phone}
+                  onChangeText={setPhone}
+                />
+                <View
+                  style={{
+                    paddingHorizontal: 10,
+                    marginTop: '10%',
+                    marginBottom: '5%',
+                  }}>
+                  <Button
+                    onPress={() => 
+                      setEditModal(!editModal)}
+                    title={'Save'}
+                    backgroundColor={Theme.orange}
+                    borderColor={Theme.orange}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </ReactNativeModal>
+      </TouchableWithoutFeedback>
       <TouchableWithoutFeedback
         onPress={() => setPaypalModal(!paypalModal)}
         style={{flex: 1}}>

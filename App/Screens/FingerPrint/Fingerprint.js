@@ -45,12 +45,12 @@ const Fingerprint = () => {
         <Image source={Icons.scan} style={styles.image}></Image>
         <Text style={styles.fingerprint}>Use Fingerprint for Banking</Text>
         <Text style={styles.city}>Unlock City Bank</Text>
-        <View style={styles.line}></View>
-        <TouchableOpacity
+        <View style={styles.line}/>
+        {/* <TouchableOpacity
           activeOpacity="0.6"
           onPress={() => navigation.navigate('RecoveryPhase')}>
           <Text style={styles.Pin}>Use Pin</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </LinearGradient>
     </View>
   );

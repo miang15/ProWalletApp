@@ -27,9 +27,10 @@ const Register = () => {
   const [congrats, setCongrats] = useState(false);
 
   const _signUp = () => {
-    signUp('ds')
+    signUp()
       .then(({data}) => {
-        setCongrats(true);
+        console.log("DATA: ",data);
+        // setCongrats(true);
       })
       .catch(error => {
         console.log('ERROR', error);

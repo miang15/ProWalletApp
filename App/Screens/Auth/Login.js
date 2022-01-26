@@ -19,11 +19,11 @@ const Login = ({}) => {
   const [textEntry, setTextEntry] = useState(true);
   return (
     <View style={styles.container}>
-        <Text style={styles.appName}>{'Pepper' + '\n' + 'Pro'}</Text>
+      <Text style={styles.appName}>PEPPER PRO</Text>
+          <Text style={styles.text}>Welcome to Pepper Pro</Text>
       <ScrollView>
         <View style={{margin: '3%'}}>
-          <Text style={styles.text}>Welcome to Pepper Pro</Text>
-
+          <Text style={styles.text1}>Login</Text>
           <CustomInput placeholder="Username/Email" LeftIcons={Icons.Profile} />
 
           <CustomInput
@@ -78,22 +78,26 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.black,
   },
   appName: {
-    color:Theme.white,
-    alignSelf:"center",
-    marginTop:"15%",
-    backgroundColor:Theme.darkGreen,
-    paddingVertical:40,
-    paddingHorizontal:30,
-    borderRadius:70,
-    fontSize:20,
-    textAlign:'center',
-    fontWeight:"bold"
+    color: Theme.orange,
+    textAlign: 'center',
+    alignSelf: 'center',
+    marginHorizontal: '3%',
+    marginTop: '15%',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   text: {
     color: Theme.white,
     fontSize: Theme.title,
-    marginTop: '10%',
+    marginVertical: '3%',
     alignSelf: 'center',
+  },
+  text1: {
+    color: Theme.white,
+    fontSize: 18,
+    marginTop: '10%',
+    marginBottom:"3%",
+    alignSelf: 'flex-start',
   },
   imageContainer: {
     height: 105,

@@ -2,7 +2,9 @@ const API_URL = 'http://52.14.18.78/api';
 
 const Urls = {
   API_URL,
-  signUp: `${API_URL}/xanpool/signup`,
+  signUp: `${API_URL}/signup`,
+  login: `${API_URL}/login`,
+  forgotPassword: `${API_URL}/forgot/password`,
   request_phone_verification: `${API_URL}/xanpool/phone/verify`,
   complete_phone_verification: `${API_URL}/xanpool/phone/verify/complete`,
   charge_money: `${API_URL}/flutter/charge/mobile`,

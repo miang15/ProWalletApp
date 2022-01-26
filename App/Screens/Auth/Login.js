@@ -6,6 +6,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Platform,
+  Alert,
 } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import Icons from '../../constants/Icons';
@@ -13,26 +15,72 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
+import { login } from '../../Services/Apis';
 
 const Login = ({}) => {
   const navigation = useNavigation();
   const [textEntry, setTextEntry] = useState(true);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const [formData, setFormData] = useState({
+    Email: '',
+    password: '',
+    device: Platform.OS == 'android' ? 'android' : 'ios',
+  });
+
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  const handleLogin = () => {
+    setEmailError('');
+    setPasswordError('');
+
+    if(formData.Email == ''){
+      return setEmailError("Email is Required")
+    }
+    else if(!formData.Email.match(emailRegex)){
+      return setEmailError("Enter valid Email")
+    }
+    else if(formData.password == ''){
+      return setPasswordError("Password is Required")
+    } else {
+      login(formData).then((res) => {
+        console.log("RES: ",res);
+        Alert.alert("Login Success!")
+      }).catch((e) => {
+        console.log("ERROR: ",e);
+      })
+    }
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>PEPPER PRO</Text>
-          <Text style={styles.text}>Welcome to Pepper Pro</Text>
+      <Text style={styles.text}>Welcome to Pepper Pro</Text>
       <ScrollView>
         <View style={{margin: '3%'}}>
           <Text style={styles.text1}>Login</Text>
-          <CustomInput placeholder="Username/Email" LeftIcons={Icons.Profile} />
-
+          <CustomInput
+            placeholder="Username/Email"
+            LeftIcons={Icons.Profile}
+            value={formData.Email}
+            onChangeText={val => setFormData({...formData, Email: val})}
+          />
+          {emailError ? (
+            <Text style={styles.errorMsg}>{emailError}</Text>
+          ) : null}
           <CustomInput
             secureTextEntry={textEntry}
             placeholder="Password"
             LeftIcons={Icons.Lock}
             onRightIcon={() => setTextEntry(!textEntry)}
             RightIcons={textEntry ? Icons.Hide : Icons.eye}
+            value={formData.password}
+            onChangeText={val => setFormData({...formData, password: val})}
           />
+          {passwordError ? (
+            <Text style={styles.errorMsg}>{passwordError}</Text>
+          ) : null}
           <View style={styles.rowView}>
             {/* <TouchableOpacity
               style={{alignSelf: 'flex-end', paddingVertical: 5}}
@@ -50,7 +98,7 @@ const Login = ({}) => {
           <Button
             title="Login"
             top="15%"
-            onPress={() => navigation.navigate('BottomTab')}
+            onPress={handleLogin}
           />
           <TouchableOpacity
             style={{
@@ -96,7 +144,7 @@ const styles = StyleSheet.create({
     color: Theme.white,
     fontSize: 18,
     marginTop: '10%',
-    marginBottom:"3%",
+    marginBottom: '3%',
     alignSelf: 'flex-start',
   },
   imageContainer: {
@@ -108,7 +156,7 @@ const styles = StyleSheet.create({
   rowView: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   password: {
     fontSize: Theme.normal,
@@ -117,5 +165,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: Theme.small,
     color: Theme.text,
+  },
+  errorMsg: {
+    color: Theme.red,
+    fontSize: 13,
   },
 });

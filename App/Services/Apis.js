@@ -2,19 +2,54 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import Urls from './urls';
 
-export async function signUp() {
-  var data = new FormData();
-  let number = Math.floor(Math.random() * 100) + 1;
-  data.append('email', `pepperPro${number}@gmail.com`);
-  data.append('firstName', 'test');
-  data.append('lastName', 'test');
+export async function signUp(RegisterData) {
+  // var data = new FormData();
+  // data.append('email', RegisterData.Email);
+  // data.append('first_name', RegisterData.firstName);
+  // data.append('last_name', RegisterData.lastName);
+  // data.append('password', RegisterData.password);
+  // data.append('phone_number', RegisterData.phone);
+  // data.append('device', RegisterData.device);
 
-  console.log('BODY DATA', data);
+  // console.log('BODY DATA', data);
 
   const options = {
     method: 'POST',
-    data: data,
+    data: {
+      email : RegisterData.Email,
+      first_name : RegisterData.firstName,
+      last_name : RegisterData.lastName,
+      password : RegisterData.password,
+      phone_number : RegisterData.phone,
+      device : RegisterData.device
+    },
     url: Urls.signUp,
+    headers: {},
+  };
+  return await axios.request(options);
+}
+
+export async function login(loginData) {
+  const options = {
+    method: 'POST',
+    data: {
+      email : loginData.Email,
+      password : loginData.password,
+      device : loginData.device
+    },
+    url: Urls.login,
+    headers: {},
+  };
+  return await axios.request(options);
+}
+
+export async function forgotPassword(email) {
+  const options = {
+    method: 'POST',
+    data: {
+      email : email,
+    },
+    url: Urls.forgotPassword,
     headers: {},
   };
   return await axios.request(options);

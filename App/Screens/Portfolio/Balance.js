@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import {LineChart} from 'react-native-chart-kit';
+import { coinPrices } from '../../Services/Apis';
 
 const Data = [
   {
@@ -85,17 +86,28 @@ const Data = [
 ];
 
 const Balance = ({navigation}) => {
+  const [coinsData, setCoinsData] = useState(null);
+
+  useEffect(() => {
+    coinPrices().then(({data}) => {
+      console.log("COIN DATA: ",data.result);
+      setCoinsData(data.result)
+    }).catch((e) => {
+      console.log("Error: ",e);
+    })
+  },[])
+
   const renderItem = ({item, index}) => (
     <PortfolioComponent
       onPress={() => navigation.navigate('BuySell', {coinData: item})}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
-      icon={item.icon}
-      category={item.category}
-      cash={item.cash}
-      bchDigit={item.bchDigit}
+      icon={{uri: item.image}}
+      category={item.name}
+      cash={item.symbol}
+      bchDigit={item.current_price}
       // cashDigit={item.cashDigit}
-      bchPrice={item.bchPrice}
+      bchPrice={"$" + item.high_24h}
       // cashPrice={item.cashPrice}
     />
   );
@@ -242,7 +254,7 @@ const Balance = ({navigation}) => {
         </View>
       </View>
       <FlatList
-        data={Data}
+        data={coinsData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

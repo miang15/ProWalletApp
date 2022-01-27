@@ -3,25 +3,15 @@ import axios from 'axios';
 import Urls from './urls';
 
 export async function signUp(RegisterData) {
-  // var data = new FormData();
-  // data.append('email', RegisterData.Email);
-  // data.append('first_name', RegisterData.firstName);
-  // data.append('last_name', RegisterData.lastName);
-  // data.append('password', RegisterData.password);
-  // data.append('phone_number', RegisterData.phone);
-  // data.append('device', RegisterData.device);
-
-  // console.log('BODY DATA', data);
-
   const options = {
     method: 'POST',
     data: {
-      email : RegisterData.Email,
-      first_name : RegisterData.firstName,
-      last_name : RegisterData.lastName,
-      password : RegisterData.password,
-      phone_number : RegisterData.phone,
-      device : RegisterData.device
+      email: RegisterData.Email,
+      first_name: RegisterData.firstName,
+      last_name: RegisterData.lastName,
+      password: RegisterData.password,
+      phone_number: RegisterData.phone,
+      device: RegisterData.device,
     },
     url: Urls.signUp,
     headers: {},
@@ -33,9 +23,9 @@ export async function login(loginData) {
   const options = {
     method: 'POST',
     data: {
-      email : loginData.Email,
-      password : loginData.password,
-      device : loginData.device
+      email: loginData.Email,
+      password: loginData.password,
+      device: loginData.device,
     },
     url: Urls.login,
     headers: {},
@@ -47,7 +37,7 @@ export async function forgotPassword(email) {
   const options = {
     method: 'POST',
     data: {
-      email : email,
+      email: email,
     },
     url: Urls.forgotPassword,
     headers: {},
@@ -84,114 +74,229 @@ export async function completePhoneVerification(signUp) {
   return await axios.request(options);
 }
 export async function chargeMoney() {
-  var data = new FormData();
-  data.append('currency', `XAF`);
-  data.append('network', 'mobile_money_uganda');
-  data.append('amount', '100');
-  data.append('email', 'test@gmail.com');
-  data.append('phone_number', '123123123');
-  data.append('fullname', 'test test');
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
 
-  console.log('BODY DATA', data);
+  console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: data,
+    data: {
+      currency: `XAF`,
+      network: 'mobile_money_uganda',
+      amount: '500',
+      email: 'abcd@gmail.com',
+      phone_number: '123456789',
+      fullname: 'mian nouman',
+    },
     url: Urls.charge_money,
+    headers: {
+      Authorization: token,
+    },
   };
   return await axios.request(options);
 }
 
 export async function chargeBank() {
-  var data = new FormData();
-  data.append('currency', `NGN`);
-  data.append('network', 'bank');
-  data.append('account_bank', '044');
-  data.append('amount', '100');
-  data.append('email', 'test@gmail.com');
-  data.append('phone_number', '123123123');
-  data.append('fullname', 'test test');
-  data.append('type', 'debit_ng_account');
-  data.append('account_number', '0690000037');
-
-  console.log('BODY DATA', data);
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+  console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: data,
+    data: {
+      currency: `NGN`,
+      network: 'bank',
+      account_bank: '044',
+      amount: '200',
+      email: 'xyz@gmail.com',
+      phone_number: '123321123',
+      fullname: 'mian nouman',
+      type: 'debit_ng_account',
+      account_number: '0690000037',
+    },
     url: Urls.charge_bank,
+    headers: {
+      Authorization: token,
+    },
   };
   return await axios.request(options);
 }
 
 export async function payoutBank() {
-  var data = new FormData();
-  data.append('currency', `NGN`);
-  data.append('network', 'bank');
-  data.append('account_bank', '044');
-  data.append('amount', '100');
-  data.append('email', 'test@gmail.com');
-  data.append('phone_number', '123123123');
-  data.append('fullname', 'test test');
-  data.append('type', 'debit_ng_account');
-  data.append('account_number', '0690000037');
-
-  console.log('BODY DATA', data);
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+  console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: data,
+    data: {
+      currency: `NGN`,
+      account_bank: '044',
+      account_number: '0690000037',
+      amount: '200',
+      email: 'xyz@gmail.com',
+      phone_number: '123321123',
+      fullname: 'mian nouman',
+    },
     url: Urls.payout_bank,
+    headers: {
+      Authorization: token,
+    },
   };
   return await axios.request(options);
 }
 
 export async function moneyPayout() {
-  var data = new FormData();
-  data.append('currency', `NGN`);
-  data.append('amount', '100');
-  data.append('email', 'test@gmail.com');
-  data.append('phone_number', '123123123');
-  data.append('fullname', 'test test');
-
-  console.log('BODY DATA', data);
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+  console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: data,
+    data: {
+      currency: `NGN`,
+      amount: '200',
+      email: 'xyz@gmail.com',
+      phone_number: '123321123',
+      fullname: 'mian nouman',
+    },
     url: Urls.money_payout,
+    headers: {
+      Authorization: token,
+    },
   };
   return await axios.request(options);
 }
 
 export async function rate(from, to) {
-  var data = new FormData();
-  data.append('from', `XAF`);
-  data.append('to', 'USD');
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
 
-  console.log('BODY DATA', data);
+  console.log('BODY DATA', token);
 
   const options = {
     method: 'Get',
-    data: data,
+    // data: {
+    //   from: from,
+    //   to: to,
+    // },
     url: Urls.rate + `?from=${from}&to=${to}`,
+    headers: {
+      Authorization: token,
+    },
   };
   return await axios.request(options);
 }
 
 export async function payoutFee(amount, currency, type) {
-  var data = new FormData();
-  data.append('amount', `100`);
-  data.append('currency', 'NGN');
-  data.append('type', 'account');
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
 
-  console.log('BODY DATA', data);
+  console.log('BODY DATA', token);
 
   const options = {
     method: 'Get',
-    data: data,
+    // data: {
+    //   amount: amount,
+    //   currency: currency,
+    //   type: type
+    // },
     url:
       Urls.payout_fee + `?amount=${amount}&currency=${currency}&type=${type}`,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function coinPrices() {
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'Get',
+    url: Urls.coinPrices,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function coin(coinId) {
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'Get',
+    // data: {
+    //   amount: amount,
+    //   currency: currency,
+    //   type: type
+    // },
+    url: Urls.coin + `?coin_id=${coinId}`,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function coinChart(coinId, day) {
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'Get',
+    // data: {
+    //   amount: amount,
+    //   currency: currency,
+    //   type: type
+    // },
+    url: Urls.coinChart + `?coin_id=${coinId}&days=${day}`,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function coinCharge() {
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'POST',
+    data: {
+      currency: "BTC",
+    },
+    url: Urls.coinCharge,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function coinOrder() {
+
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'POST',
+    data: {
+      type: "market",
+      side: "sell",
+      pair: "BTC-USD",
+      amount: "1",
+      price: ""
+    },
+    url: Urls.coinOrder,
+    headers: {
+      Authorization: token,
+    },
   };
   return await axios.request(options);
 }

@@ -7,12 +7,19 @@ const Urls = {
   forgotPassword: `${API_URL}/forgot/password`,
   request_phone_verification: `${API_URL}/xanpool/phone/verify`,
   complete_phone_verification: `${API_URL}/xanpool/phone/verify/complete`,
-  charge_money: `${API_URL}/flutter/charge/mobile`,
-  charge_bank: `${API_URL}/flutter/charge/bank`,
-  payout_bank: `${API_URL}/flutter/payout/bank`,
-  money_payout: `${API_URL}/flutter/payout/mobile`,
-  rate: `${API_URL}/flutter/rate`,
-  payout_fee: `${API_URL}/flutter/payout/fee`,
+  charge_money: `${API_URL}/cash/charge/mobile`,
+  charge_bank: `${API_URL}/cash/charge/bank`,
+  payout_bank: `${API_URL}/cash/payout/bank`,
+  money_payout: `${API_URL}/cash/payout/mobile`,
+  rate: `${API_URL}/cash/rate`,
+  payout_fee: `${API_URL}/cash/payout/fee`,
+
+  coinPrices: `${API_URL}/coin/prices`,
+  coin: `${API_URL}/coin/coin`,
+  coinChart: `${API_URL}/coin/coin/chart`,
+  coinCharge: `${API_URL}/coin/charge`,
+  coinOrder: `${API_URL}/coinbase/order`,
+
 
 
 };

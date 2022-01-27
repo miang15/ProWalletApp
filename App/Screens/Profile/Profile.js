@@ -25,7 +25,16 @@ import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
 import Congratulations from '../../components/Congratulations';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
-import { chargeBank, chargeMoney, moneyPayout, payoutBank, payoutFee, rate, requestPhoneVerification } from '../../Services/Apis';
+import {
+  chargeBank,
+  chargeMoney,
+  coinOrder,
+  moneyPayout,
+  payoutBank,
+  payoutFee,
+  rate,
+  requestPhoneVerification,
+} from '../../Services/Apis';
 
 const DATA = [
   {
@@ -107,9 +116,9 @@ const Profile = ({navigation}) => {
   const [paypalModal, setPaypalModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  const [name, setName] = useState("Tamanna Hegel")
-  const [email, setEmail] = useState("tuhafasa@gmail.com")
-  const [phone, setPhone] = useState("+99 123 294 294")
+  const [name, setName] = useState('Tamanna Hegel');
+  const [email, setEmail] = useState('tuhafasa@gmail.com');
+  const [phone, setPhone] = useState('+99 123 294 294');
   const [invitationCode, setInvitationCode] = useState('526116597...');
   const [copiedText, setCopiedText] = useState('');
 
@@ -130,57 +139,85 @@ const Profile = ({navigation}) => {
 
   const handleOnClick = val => {
     if (val === 'KYC Verification') {
-      payoutFee().then(() => {
-        Alert.alert("API RUN");
-      }).catch((e) => {
-        Alert.alert("API ERROR")
-      })
-      // navigation.navigate('Welcome');
+      navigation.navigate('Welcome');
     } else if (val === 'Bank Deposit') {
-      chargeBank().then(() => {
-        Alert.alert("API RUN");
-      }).catch((e) => {
-        Alert.alert("API ERROR")
-      })
+      chargeBank()
+        .then(({data}) => {
+          console.log('RES: ', data);
+          Alert.alert('CHARGE BANK API RUN');
+        })
+        .catch(e => {
+          Alert.alert('Charge Bank API ERROR');
+        });
       // navigation.navigate('Balance');
     } else if (val === 'Mobile Money Deposit') {
-      chargeMoney().then(() => {
-        Alert.alert("API RUN");
-      }).catch((e) => {
-        Alert.alert("API ERROR")
-      })
+      chargeMoney()
+        .then(({data}) => {
+          console.log('RES: ', data);
+          Alert.alert('Charge Money API RUN');
+        })
+        .catch(e => {
+          console.log('ERROR: ', e);
+          Alert.alert('Charge Money API ERROR');
+        });
       // navigation.navigate('DepositScreen');
     } else if (val === 'Deposit crypto') {
-      payoutBank().then(() => {
-        Alert.alert("API RUN");
-      }).catch((e) => {
-        Alert.alert("API ERROR")
-      })
+      payoutBank()
+        .then(({data}) => {
+          console.log('RES: ', data);
+          Alert.alert('Payout Bank API RUN');
+        })
+        .catch(e => {
+          Alert.alert('Payout Bank API ERROR');
+        });
       // navigation.navigate('CoinsDeposit');
     } else if (val === 'Bank withdraw') {
-      moneyPayout().then(() => {
-        Alert.alert("API RUN");
-      }).catch((e) => {
-        Alert.alert("API ERROR")
-      })
+      moneyPayout()
+        .then(({data}) => {
+          console.log('RES: ', data);
+          Alert.alert('Money Payout API RUN');
+        })
+        .catch(e => {
+          Alert.alert('Money Payout API ERROR');
+        });
       // navigation.navigate('BankWithdraw');
     } else if (val === 'Mobile money withdraw') {
-      rate().then(() => {
-        Alert.alert("API RUN");
-      }).catch((e) => {
-        Alert.alert("API ERROR")
-      })
+      rate('XAF', 'USD')
+        .then(({data}) => {
+          console.log('RES: ', data);
+          Alert.alert('Rate API RUN');
+        })
+        .catch(e => {
+          console.log('ERROR: ', e);
+          Alert.alert('Rate API ERROR');
+        });
       // navigation.navigate('MobileMoneyWithdraw');
     } else if (val === 'Paypal withdraw') {
-      setPaypalModal(true);
+      payoutFee('200', 'NGN', 'account')
+        .then(({data}) => {
+          console.log('RES: ', data);
+          Alert.alert('Payout Fee API RUN');
+        })
+        .catch(e => {
+          console.log('Error: ', e);
+          Alert.alert('Payout Fee API Error');
+        });
+
+      // setPaypalModal(true);
     } else if (val === 'USDC withdraw') {
-      setUsdcModal(true);
+        coinOrder().then(({data}) => {
+          console.log("RES: ",data);
+          Alert.alert("Coin Order Api Run")
+        }).catch((e) => {
+          console.log("Error: ",e);
+          Alert.alert("Coin Order Api Error")
+        })
+      // setUsdcModal(true);
     } else if (val === 'Logout') {
       setLogoutConfirm(true);
-    } else if(val === "Security") {
+    } else if (val === 'Security') {
       navigation.navigate('Fingerprint');
-    }
-     else {
+    } else {
       Alert.alert('Screen Not Available');
     }
   };
@@ -218,12 +255,18 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
             <View style={styles.innerView}>
               <View style={styles.editRow}>
-              <Text style={styles.userName} numberOfLines={1}>
-                {name}
-              </Text>
-              <TouchableOpacity onPress={() => setEditModal(true)} style={styles.editView}>
-                <Image style={styles.edit} resizeMode='contain' source={Images.Edit} />
-              </TouchableOpacity>
+                <Text style={styles.userName} numberOfLines={1}>
+                  {name}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setEditModal(true)}
+                  style={styles.editView}>
+                  <Image
+                    style={styles.edit}
+                    resizeMode="contain"
+                    source={Images.Edit}
+                  />
+                </TouchableOpacity>
               </View>
               <Text style={styles.gmailText} numberOfLines={1}>
                 {email}
@@ -360,8 +403,7 @@ const Profile = ({navigation}) => {
                     marginBottom: '5%',
                   }}>
                   <Button
-                    onPress={() => 
-                      setEditModal(!editModal)}
+                    onPress={() => setEditModal(!editModal)}
                     title={'Save'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -562,7 +604,9 @@ const Profile = ({navigation}) => {
       <ConfirmTradeModal
         show={logoutConfirm}
         setShow={() => setLogoutConfirm(!logoutConfirm)}
-        onPress={() => {setLogoutConfirm(!logoutConfirm), navigation.navigate("Login")}}
+        onPress={() => {
+          setLogoutConfirm(!logoutConfirm), navigation.navigate('Login');
+        }}
         heading={'Confirm Logout'}
         btnText={'Confirm'}
         btnBackground={Theme.orange}
@@ -634,7 +678,7 @@ const styles = StyleSheet.create({
   },
   innerView: {
     marginLeft: '5%',
-    width:"70%",
+    width: '70%',
   },
   gmailText: {
     color: Theme.white,
@@ -824,24 +868,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   editRow: {
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   editView: {
     width: 15,
-    height:15,
-    overflow:'hidden',
-    alignItems:'center'
+    height: 15,
+    overflow: 'hidden',
+    alignItems: 'center',
   },
   edit: {
-    width:'100%',
-    height:'100%',
-    alignSelf:'center'
+    width: '100%',
+    height: '100%',
+    alignSelf: 'center',
   },
   userName: {
-    color:Theme.white,
-    fontSize:16,
-    fontWeight:"bold"
-  }
+    color: Theme.white,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

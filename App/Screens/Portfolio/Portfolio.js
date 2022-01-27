@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,12 +6,14 @@ import {
   View,
   Image,
   FlatList,
+  Alert,
 } from 'react-native';
 import BalanceComponent from '../../components/BalanceComponent';
 import PayButton from '../../components/PayButton';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
+import { coin, coinPrices } from '../../Services/Apis';
 import Theme from '../../utils/Theme';
 const Data = [
   {
@@ -86,18 +88,40 @@ const Data = [
 
 ];
 const Portfolio = ({navigation}) => {
+  const [coinsData, setCoinsData] = useState(null);
+
+  useEffect(() => {
+    coinPrices().then(({data}) => {
+      console.log("COIN DATA: ",data.result);
+      setCoinsData(data.result)
+    }).catch((e) => {
+      console.log("Error: ",e);
+    })
+  },[])
+
+  const handleCoins = (val) => {
+    coin(val).then(({data}) => {
+      console.log("RES: ",data);
+      Alert.alert("Coin API Run")
+    }).catch((e) => {
+      console.log("Error: ",e);
+      Alert.alert("Coin Api Error")
+    })
+  }
+
   const renderItem = ({item, index}) => (
 
     <PortfolioComponent
-      onPress={() => navigation.navigate('BuySell', {coinData: item})}
+      onPress={() => handleCoins(item.id)}
+      // onPress={() => navigation.navigate('BuySell', {coinData: item})}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
-      icon={item.icon}
-      category={item.category}
-      cash={item.cash}
-      bchDigit={item.bchDigit}
-      bchPrice={item.bchPrice}
-      cashPrice={item.cashPrice}
+      icon={{uri: item.image}}
+      category={item.name}
+      cash={item.symbol}
+      bchDigit={item.current_price}
+      bchPrice={item.high_24h}
+      cashPrice={item.low_24h}
       priceColor={Theme.green}
       underLine={true}
     />
@@ -122,7 +146,7 @@ const Portfolio = ({navigation}) => {
       </View>
       <Text style={styles.crypto}>Crypto Balances</Text>
       <FlatList
-        data={Data}
+        data={coinsData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

@@ -15,7 +15,8 @@ import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
-import { login } from '../../Services/Apis';
+import {login} from '../../Services/Apis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({}) => {
   const navigation = useNavigation();
@@ -24,8 +25,8 @@ const Login = ({}) => {
   const [passwordError, setPasswordError] = useState('');
 
   const [formData, setFormData] = useState({
-    Email: '',
-    password: '',
+    Email: 'xyz@gmail.com',
+    password: '123456',
     device: Platform.OS == 'android' ? 'android' : 'ios',
   });
 
@@ -36,23 +37,25 @@ const Login = ({}) => {
     setEmailError('');
     setPasswordError('');
 
-    if(formData.Email == ''){
-      return setEmailError("Email is Required")
-    }
-    else if(!formData.Email.match(emailRegex)){
-      return setEmailError("Enter valid Email")
-    }
-    else if(formData.password == ''){
-      return setPasswordError("Password is Required")
+    if (formData.Email == '') {
+      return setEmailError('Email is Required');
+    } else if (!formData.Email.match(emailRegex)) {
+      return setEmailError('Enter valid Email');
+    } else if (formData.password == '') {
+      return setPasswordError('Password is Required');
     } else {
-      login(formData).then((res) => {
-        console.log("RES: ",res);
-        Alert.alert("Login Success!")
-      }).catch((e) => {
-        console.log("ERROR: ",e);
-      })
+      login(formData)
+        .then(async ({data}) => {
+          console.log('RES: ', data);
+
+          await AsyncStorage.setItem('LOGINTOKEN', data?.user?.token);
+          navigation.navigate('BottomTab');
+        })
+        .catch(e => {
+          console.log('ERROR: ', e);
+        });
     }
-  }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.appName}>PEPPER PRO</Text>
@@ -95,11 +98,7 @@ const Login = ({}) => {
               <Text style={styles.password}>Forgot password?</Text>
             </TouchableOpacity>
           </View>
-          <Button
-            title="Login"
-            top="15%"
-            onPress={handleLogin}
-          />
+          <Button title="Login" top="15%" onPress={handleLogin} />
           <TouchableOpacity
             style={{
               flexDirection: 'row',

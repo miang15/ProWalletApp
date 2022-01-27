@@ -24,7 +24,7 @@ const ForgotPassword = ({navigation}) => {
       return setEmailError("Enter valid Email")
     } else {
       forgotPassword(email).then((res) => {
-        console.log("RES: ",res)
+        console.log("RES: ",res?.data)
         navigation.navigate("ForgotPin")
       }).catch((e) => {
         console.log("ERROR: ",e);

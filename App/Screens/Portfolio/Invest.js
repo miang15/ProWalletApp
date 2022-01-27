@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Feather from 'react-native-vector-icons/Feather';
 import PayButton from '../../components/PayButton';
+import { coinCharge, coinPrices } from '../../Services/Apis';
 const Data = [
   {
     id: '1',
@@ -138,21 +139,43 @@ const Data = [
 
 const Invest = ({navigation}) => {
   const [searchedItem, setSearchedItem] = useState('');
+  const [coinsData, setCoinsData] = useState(null);
+
+  useEffect(() => {
+    coinPrices().then(({data}) => {
+      console.log("COIN DATA: ",data.result);
+      setCoinsData(data.result)
+    }).catch((e) => {
+      console.log("Error: ",e);
+    })
+  },[])
+
+  const handleCoinPress = () => {
+    coinCharge().then(({data}) => {
+      console.log("RES: ",data);
+      Alert.alert("Charge Api Run");
+    }).catch((e) => {
+      console.log("Error: ",e);
+      Alert.alert("Charge Api Error")
+    })
+  }
+
   const renderItem = ({item, index}) => {
     if (searchedItem) {
       if (item.category.toLocaleLowerCase().includes(searchedItem.toLocaleLowerCase()) ) {
         return (
           <PortfolioComponent
             indexNum={index + 1}
-            onPress={() => navigation.navigate('BuySell', {coinData: item})}
+            onPress={handleCoinPress}
+            // onPress={() => navigation.navigate('BuySell', {coinData: item})}
             backgroundColor={item.backgroundColor}
             tintColor={item?.tintColor}
-            icon={item.icon}
-            category={item.category}
-            cash={item.cash}
+            icon={{uri: item.image}}
+            category={item.name}
+            cash={item.symbol}
             bchDigit={item.bchDigit}
-            bchPrice={item.bchPrice}
-            cashPrice={item.cashPrice}
+            bchPrice={"$" + item.high_24h}
+            cashPrice={item.low_24h}
             priceColor={Theme.green}
             underLine={true}
             chart={true}
@@ -163,15 +186,16 @@ const Invest = ({navigation}) => {
       return (
         <PortfolioComponent
           indexNum={index + 1}
-          onPress={() => navigation.navigate('BuySell', {coinData: item})}
+          onPress={handleCoinPress}
+          // onPress={() => navigation.navigate('BuySell', {coinData: item})}
           backgroundColor={item.backgroundColor}
           tintColor={item?.tintColor}
-          icon={item.icon}
-          category={item.category}
-          cash={item.cash}
+          icon={{uri: item.image}}
+          category={item.name}
+          cash={item.symbol}
           bchDigit={item.bchDigit}
-          bchPrice={item.bchPrice}
-          cashPrice={item.cashPrice}
+          bchPrice={"$" + item.high_24h}
+          cashPrice={item.low_24h}
           priceColor={Theme.green}
           underLine={true}
           chart={true}
@@ -199,7 +223,7 @@ const Invest = ({navigation}) => {
       </View>
       <Text style={styles.subHeading}>Invest</Text>
       <FlatList
-        data={Data}
+        data={coinsData}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

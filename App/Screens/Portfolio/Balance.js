@@ -6,13 +6,14 @@ import {
   View,
   Image,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import {LineChart} from 'react-native-chart-kit';
-import { coinPrices } from '../../Services/Apis';
+import {coinPrices} from '../../Services/Apis';
 
 const Data = [
   {
@@ -87,15 +88,20 @@ const Data = [
 
 const Balance = ({navigation}) => {
   const [coinsData, setCoinsData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    coinPrices().then(({data}) => {
-      console.log("COIN DATA: ",data.result);
-      setCoinsData(data.result)
-    }).catch((e) => {
-      console.log("Error: ",e);
-    })
-  },[])
+    coinPrices()
+      .then(({data}) => {
+        console.log('COIN DATA: ', data?.result);
+        setCoinsData(data?.result);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+        setLoading(false);
+      });
+  }, []);
 
   const renderItem = ({item, index}) => (
     <PortfolioComponent
@@ -107,7 +113,7 @@ const Balance = ({navigation}) => {
       cash={item.symbol}
       bchDigit={item.current_price}
       // cashDigit={item.cashDigit}
-      bchPrice={"$" + item.high_24h}
+      bchPrice={'$' + item.high_24h}
       // cashPrice={item.cashPrice}
     />
   );
@@ -253,11 +259,17 @@ const Balance = ({navigation}) => {
           </View> */}
         </View>
       </View>
-      <FlatList
-        data={coinsData}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
+      {loading ? (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size={'small'} color={Theme.orange} />
+        </View>
+      ) : (
+        <FlatList
+          data={coinsData}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
+      )}
     </View>
   );
 };

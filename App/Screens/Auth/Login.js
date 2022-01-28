@@ -25,8 +25,8 @@ const Login = ({}) => {
   const [passwordError, setPasswordError] = useState('');
 
   const [formData, setFormData] = useState({
-    Email: 'xyz@gmail.com',
-    password: '123456',
+    Email: '',
+    password: '',
     device: Platform.OS == 'android' ? 'android' : 'ios',
   });
 

@@ -41,14 +41,13 @@ const Register = () => {
     phone: '',
     password: '',
     confirmPassword: '',
-    device: Platform.OS == "android" ? "android" : "ios",
+    device: Platform.OS == 'android' ? 'android' : 'ios',
   });
 
   const emailRegex =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const _signUp = () => {
-    
     setFirstNameError('');
     setLastNameError('');
     setEmailError('');
@@ -56,43 +55,40 @@ const Register = () => {
     setPasswordError('');
     setConfirmPasswordError('');
 
-    if(formData.firstName == ''){
-      return setFirstNameError("First Name is Required");
-    }
-   else if(formData.lastName == ''){
-      return setLastNameError("Last Name is Required");
-    }
-    else if(formData.Email == ''){
-      return setEmailError("Email is Required")
-    }
-    else if(!formData.Email.match(emailRegex)){
-      return setEmailError("Enter valid Email")
-    }
-    else if(formData.phone == ''){
-      return setPhoneError("Phone Number is Required")
-    }
-    else if(formData.password == ''){
-      return setPasswordError("Password is Required")
-    }
-    else if(formData.confirmPassword == ''){
-      return setConfirmPasswordError("Confirm Password is Required")
-    }
-    else if(formData.confirmPassword !== formData.password){
-      return setConfirmPasswordError("Confirm Password Not Matched")
-    }
-     else {
-
+    if (formData.firstName == '') {
+      return setFirstNameError('First Name is Required');
+    } else if (formData.lastName == '') {
+      return setLastNameError('Last Name is Required');
+    } else if (formData.Email == '') {
+      return setEmailError('Email is Required');
+    } else if (!formData.Email.match(emailRegex)) {
+      return setEmailError('Enter valid Email');
+    } else if (formData.phone == '') {
+      return setPhoneError('Phone Number is Required');
+    } else if (formData.password == '') {
+      return setPasswordError('Password is Required');
+    } else if (formData.confirmPassword == '') {
+      return setConfirmPasswordError('Confirm Password is Required');
+    } else if (formData.confirmPassword !== formData.password) {
+      return setConfirmPasswordError('Confirm Password Not Matched');
+    } else {
       const data = {
         ...formData,
-        phone: "+" + selectedCallingCode.toString().concat(formData.phone.toString())
-      }
-      signUp(data).then((res) => {
-        console.log("RES: ",res);
-        Alert.alert("Account Created Successfully")
-      }).catch((e) => {
-        console.log("Error: ",e?.response?.data);
-        Alert.alert("Something went wrong")
-      })
+        phone:
+          '+' +
+          selectedCallingCode.toString().concat(formData.phone.toString()),
+      };
+      signUp(data)
+        .then(res => {
+          console.log('RES: ', res);
+          Alert.alert('Success!', 'Account Created Successfully', [
+            {text: 'Ok', onPress: () => navigation.navigate('Login')},
+          ]);
+        })
+        .catch(e => {
+          console.log('Error: ', e?.response?.data);
+          Alert.alert('Something went wrong');
+        });
     }
 
     // signUp()

@@ -66,7 +66,7 @@ const Congratulations = ({visible, setVisible, description, margin}) => {
     }
   });
   return (
-    <TouchableWithoutFeedback >
+    <TouchableWithoutFeedback onPress={setVisible} >
       <ReactNativeModal
         animationOut={'bounceOut'}
         animationIn={'bounceIn'}

@@ -52,7 +52,9 @@ const Login = ({}) => {
           navigation.navigate('BottomTab');
         })
         .catch(e => {
-          console.log('ERROR: ', e);
+          if(e?.response?.data){
+            setPasswordError("Email and Password are not matched")
+          }
         });
     }
   };

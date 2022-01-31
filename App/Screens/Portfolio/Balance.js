@@ -7,13 +7,14 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import {LineChart} from 'react-native-chart-kit';
-import {coinPrices} from '../../Services/Apis';
+import {chargeBank, coinPrices} from '../../Services/Apis';
 
 const Data = [
   {
@@ -103,9 +104,41 @@ const Balance = ({navigation}) => {
       });
   }, []);
 
+  const handleBankDeposit = () => {
+    const data = {
+      currency: `NGN`,
+      network: 'bank',
+      account_bank: '044',
+      amount: '200',
+      email: 'xyz@gmail.com',
+      phone_number: '123321123',
+      fullname: 'mian nouman',
+      type: 'debit_ng_account',
+      account_number: '0690000037',
+    }
+
+    chargeBank(data).then(({data}) => {
+      if(data?.result?.status == "success"){
+        Alert.alert(
+          "Success!",
+          "Bank Charged Successfully",
+          [
+            {text: "Ok", onPress: () => navigation.goBack()}
+          ]
+          )
+      } else {
+        Alert.alert("Something went wrong")
+      }
+      console.log("RES: ",data?.result);
+    }).catch((e) => {
+      console.log("Error ",e);
+    })
+  }
+
   const renderItem = ({item, index}) => (
     <PortfolioComponent
-      onPress={() => navigation.navigate('BuySell', {coinData: item})}
+      onPress={handleBankDeposit}
+      // onPress={() => navigation.navigate('BuySell', {coinData: item})}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
       icon={{uri: item.image}}

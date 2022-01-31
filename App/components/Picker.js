@@ -11,6 +11,7 @@ const Picker = ({
   onRightPress,
   label,
   valueText,
+  onChangeText,
   placeholder
 }) => {
   const styles = StyleSheet.create({
@@ -76,6 +77,7 @@ const Picker = ({
       placeholder={placeholder}
       value={valueText}
       placeholderTextColor={Theme.white}
+      onChangeText={onChangeText}
       />
       {/* <TouchableOpacity onPress={onRightPress} style={styles.secondRow}>
         <Text style={styles.label}>{valueText}</Text>

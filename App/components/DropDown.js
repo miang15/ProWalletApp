@@ -1,27 +1,35 @@
 import React from 'react';
 import Theme from '../utils/Theme';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 export default function DropDown({selectedItem, list}) {
   const handleSelected = val => {
     selectedItem(val);
-  }
+  };
   return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-        }}>
-        {list.map(item => {
-          return (
-            <TouchableOpacity onPress={() => handleSelected(item)} style={styles.itemBtn}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      }}>
+      {list.map(item => {
+        return (
+            <TouchableOpacity
+              onPress={() => handleSelected(item)}
+              style={styles.itemBtn}>
               <Text style={styles.itemText}>{item}</Text>
             </TouchableOpacity>
-          );
-        })}
-      </View>
+        );
+      })}
+    </View>
   );
 }
 

@@ -141,26 +141,9 @@ const Profile = ({navigation}) => {
     if (val === 'KYC Verification') {
       navigation.navigate('Welcome');
     } else if (val === 'Bank Deposit') {
-      chargeBank()
-        .then(({data}) => {
-          console.log('RES: ', data);
-          Alert.alert('CHARGE BANK API RUN');
-        })
-        .catch(e => {
-          Alert.alert('Charge Bank API ERROR');
-        });
-      // navigation.navigate('Balance');
+      navigation.navigate('Balance');
     } else if (val === 'Mobile Money Deposit') {
-      chargeMoney()
-        .then(({data}) => {
-          console.log('RES: ', data);
-          Alert.alert('Charge Money API RUN');
-        })
-        .catch(e => {
-          console.log('ERROR: ', e);
-          Alert.alert('Charge Money API ERROR');
-        });
-      // navigation.navigate('DepositScreen');
+      navigation.navigate('DepositScreen');
     } else if (val === 'Deposit crypto') {
       payoutBank()
         .then(({data}) => {
@@ -172,26 +155,9 @@ const Profile = ({navigation}) => {
         });
       // navigation.navigate('CoinsDeposit');
     } else if (val === 'Bank withdraw') {
-      moneyPayout()
-        .then(({data}) => {
-          console.log('RES: ', data);
-          Alert.alert('Money Payout API RUN');
-        })
-        .catch(e => {
-          Alert.alert('Money Payout API ERROR');
-        });
-      // navigation.navigate('BankWithdraw');
+      navigation.navigate('BankWithdraw');
     } else if (val === 'Mobile money withdraw') {
-      rate('XAF', 'USD')
-        .then(({data}) => {
-          console.log('RES: ', data);
-          Alert.alert('Rate API RUN');
-        })
-        .catch(e => {
-          console.log('ERROR: ', e);
-          Alert.alert('Rate API ERROR');
-        });
-      // navigation.navigate('MobileMoneyWithdraw');
+      navigation.navigate('MobileMoneyWithdraw');
     } else if (val === 'Paypal withdraw') {
       payoutFee('200', 'NGN', 'account')
         .then(({data}) => {

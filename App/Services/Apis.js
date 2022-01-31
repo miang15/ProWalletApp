@@ -73,21 +73,12 @@ export async function completePhoneVerification(signUp) {
   };
   return await axios.request(options);
 }
-export async function chargeMoney() {
+export async function chargeMoney(mydata) {
   let token = await AsyncStorage.getItem('LOGINTOKEN');
-
-  console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: {
-      currency: `XAF`,
-      network: 'mobile_money_uganda',
-      amount: '500',
-      email: 'abcd@gmail.com',
-      phone_number: '123456789',
-      fullname: 'mian nouman',
-    },
+    data: mydata,
     url: Urls.charge_money,
     headers: {
       Authorization: token,
@@ -96,23 +87,13 @@ export async function chargeMoney() {
   return await axios.request(options);
 }
 
-export async function chargeBank() {
+export async function chargeBank(mydata) {
   let token = await AsyncStorage.getItem('LOGINTOKEN');
   console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: {
-      currency: `NGN`,
-      network: 'bank',
-      account_bank: '044',
-      amount: '200',
-      email: 'xyz@gmail.com',
-      phone_number: '123321123',
-      fullname: 'mian nouman',
-      type: 'debit_ng_account',
-      account_number: '0690000037',
-    },
+    data: mydata,
     url: Urls.charge_bank,
     headers: {
       Authorization: token,
@@ -121,21 +102,13 @@ export async function chargeBank() {
   return await axios.request(options);
 }
 
-export async function payoutBank() {
+export async function payoutBank(mydata) {
   let token = await AsyncStorage.getItem('LOGINTOKEN');
-  console.log('BODY DATA', token);
+  console.log('BODY DATA', mydata);
 
   const options = {
     method: 'POST',
-    data: {
-      currency: `NGN`,
-      account_bank: '044',
-      account_number: '0690000037',
-      amount: '200',
-      email: 'xyz@gmail.com',
-      phone_number: '123321123',
-      fullname: 'mian nouman',
-    },
+    data: mydata,
     url: Urls.payout_bank,
     headers: {
       Authorization: token,
@@ -144,19 +117,13 @@ export async function payoutBank() {
   return await axios.request(options);
 }
 
-export async function moneyPayout() {
+export async function moneyPayout(mydata) {
   let token = await AsyncStorage.getItem('LOGINTOKEN');
   console.log('BODY DATA', token);
 
   const options = {
     method: 'POST',
-    data: {
-      currency: `NGN`,
-      amount: '200',
-      email: 'xyz@gmail.com',
-      phone_number: '123321123',
-      fullname: 'mian nouman',
-    },
+    data: mydata,
     url: Urls.money_payout,
     headers: {
       Authorization: token,

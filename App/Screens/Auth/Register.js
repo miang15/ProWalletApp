@@ -86,8 +86,9 @@ const Register = () => {
           ]);
         })
         .catch(e => {
-          console.log('Error: ', e?.response?.data);
-          Alert.alert('Something went wrong');
+          if(e?.response?.data){
+            setEmailError("Email Already Exists")
+          }
         });
     }
 

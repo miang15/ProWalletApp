@@ -105,22 +105,10 @@ const Portfolio = ({navigation}) => {
       });
   }, []);
 
-  const handleCoins = val => {
-    coin(val)
-      .then(({data}) => {
-        console.log('RES: ', data);
-        Alert.alert('Coin API Run');
-      })
-      .catch(e => {
-        console.log('Error: ', e);
-        Alert.alert('Coin Api Error');
-      });
-  };
 
   const renderItem = ({item, index}) => (
     <PortfolioComponent
-      onPress={() => handleCoins(item.id)}
-      // onPress={() => navigation.navigate('BuySell', {coinData: item})}
+      onPress={() => navigation.navigate('BuySell', {coinData: item.id})}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
       icon={{uri: item.image}}

@@ -26,9 +26,11 @@ import Button from '../../components/Button';
 import Congratulations from '../../components/Congratulations';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import {
+  cashWithdraw,
   chargeBank,
   chargeMoney,
   coinOrder,
+  coinWithdraw,
   moneyPayout,
   payoutBank,
   payoutFee,
@@ -90,19 +92,6 @@ const DATA = [
   },
 ];
 
-const RECIPIENTDATA = [
-  {
-    id: 1,
-    label: 'Recipient address :',
-    value: '1B4evPk29C29alkjfkasdf9Fkjkjf9FkK',
-    color: Theme.orange,
-  },
-  {
-    id: 2,
-    label: 'Amount sent :',
-    value: '970 USDC',
-  },
-];
 
 const Profile = ({navigation}) => {
   const [hide, setHide] = useState(false);
@@ -119,8 +108,36 @@ const Profile = ({navigation}) => {
   const [name, setName] = useState('Tamanna Hegel');
   const [email, setEmail] = useState('tuhafasa@gmail.com');
   const [phone, setPhone] = useState('+99 123 294 294');
+  const [paypalId, setPaypalId] = useState('');
+  const [paypalIdError, setPaypalIdError] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [withdrawAmountError, setWithdrawAmountError] = useState('');
+  const [processingFees, setProcessingFees] = useState('');
+  const [processingFeesError, setProcessingFeesError] = useState('');
+  const [payOutAmount, setPayOutAmount] = useState('');
   const [invitationCode, setInvitationCode] = useState('526116597...');
   const [copiedText, setCopiedText] = useState('');
+  const [receipientAddress, setReceipientAddress] = useState('');
+  const [receipientAddressError, setReceipientAddressError] = useState('');
+  const [usdcAmount, setUsdcAmount] = useState('');
+  const [usdcAmountError, setUsdcAmountError] = useState('');
+
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    const [RECIPIENTDATA, setRECIPIENTDATA] = useState([
+      {
+        id: 1,
+        label: 'Recipient address :',
+        value: receipientAddress,
+        color: Theme.orange,
+      },
+      {
+        id: 2,
+        label: 'Amount sent :',
+        value: usdcAmount + " USDC",
+      },
+    ])
 
   const pickImage = async () => {
     ImagePicker.openPicker({
@@ -145,40 +162,15 @@ const Profile = ({navigation}) => {
     } else if (val === 'Mobile Money Deposit') {
       navigation.navigate('DepositScreen');
     } else if (val === 'Deposit crypto') {
-      payoutBank()
-        .then(({data}) => {
-          console.log('RES: ', data);
-          Alert.alert('Payout Bank API RUN');
-        })
-        .catch(e => {
-          Alert.alert('Payout Bank API ERROR');
-        });
-      // navigation.navigate('CoinsDeposit');
+      navigation.navigate('CoinsDeposit');
     } else if (val === 'Bank withdraw') {
       navigation.navigate('BankWithdraw');
     } else if (val === 'Mobile money withdraw') {
       navigation.navigate('MobileMoneyWithdraw');
     } else if (val === 'Paypal withdraw') {
-      payoutFee('200', 'NGN', 'account')
-        .then(({data}) => {
-          console.log('RES: ', data);
-          Alert.alert('Payout Fee API RUN');
-        })
-        .catch(e => {
-          console.log('Error: ', e);
-          Alert.alert('Payout Fee API Error');
-        });
-
-      // setPaypalModal(true);
+      setPaypalModal(true);
     } else if (val === 'USDC withdraw') {
-        coinOrder().then(({data}) => {
-          console.log("RES: ",data);
-          Alert.alert("Coin Order Api Run")
-        }).catch((e) => {
-          console.log("Error: ",e);
-          Alert.alert("Coin Order Api Error")
-        })
-      // setUsdcModal(true);
+      setUsdcModal(true);
     } else if (val === 'Logout') {
       setLogoutConfirm(true);
     } else if (val === 'Security') {
@@ -201,6 +193,91 @@ const Profile = ({navigation}) => {
     setModalVisible(!modalVisible);
     Clipboard.setString(invitationCode);
   };
+
+  const handleWithdrawAmount = val => {
+    setWithdrawAmount(val);
+    if (processingFees) {
+      let a = Number(processingFees) + Number(val);
+      setPayOutAmount(a);
+    }
+  };
+
+  const handleProcessingFees = val => {
+    setProcessingFees(val);
+    if (withdrawAmount) {
+      let a = Number(withdrawAmount) + Number(val);
+      setPayOutAmount(a);
+    }
+  };
+
+  const handleConfirmPaypal = () => {
+    setPaypalIdError('');
+    setWithdrawAmountError('');
+    setProcessingFeesError('');
+
+    if (paypalId === '') {
+      setPaypalIdError('Enter Paypal ID');
+    } else if (!paypalId.match(emailRegex)) {
+      setPaypalIdError('Paypal ID is Invalid');
+    } else if (withdrawAmount === '') {
+      setWithdrawAmountError('Enter Withdraw Amount');
+    } else if (processingFees === '') {
+      setProcessingFeesError('Enter Processing Fees');
+    } else {
+      setPaypalModal(!paypalModal);
+      setConfirmModal(true);
+    }
+  };
+
+  const submitPaypalAmount = () => {
+    const data = {
+      to: paypalId,
+      amount: payOutAmount,
+    };
+    cashWithdraw(data)
+      .then(({data}) => {
+        console.log('RES: ', data);
+        setConfirmModal(!confirmModal);
+        setCongrats(true);
+      })
+      .catch(e => {
+        console.log('Error: ', e?.response?.data?.error);
+        Alert.alert(e?.response?.data?.error);
+      });
+  };
+
+  const handleUsdcWithdraw = () => {
+    setReceipientAddressError('');
+    setUsdcAmountError('');
+
+    if (receipientAddress == '') {
+      setReceipientAddressError('Enter Recipient Address');
+    } else if (usdcAmount == '') {
+      setUsdcAmountError('Enter Amount');
+    } else {
+      const clone = [...RECIPIENTDATA];
+      clone[0].value = receipientAddress;
+      clone[1].value = usdcAmount + " USDC";
+      setUsdcModal(!usdcModal);
+      setUsdcConfirm(true);
+    }
+  };
+
+  const handleConfirmationUsdc = () => {
+    const data = {
+      amount: usdcAmount,
+      to: receipientAddress,
+    }
+
+    coinWithdraw(data).then(({data}) => {
+      console.log("RES: ",data);
+      setUsdcConfirm(!usdcConfirm)
+      setUsdcCongrats(true)
+    }).catch((e) => {
+      console.log("Error: ",e?.response?.data?.error)
+      Alert.alert(e?.response?.data?.error)
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -409,7 +486,12 @@ const Profile = ({navigation}) => {
                   marginVertical={'2%'}
                   color={Theme.black}
                   placeholder={'Enter Paypal ID'}
+                  value={paypalId}
+                  onChangeText={setPaypalId}
                 />
+                {paypalIdError ? (
+                  <Text style={styles.errorMsg}>{paypalIdError}</Text>
+                ) : null}
                 <Text style={styles.label}>Withdraw Amount</Text>
                 <CustomInput
                   width={'100%'}
@@ -418,7 +500,14 @@ const Profile = ({navigation}) => {
                   marginVertical={'2%'}
                   color={Theme.black}
                   placeholder={'Enter Amount'}
+                  value={withdrawAmount}
+                  onChangeText={withdrawAmount =>
+                    handleWithdrawAmount(withdrawAmount)
+                  }
                 />
+                {withdrawAmountError ? (
+                  <Text style={styles.errorMsg}>{withdrawAmountError}</Text>
+                ) : null}
                 <Text style={styles.label}>Processing fees</Text>
                 <CustomInput
                   width={'100%'}
@@ -427,8 +516,19 @@ const Profile = ({navigation}) => {
                   marginVertical={'2%'}
                   color={Theme.black}
                   placeholder={'$0.00'}
+                  value={processingFees}
+                  onChangeText={processingFees =>
+                    handleProcessingFees(processingFees)
+                  }
                 />
-                <Text style={styles.payout}>Payout amount = $00.00</Text>
+                {processingFeesError ? (
+                  <Text style={styles.errorMsg}>{processingFeesError}</Text>
+                ) : null}
+                {payOutAmount ? (
+                  <Text style={styles.payout}>
+                    {'Payout amount = ' + '$' + payOutAmount}
+                  </Text>
+                ) : null}
                 <View
                   style={{
                     paddingHorizontal: 10,
@@ -436,9 +536,10 @@ const Profile = ({navigation}) => {
                     marginBottom: '5%',
                   }}>
                   <Button
-                    onPress={() => {
-                      setPaypalModal(!paypalModal), setConfirmModal(true);
-                    }}
+                    onPress={handleConfirmPaypal}
+                    // onPress={() => {
+                    //   setPaypalModal(!paypalModal), setConfirmModal(true);
+                    // }}
                     title={'Confirm'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -472,12 +573,12 @@ const Profile = ({navigation}) => {
               <View style={{margin: '3%'}}>
                 <View style={styles.confirmRow}>
                   <Text style={styles.mailText}>Paypal ID :</Text>
-                  <Text style={styles.mailText}>brian@gmail.com</Text>
+                  <Text style={styles.mailText}>{paypalId}</Text>
                 </View>
                 <View style={styles.confirmRow}>
                   <Text style={styles.mailText}>Payout amount :</Text>
                   <Text style={{...styles.mailText, color: Theme.orange}}>
-                    $200.90
+                    {'$' + payOutAmount}
                   </Text>
                 </View>
                 <View
@@ -487,9 +588,10 @@ const Profile = ({navigation}) => {
                     marginBottom: '5%',
                   }}>
                   <Button
-                    onPress={() => {
-                      setConfirmModal(!confirmModal), setCongrats(true);
-                    }}
+                    onPress={submitPaypalAmount}
+                    // onPress={() => {
+                    //   setConfirmModal(!confirmModal), setCongrats(true);
+                    // }}
                     title={'Continue'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -523,16 +625,25 @@ const Profile = ({navigation}) => {
                 color={Theme.black}
                 marginVertical={'2%'}
                 width={'100%'}
+                value={receipientAddress}
+                onChangeText={setReceipientAddress}
               />
+              {receipientAddressError ? (
+                <Text style={styles.errorMsg}>{receipientAddressError}</Text>
+              ) : null}
               <Text style={{...styles.usdcLabel, marginTop: '2%'}}>Amount</Text>
               <CustomInput
-                value={'1000'}
+                value={usdcAmount}
+                onChangeText={setUsdcAmount}
                 backgroundColor={Theme.grayInput}
                 borderColor={Theme.grayInput}
                 color={Theme.black}
                 marginVertical={'2%'}
                 width={'100%'}
               />
+              {usdcAmountError ? (
+                <Text style={styles.errorMsg}>{usdcAmountError}</Text>
+              ) : null}
               <View style={{...styles.row1, marginTop: '5%'}}>
                 <Text style={styles.rowText}>Blockchain Fees</Text>
                 <Text style={styles.rowText}>30 USDC</Text>
@@ -542,9 +653,10 @@ const Profile = ({navigation}) => {
                 <Text style={styles.rowText}>970 USDC</Text>
               </View>
               <Button
-                onPress={() => {
-                  setUsdcModal(!usdcModal), setUsdcConfirm(true);
-                }}
+                onPress={handleUsdcWithdraw}
+                // onPress={() => {
+                //   setUsdcModal(!usdcModal), setUsdcConfirm(true);
+                // }}
                 title={'Confirm Withdraw'}
                 backgroundColor={Theme.orange}
                 borderColor={Theme.orange}
@@ -558,9 +670,10 @@ const Profile = ({navigation}) => {
       <ConfirmTradeModal
         show={usdcConfirm}
         setShow={() => setUsdcConfirm(!usdcConfirm)}
-        onPress={() => {
-          setUsdcConfirm(!usdcConfirm), setUsdcCongrats(true);
-        }}
+        onPress={handleConfirmationUsdc}
+        // onPress={() => {
+        //   setUsdcConfirm(!usdcConfirm), setUsdcCongrats(true);
+        // }}
         heading={'Confirm Withdraw'}
         DATA={RECIPIENTDATA}
         btnText={'Confirm Withdraw'}
@@ -853,5 +966,9 @@ const styles = StyleSheet.create({
     color: Theme.white,
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  errorMsg: {
+    color: Theme.red,
+    fontSize: 13,
   },
 });

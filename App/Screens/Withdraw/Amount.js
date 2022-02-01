@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   FlatList,
   Image,
   ScrollView,
@@ -18,6 +19,7 @@ import ConfirmTradeModal from '../../components/ConfirmTradeModal';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Congratulations from '../../components/Congratulations';
 import {useRoute} from '@react-navigation/native';
+import {coinOrder, rate} from '../../Services/Apis';
 
 const Data = [
   {
@@ -75,23 +77,48 @@ const Amount = ({navigation}) => {
   const [modal, setModal] = useState(false);
   const [sign, setSign] = useState('$');
   const [inputNum, setInputNum] = useState('');
+  const [rateValue, setRateValue] = useState('');
   const [congrats, setCongrats] = useState(false);
   const trade = route?.params?.item;
   const coin = route?.params?.coinData;
 
+  console.log('COIN: ', coin);
   const [modalDATA, setModalData] = useState([
     {
       id: 1,
-      label: coin.category + ' Amount',
-      value: '0.172090',
+      label: coin.name + ' Amount',
+      value: inputNum,
     },
     {
       id: 2,
-      label: coin.category + ' Rate',
-      value: '$60,000',
+      label: coin.name + ' Rate',
+      value: rateValue,
     },
   ]);
 
+  const handleAmount = () => {
+    if (inputNum) {
+      rate('XAF', 'USD')
+        .then(({data}) => {
+          if (data?.result?.status == 'success') {
+            let coinRate = data?.result?.data?.rate;
+            const a = coinRate * inputNum;
+            setRateValue(a);
+            const clone = [...modalDATA];
+            clone[0].value = inputNum;
+            clone[1].value = "$" + a;
+            setModal(true);
+          } else {
+            Alert.alert('Something went wrong');
+          }
+        })
+        .catch(e => {
+          console.log('ERROR: ', e);
+        });
+    } else {
+      Alert.alert('Enter Amount');
+    }
+  };
   const handleNumInput = (item, index) => {
     if (index === 11) {
       let b = inputNum.slice(0, inputNum.length - 1);
@@ -104,16 +131,40 @@ const Amount = ({navigation}) => {
     }
   };
 
+  const handleConfirmTrade = () => {
+    const data = {
+      type: 'market',
+      side: trade.toLowerCase(),
+      pair: 'BTC-USD',
+      amount: inputNum,
+      price: '',
+    };
+
+    coinOrder(data)
+      .then(({data}) => {
+        console.log('RES: ', data);
+        setCongrats(true);
+        setModal(!modal);
+      })
+      .catch(e => {
+        console.log('Error: ', e?.response?.data);
+        setModal(!modal);
+        Alert.alert("Something went wrong")
+      });
+  };
+
   return (
     <View style={styles.container}>
-        <Header
-          onPress={() => navigation.goBack()}
-          title={'Enter Amount'}
-          // rightIcon={Images.upload2}
-        />
-          <Text numberOfLines={1} style={styles.textInput}>{sign + inputNum}</Text>
+      <Header
+        onPress={() => navigation.goBack()}
+        title={'Enter Amount'}
+        // rightIcon={Images.upload2}
+      />
+      <Text numberOfLines={1} style={styles.textInput}>
+        {sign + inputNum}
+      </Text>
 
-        <View style={{ position:'absolute', bottom:10, width:'100%'}}>
+      <View style={{position: 'absolute', bottom: 10, width: '100%'}}>
         <TouchableOpacity style={styles.BitcoinRowView}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <View
@@ -121,7 +172,7 @@ const Amount = ({navigation}) => {
                 ...styles.imgBackground,
                 backgroundColor: coin.backgroundColor
                   ? coin.backgroundColor
-                  : Theme.yellowOrange,
+                  : null,
               }}>
               <View style={styles.bitcoinImgView}>
                 <Image
@@ -130,13 +181,13 @@ const Amount = ({navigation}) => {
                     ...styles.bitCoin,
                     tintColor: coin.tintColor ? coin.tintColor : null,
                   }}
-                  source={coin.icon}
+                  source={{uri: coin.image}}
                 />
               </View>
             </View>
             <View>
-              <Text style={styles.bitCoinValue}>{coin?.category}</Text>
-              <Text style={styles.label}>{coin?.cash}</Text>
+              <Text style={styles.bitCoinValue}>{coin?.name}</Text>
+              <Text style={styles.label}>{coin?.symbol}</Text>
             </View>
           </View>
           {/* <View style={styles.downarrowView}>
@@ -147,35 +198,35 @@ const Amount = ({navigation}) => {
                 />
               </View> */}
         </TouchableOpacity>
-          <FlatList
-            numColumns={3}
-            columnWrapperStyle={{
-              justifyContent: 'space-around',
-              marginBottom: '10%',
-            }}
-            style={{flexGrow: 0}}
-            showsVerticalScrollIndicator={false}
-            data={Data}
-            renderItem={({item, index}) => (
-              <View>
-                <TouchableOpacity
-                  disabled={index === 9 ? true : false}
-                  onPress={() => handleNumInput(item.num, index)}
-                  style={styles.numBtn}>
-                  <Text style={styles.numPad}>{item.num}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-            keyExtractor={item => item.id}
-          />
-          <Button
+        <FlatList
+          numColumns={3}
+          columnWrapperStyle={{
+            justifyContent: 'space-around',
+            marginBottom: '10%',
+          }}
+          style={{flexGrow: 0}}
+          showsVerticalScrollIndicator={false}
+          data={Data}
+          renderItem={({item, index}) => (
+            <View>
+              <TouchableOpacity
+                disabled={index === 9 ? true : false}
+                onPress={() => handleNumInput(item.num, index)}
+                style={styles.numBtn}>
+                <Text style={styles.numPad}>{item.num}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          keyExtractor={item => item.id}
+        />
+        <Button
           horizontal={'3%'}
-            onPress={() => setModal(true)}
-            title={'Continue'}
-            backgroundColor={Theme.orange}
-            borderColor={Theme.orange}
-          />
-        </View>
+          onPress={handleAmount}
+          title={'Continue'}
+          backgroundColor={Theme.orange}
+          borderColor={Theme.orange}
+        />
+      </View>
       <Congratulations
         visible={congrats}
         setVisible={() => setCongrats(!congrats)}
@@ -186,9 +237,10 @@ const Amount = ({navigation}) => {
         DATA={modalDATA}
         show={modal}
         setShow={() => setModal(!modal)}
-        onPress={() => {
-          setModal(!modal), setCongrats(true);
-        }}
+        onPress={handleConfirmTrade}
+        // onPress={() => {
+        //   setModal(!modal), setCongrats(true);
+        // }}
         btnText={trade === 'Buy' ? 'Buy' : 'Sell'}
         btnBorder={trade === 'Buy' ? Theme.green : Theme.orange}
         btnBackground={trade === 'Buy' ? Theme.green : Theme.orange}
@@ -207,13 +259,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: Theme.white,
-    width: Theme.wp ('90%'),
+    width: Theme.wp('90%'),
     textAlign: 'center',
     fontSize: Theme.hp('5%'),
     fontWeight: 'bold',
     color: 'orange',
-    alignSelf:"center",
-    marginVertical:Theme.hp('5%')
+    alignSelf: 'center',
+    marginVertical: Theme.hp('5%'),
   },
   arrowView: {
     width: 30,
@@ -230,7 +282,7 @@ const styles = StyleSheet.create({
   BitcoinRowView: {
     flexDirection: 'row',
     marginVertical: '10%',
-    marginHorizontal:Theme.wp('3%'),
+    marginHorizontal: Theme.wp('3%'),
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 8,

@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Theme from '../utils/Theme';
 
-const Coins = ({backgroundColor, tintColor, icon, category, cash, onCoinPress}) => {
+const Coins = ({backgroundColor, tintColor, icon, category, cash, onPress}) => {
   const styles = StyleSheet.create({
     container: {
       width: '94%',
@@ -71,7 +71,7 @@ const Coins = ({backgroundColor, tintColor, icon, category, cash, onCoinPress}) 
         </View>
       </View>
       <View />
-      <TouchableOpacity onPress={() => handleSelectedCoin(category)} style={styles.depositBtn}>
+      <TouchableOpacity onPress={onPress} style={styles.depositBtn}>
       <Text style={{...styles.bch, color: Theme.white}}>Deposit</Text>
       </TouchableOpacity>
     </View>
@@ -79,4 +79,3 @@ const Coins = ({backgroundColor, tintColor, icon, category, cash, onCoinPress}) 
 };
 
 export default Coins;
-

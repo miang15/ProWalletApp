@@ -132,6 +132,36 @@ export async function moneyPayout(mydata) {
   return await axios.request(options);
 }
 
+export async function cashPay(mydata) {
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'POST',
+    data: mydata,
+    url: Urls.cashPay,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function cashWithdraw(mydata) {
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'POST',
+    data: mydata,
+    url: Urls.cashWithdraw,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
 export async function rate(from, to) {
   let token = await AsyncStorage.getItem('LOGINTOKEN');
 
@@ -227,7 +257,7 @@ export async function coinChart(coinId, day) {
   return await axios.request(options);
 }
 
-export async function coinCharge() {
+export async function coinCharge(currency) {
   let token = await AsyncStorage.getItem('LOGINTOKEN');
 
   console.log('BODY DATA', token);
@@ -235,7 +265,7 @@ export async function coinCharge() {
   const options = {
     method: 'POST',
     data: {
-      currency: "BTC",
+      currency: currency,
     },
     url: Urls.coinCharge,
     headers: {
@@ -245,7 +275,7 @@ export async function coinCharge() {
   return await axios.request(options);
 }
 
-export async function coinOrder() {
+export async function coinOrder(mydata) {
 
   let token = await AsyncStorage.getItem('LOGINTOKEN');
 
@@ -253,14 +283,25 @@ export async function coinOrder() {
 
   const options = {
     method: 'POST',
-    data: {
-      type: "market",
-      side: "sell",
-      pair: "BTC-USD",
-      amount: "1",
-      price: ""
-    },
+    data: mydata,
     url: Urls.coinOrder,
+    headers: {
+      Authorization: token,
+    },
+  };
+  return await axios.request(options);
+}
+
+export async function coinWithdraw(mydata) {
+
+  let token = await AsyncStorage.getItem('LOGINTOKEN');
+
+  console.log('BODY DATA', token);
+
+  const options = {
+    method: 'POST',
+    data: mydata,
+    url: Urls.coinWithdraw,
     headers: {
       Authorization: token,
     },

@@ -138,7 +138,7 @@ const Balance = ({navigation}) => {
   const renderItem = ({item, index}) => (
     <PortfolioComponent
       onPress={handleBankDeposit}
-      // onPress={() => navigation.navigate('BuySell', {coinData: item})}
+      // onPress={() => navigation.navigate('BuySell', {coinData: item.id})}
       backgroundColor={item.backgroundColor}
       tintColor={item?.tintColor}
       icon={{uri: item.image}}

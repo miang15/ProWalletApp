@@ -153,24 +153,13 @@ const Invest = ({navigation}) => {
     })
   },[])
 
-  const handleCoinPress = () => {
-    coinCharge().then(({data}) => {
-      console.log("RES: ",data);
-      Alert.alert("Charge Api Run");
-    }).catch((e) => {
-      console.log("Error: ",e);
-      Alert.alert("Charge Api Error")
-    })
-  }
-
   const renderItem = ({item, index}) => {
     if (searchedItem) {
       if (item.category.toLocaleLowerCase().includes(searchedItem.toLocaleLowerCase()) ) {
         return (
           <PortfolioComponent
             indexNum={index + 1}
-            onPress={handleCoinPress}
-            // onPress={() => navigation.navigate('BuySell', {coinData: item})}
+            onPress={() => navigation.navigate('BuySell', {coinData: item.id})}
             backgroundColor={item.backgroundColor}
             tintColor={item?.tintColor}
             icon={{uri: item.image}}
@@ -189,8 +178,7 @@ const Invest = ({navigation}) => {
       return (
         <PortfolioComponent
           indexNum={index + 1}
-          onPress={handleCoinPress}
-          // onPress={() => navigation.navigate('BuySell', {coinData: item})}
+          onPress={() => navigation.navigate('BuySell', {coinData: item.id})}
           backgroundColor={item.backgroundColor}
           tintColor={item?.tintColor}
           icon={{uri: item.image}}

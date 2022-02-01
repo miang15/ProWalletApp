@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   ScrollView,
@@ -17,6 +19,7 @@ import Images from '../constants/Images';
 import Theme from '../utils/Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Clipboard from '@react-native-community/clipboard';
+import {coinCharge, coinPrices} from '../Services/Apis';
 
 const Data = [
   {
@@ -125,40 +128,70 @@ const Data = [
 const CoinsDeposit = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState('');
+  const [coinsData, setCoinsData] = useState('');
+  const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState('1B4evPk29C29alkjfkasdf9Fkjkjf9FkK');
   const [copiedText, setCopiedText] = useState('');
 
   const handleDeposit = val => {
-    setSelectedCoin(val);
-    setModalVisible(true);
+    console.log("ITEM: ",val);
+    setSelectedCoin(val?.name);
+    coinCharge("BTC")
+      .then(({data}) => {
+        setAddress(data?.address)
+        setModalVisible(true);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+        Alert.alert("Something went wrong")
+      });
   };
 
   const copyToClipboard = () => {
     setModalVisible(!modalVisible);
-    Clipboard.setString (address)
-  }
+    Clipboard.setString(address);
+  };
+
+  useEffect(() => {
+    coinPrices()
+      .then(({data}) => {
+        console.log('COIN DATA: ', data?.result);
+        setCoinsData(data?.result);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+        setLoading(false);
+      });
+  }, []);
 
   const renderCoins = ({item}) => (
     <Coins
-      icon={item.icon}
+      icon={{uri: item.image}}
       backgroundColor={item.backgroundColor}
       tintColor={item.tintColor}
-      category={item.category}
-      cash={item.cash}
-      onCoinPress={val => handleDeposit(val)}
+      category={item.name}
+      cash={item.symbol}
+      onPress={() => handleDeposit(item)}
     />
   );
   return (
     <View style={styles.container}>
       <Header title={'Coins'} onPress={() => navigation.goBack()} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={Data}
-          renderItem={renderCoins}
-          keyExtractor={item => item.id}
-        />
-      </ScrollView>
+      {loading ? (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size={'small'} color={Theme.orange} />
+        </View>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={coinsData}
+            renderItem={renderCoins}
+            keyExtractor={item => item.id}
+          />
+        </ScrollView>
+      )}
       <TouchableWithoutFeedback
         onPress={() => setModalVisible(!modalVisible)}
         style={{flex: 1}}>
@@ -190,8 +223,10 @@ const CoinsDeposit = ({navigation}) => {
               </View>
               <Text style={styles.walletText}>Wallet Address</Text>
               <Text style={styles.address}>{address}</Text>
-              <TouchableOpacity onPress={copyToClipboard} style={styles.copyBtn}>
-                  <Text style={styles.copy}>Copy</Text>
+              <TouchableOpacity
+                onPress={copyToClipboard}
+                style={styles.copyBtn}>
+                <Text style={styles.copy}>Copy</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -265,17 +300,17 @@ const styles = StyleSheet.create({
     marginVertical: '3%',
   },
   copyBtn: {
-      backgroundColor:"#333333",
-      alignSelf:'center',
-      alignItems:"center",
-      paddingVertical:2,
-      paddingHorizontal:20,
-      marginVertical:'3%',
-      borderRadius:5,
-      justifyContent:'center'
+    backgroundColor: '#333333',
+    alignSelf: 'center',
+    alignItems: 'center',
+    paddingVertical: 2,
+    paddingHorizontal: 20,
+    marginVertical: '3%',
+    borderRadius: 5,
+    justifyContent: 'center',
   },
   copy: {
-      color:Theme.white,
-      fontSize:Theme.medium
-  }
+    color: Theme.white,
+    fontSize: Theme.medium,
+  },
 });

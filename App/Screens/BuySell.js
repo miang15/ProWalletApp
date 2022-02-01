@@ -1,79 +1,130 @@
-import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Header from '../components/Header';
 import Images from '../constants/Images';
 import Theme from '../utils/Theme';
 import {LineChart} from 'react-native-chart-kit';
 import Button from '../components/Button';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
+import {coin, coinChart} from '../Services/Apis';
 
 const BuySell = ({navigation}) => {
   const route = useRoute();
-  const coin = route?.params?.coinData;
+  const coinId = route?.params?.coinData;
+  const [loading, setLoading] = useState(true);
+  const [coinData, setCoinData] = useState('');
+  const [chartValue, setChartValue] = useState('');
+
+  const handleCoin = () => {
+    coin(coinId)
+      .then(({data}) => {
+        setCoinData(data?.result);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+      });
+    handleCoinChart();
+  };
+
+  const handleCoinChart = () => {
+    coinChart(coinId, '1d')
+      .then(({data}) => {
+        let arr = [];
+        data?.result?.market_caps.map(item => arr.push(item[1]));
+        setChartValue(arr);
+        setLoading(false);
+      })
+      .catch(e => {
+        console.log('Error: ', e);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    handleCoin();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} rightIcon={Images.upload2} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View>
-          <Text style={styles.text1}>{coin?.cash + " Offered by Pepper"}</Text>
-          <Text style={styles.heading}>{coin?.category + " (" + coin?.cash + ")"}</Text>
-          <Text style={styles.heading}>{coin?.bchPrice}</Text>
-          <Text style={styles.todayText}>$4.93 (0.62%) Today</Text>
-          <View style={styles.chartView}>
-            <LineChart
-              style={{
-                borderBottomWidth: 1,
-                borderColor: Theme.border,
-                marginVertical: '5%',
-                marginLeft:Theme.wp("-2%")
-              }}
-              data={{
-                labels: ['1D', '1W', '1M', '3M', '1Y', '5Y', '10Y'],
-                datasets: [
-                  {
-                    data: [0, 10, 5, 15, 0, 3, 3, 10, 5, 15, 20, 25],
-                  },
-                ],
-              }}
-              width={420}
-              height={200}
-              withInnerLines={false}
-              withOuterLines={false}
-              withHorizontalLabels={false}
-              withDots={false}
-              chartConfig={{
-                backgroundGradientFrom: '#1E2923',
-                backgroundGradientFromOpacity: 0,
-                backgroundGradientTo: '#08130D',
-                backgroundGradientToOpacity: 0.5,
-                color: (opacity = 1) => '#ff4f12',
-                labelColor: (opacity = 1) => '#7F8D81',
-                strokeWidth: 2, // optional, default 3
-                barPercentage: 0.5,
-                useShadowColorFromDataset: false,
-              }}
-            />
-          </View>
-          <View style={styles.btnRow}>
-            <Button
-              title={'Buy'}
-              width={'48%'}
-              onPress={() => {
-                navigation.navigate('Amount', {item: 'Buy', coinData: coin});
-              }}
-            />
-            <Button
-              onPress={() => {
-                navigation.navigate('Amount', {item: 'Sell', coinData: coin});
-              }}
-              title={'Sell'}
-              width={'48%'}
-              backgroundColor={Theme.orange}
-              borderColor={Theme.orange}
-            />
-          </View>
+      {loading ? (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <ActivityIndicator size={'small'} color={Theme.orange} />
         </View>
-      </ScrollView>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View>
+            <Text style={styles.text1}>
+              {coinData?.symbol + ' Offered by Pepper'}
+            </Text>
+            <Text style={styles.heading}>
+              {coinData?.name + ' (' + coinData?.symbol + ')'}
+            </Text>
+            <Text style={styles.heading}>{'$' + coinData?.current_price}</Text>
+            <Text style={styles.todayText}>$4.93 (0.62%) Today</Text>
+            <View style={styles.chartView}>
+              <LineChart
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: Theme.border,
+                  marginVertical: '5%',
+                  marginLeft: Theme.wp('-2%'),
+                }}
+                data={{
+                  labels: ['1D', '1W', '1M', '3M', '1Y', '5Y', '10Y'],
+                  datasets: [
+                    {
+                      data: chartValue,
+                    },
+                  ],
+                }}
+                width={420}
+                height={200}
+                withInnerLines={false}
+                withOuterLines={false}
+                withHorizontalLabels={false}
+                withDots={false}
+                chartConfig={{
+                  backgroundGradientFrom: '#1E2923',
+                  backgroundGradientFromOpacity: 0,
+                  backgroundGradientTo: '#08130D',
+                  backgroundGradientToOpacity: 0.5,
+                  color: (opacity = 1) => '#ff4f12',
+                  labelColor: (opacity = 1) => '#7F8D81',
+                  strokeWidth: 2, // optional, default 3
+                  barPercentage: 0.5,
+                  useShadowColorFromDataset: false,
+                }}
+              />
+            </View>
+            <View style={styles.btnRow}>
+              <Button
+                title={'Buy'}
+                width={'48%'}
+                onPress={() => {
+                  navigation.navigate('Amount', {item: 'Buy', coinData: coinData});
+                }}
+              />
+              <Button
+                onPress={() => {
+                  navigation.navigate('Amount', {item: 'Sell', coinData: coinData});
+                }}
+                title={'Sell'}
+                width={'48%'}
+                backgroundColor={Theme.orange}
+                borderColor={Theme.orange}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      )}
     </View>
   );
 };
@@ -115,6 +166,6 @@ const styles = StyleSheet.create({
     width: '100%',
     overflow: 'hidden',
     alignItems: 'center',
-    marginHorizontal:'1%'
+    marginHorizontal: '1%',
   },
 });

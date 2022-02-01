@@ -11,6 +11,8 @@ const Urls = {
   charge_bank: `${API_URL}/cash/charge/bank`,
   payout_bank: `${API_URL}/cash/payout/bank`,
   money_payout: `${API_URL}/cash/payout/mobile`,
+  cashPay: `${API_URL}/cash/pay`,
+  cashWithdraw: `${API_URL}/cash/withdraw`,
   rate: `${API_URL}/cash/rate`,
   payout_fee: `${API_URL}/cash/payout/fee`,
 
@@ -19,7 +21,7 @@ const Urls = {
   coinChart: `${API_URL}/coin/coin/chart`,
   coinCharge: `${API_URL}/coin/charge`,
   coinOrder: `${API_URL}/coinbase/order`,
-
+  coinWithdraw: `${API_URL}/coin/withdraw`,
 
 
 };

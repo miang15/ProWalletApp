@@ -45,6 +45,48 @@ export async function forgotPassword(email) {
   return await axios.request(options);
 }
 
+export async function resetPassword(mydata) {
+  const options = {
+    method: 'POST',
+    data: mydata,
+    url: Urls.resetPassword,
+    headers: {},
+  };
+  return await axios.request(options);
+}
+
+export async function validateOTP(mydata) {
+  const options = {
+    method: 'POST',
+    data: mydata,
+    url: Urls.validateOTP,
+    headers: {},
+  };
+  return await axios.request(options);
+}
+
+export async function resendOTP(mydata) {
+  const options = {
+    method: 'POST',
+    data: mydata,
+    url: Urls.resendOTP,
+    headers: {},
+  };
+  return await axios.request(options);
+}
+
+export async function getUsers(email) {
+  const options = {
+    method: 'Get',
+    data: {
+      email: email
+    },
+    url: Urls.getUsers + `?email=${email}`,
+    headers: {},
+  };
+  return await axios.request(options);
+}
+
 export async function requestPhoneVerification() {
   var data = new FormData();
   data.append('id', `61e9053a9c291308887836e6`);

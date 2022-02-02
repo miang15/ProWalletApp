@@ -25,18 +25,7 @@ import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
 import Congratulations from '../../components/Congratulations';
 import ConfirmTradeModal from '../../components/ConfirmTradeModal';
-import {
-  cashWithdraw,
-  chargeBank,
-  chargeMoney,
-  coinOrder,
-  coinWithdraw,
-  moneyPayout,
-  payoutBank,
-  payoutFee,
-  rate,
-  requestPhoneVerification,
-} from '../../Services/Apis';
+import {cashWithdraw, coinWithdraw} from '../../Services/Apis';
 
 const DATA = [
   {
@@ -92,7 +81,6 @@ const DATA = [
   },
 ];
 
-
 const Profile = ({navigation}) => {
   const [hide, setHide] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
@@ -102,12 +90,19 @@ const Profile = ({navigation}) => {
   const [usdcCongrats, setUsdcCongrats] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [congrats, setCongrats] = useState(false);
+  const [editCongrats, setEditCongrats] = useState(false);
   const [paypalModal, setPaypalModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
-  const [name, setName] = useState('Tamanna Hegel');
-  const [email, setEmail] = useState('tuhafasa@gmail.com');
-  const [phone, setPhone] = useState('+99 123 294 294');
+  const [userName, setUserName] = useState('Tamanna Hegel');
+  const [name, setName] = useState(userName);
+  const [nameError, setNameError] = useState('');
+  const [userEmail, setUserEmail] = useState('tuhafasa@gmail.com');
+  const [email, setEmail] = useState(userEmail);
+  const [emailError, setEmailError] = useState('');
+  const [userPhone, setUserPhone] = useState('+99 123 294 294');
+  const [phone, setPhone] = useState(userPhone);
+  const [phoneError, setPhoneError] = useState('');
   const [paypalId, setPaypalId] = useState('');
   const [paypalIdError, setPaypalIdError] = useState('');
   const [withdrawAmount, setWithdrawAmount] = useState('');
@@ -125,19 +120,19 @@ const Profile = ({navigation}) => {
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    const [RECIPIENTDATA, setRECIPIENTDATA] = useState([
-      {
-        id: 1,
-        label: 'Recipient address :',
-        value: receipientAddress,
-        color: Theme.orange,
-      },
-      {
-        id: 2,
-        label: 'Amount sent :',
-        value: usdcAmount + " USDC",
-      },
-    ])
+  const [RECIPIENTDATA, setRECIPIENTDATA] = useState([
+    {
+      id: 1,
+      label: 'Recipient address :',
+      value: receipientAddress,
+      color: Theme.orange,
+    },
+    {
+      id: 2,
+      label: 'Amount sent :',
+      value: usdcAmount + ' USDC',
+    },
+  ]);
 
   const pickImage = async () => {
     ImagePicker.openPicker({
@@ -257,7 +252,7 @@ const Profile = ({navigation}) => {
     } else {
       const clone = [...RECIPIENTDATA];
       clone[0].value = receipientAddress;
-      clone[1].value = usdcAmount + " USDC";
+      clone[1].value = usdcAmount + ' USDC';
       setUsdcModal(!usdcModal);
       setUsdcConfirm(true);
     }
@@ -267,17 +262,41 @@ const Profile = ({navigation}) => {
     const data = {
       amount: usdcAmount,
       to: receipientAddress,
-    }
+    };
 
-    coinWithdraw(data).then(({data}) => {
-      console.log("RES: ",data);
-      setUsdcConfirm(!usdcConfirm)
-      setUsdcCongrats(true)
-    }).catch((e) => {
-      console.log("Error: ",e?.response?.data?.error)
-      Alert.alert(e?.response?.data?.error)
-    })
-  }
+    coinWithdraw(data)
+      .then(({data}) => {
+        console.log('RES: ', data);
+        setUsdcConfirm(!usdcConfirm);
+        setUsdcCongrats(true);
+      })
+      .catch(e => {
+        console.log('Error: ', e?.response?.data?.error);
+        Alert.alert(e?.response?.data?.error);
+      });
+  };
+
+  const handleSaveChanges = () => {
+    setNameError('');
+    setEmailError('');
+    setPhoneError('');
+
+    if (name == '') {
+      setNameError('Name is Required');
+    } else if (email == '') {
+      setEmailError('Email is Required');
+    } else if (!email.match(emailRegex)) {
+      setEmailError('Enter Valid Email');
+    } else if (phone == '') {
+      setPhoneError('Phone Number is Required');
+    } else {
+      setUserName(name)
+      setUserEmail(email)
+      setUserPhone(phone)
+      setEditModal(!editModal);
+      setEditCongrats(true);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -299,7 +318,7 @@ const Profile = ({navigation}) => {
             <View style={styles.innerView}>
               <View style={styles.editRow}>
                 <Text style={styles.userName} numberOfLines={1}>
-                  {name}
+                  {userName}
                 </Text>
                 <TouchableOpacity
                   onPress={() => setEditModal(true)}
@@ -312,10 +331,10 @@ const Profile = ({navigation}) => {
                 </TouchableOpacity>
               </View>
               <Text style={styles.gmailText} numberOfLines={1}>
-                {email}
+                {userEmail}
               </Text>
               <Text style={styles.gmailText} numberOfLines={1}>
-                {phone}
+                {userPhone}
               </Text>
               <View style={styles.innerRow}>
                 <Text style={styles.Vip}>VIP 0</Text>
@@ -417,6 +436,9 @@ const Profile = ({navigation}) => {
                   value={name}
                   onChangeText={setName}
                 />
+                {nameError ? (
+                  <Text style={styles.errorMsg}>{nameError}</Text>
+                ) : null}
                 <Text style={styles.label}>Email</Text>
                 <CustomInput
                   width={'100%'}
@@ -428,6 +450,9 @@ const Profile = ({navigation}) => {
                   value={email}
                   onChangeText={setEmail}
                 />
+                {emailError ? (
+                  <Text style={styles.errorMsg}>{emailError}</Text>
+                ) : null}
                 <Text style={styles.label}>Phone</Text>
                 <CustomInput
                   width={'100%'}
@@ -439,6 +464,9 @@ const Profile = ({navigation}) => {
                   value={phone}
                   onChangeText={setPhone}
                 />
+                {phoneError ? (
+                  <Text style={styles.errorMsg}>{phoneError}</Text>
+                ) : null}
                 <View
                   style={{
                     paddingHorizontal: 10,
@@ -446,7 +474,8 @@ const Profile = ({navigation}) => {
                     marginBottom: '5%',
                   }}>
                   <Button
-                    onPress={() => setEditModal(!editModal)}
+                    onPress={handleSaveChanges}
+                    // onPress={() => setEditModal(!editModal)}
                     title={'Save'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -700,6 +729,11 @@ const Profile = ({navigation}) => {
         visible={congrats}
         setVisible={() => setCongrats(!congrats)}
         description={'Your withdraw has been completed successfully'}
+      />
+      <Congratulations
+        visible={editCongrats}
+        setVisible={() => setEditCongrats(!editCongrats)}
+        description={'Your changes saved successfully'}
       />
     </View>
   );

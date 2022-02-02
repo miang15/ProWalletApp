@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -11,7 +10,6 @@ import {
 } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import Icons from '../../constants/Icons';
-import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
@@ -52,8 +50,10 @@ const Login = ({}) => {
           navigation.navigate('BottomTab');
         })
         .catch(e => {
-          if(e?.response?.data){
-            setPasswordError("Email and Password are not matched")
+          if (e?.response?.data === 'Email and Password are not matched') {
+            setPasswordError('Email and Password are not matched');
+          } else {
+            Alert.alert('Something went wrong');
           }
         });
     }
@@ -87,12 +87,6 @@ const Login = ({}) => {
             <Text style={styles.errorMsg}>{passwordError}</Text>
           ) : null}
           <View style={styles.rowView}>
-            {/* <TouchableOpacity
-              style={{alignSelf: 'flex-end', paddingVertical: 5}}
-              activeOpacity="0.6"
-              onPress={() => navigation.navigate('Fingerprint')}>
-              <Text style={styles.password}>Use FingerPrint</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={{alignSelf: 'flex-end', paddingVertical: 5}}
               activeOpacity="0.6"

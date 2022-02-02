@@ -9,7 +9,6 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import DropDown from '../components/DropDown';
 import ConfirmTradeModal from '../components/ConfirmTradeModal';
 import Congratulations from '../components/Congratulations';
-import { coinChart } from '../Services/Apis';
 
 const ModalDATA = [
   {
@@ -48,16 +47,6 @@ const Swap = () => {
     }
   };
 
-  const handleSwap = () => {
-    coinChart("bitcoin", "1d").then(({data}) => {
-      console.log("RES: ",data);
-      Alert.alert("Coin Chart Api Run")
-    }).catch((e) => {
-      console.log("RES: ",e);
-      Alert.alert("Coin Chart Api Error")
-    })
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.headingText}>Swap</Text>
@@ -95,10 +84,9 @@ const Swap = () => {
         onPress={() => { setSelected(2), refRBSheet.current.open()}}
       />
       <Button
-      onPress={handleSwap}
-      // onPress={() => {
-      //   setModal(modal), setCongrats(true);
-      // }}
+      onPress={() => {
+        setModal(modal), setCongrats(true);
+      }}
         title="Swap"
         top="15%"
         horizontal="3%"

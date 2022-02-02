@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Alert,
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
@@ -11,7 +10,6 @@ import {
 } from 'react-native';
 import CustomInput from '../../components/CustomInput';
 import Icons from '../../constants/Icons';
-import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 import {useNavigation} from '@react-navigation/core';
@@ -86,20 +84,15 @@ const Register = () => {
           ]);
         })
         .catch(e => {
-          if(e?.response?.data){
-            setEmailError("Email Already Exists")
+          if (
+            e?.response?.data?.error === 'You registerd with this email already'
+          ) {
+            setEmailError('Email Already Exists');
+          } else {
+            Alert.alert('Something went wrong');
           }
         });
     }
-
-    // signUp()
-    //   .then(({data}) => {
-    //     console.log('DATA: ', data);
-    //     // setCongrats(true);
-    //   })
-    //   .catch(error => {
-    //     console.log('ERROR', error);
-    //   });
   };
 
   return (

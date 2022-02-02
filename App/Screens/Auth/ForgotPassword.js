@@ -27,8 +27,8 @@ const ForgotPassword = ({navigation}) => {
         console.log("RES: ",res?.data)
         navigation.navigate("ForgotPin")
       }).catch((e) => {
-        console.log("ERROR: ",e);
-        Alert.alert("Something went wrong")
+        console.log("ERROR: ",e?.response?.data?.error);
+        Alert.alert(e?.response?.data?.error)
       })
     }
 

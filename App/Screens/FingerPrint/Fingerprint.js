@@ -1,42 +1,41 @@
 import {useNavigation} from '@react-navigation/core';
-import React, { useEffect } from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import Icons from '../../constants/Icons';
 import Theme from '../../utils/Theme';
 import LinearGradient from 'react-native-linear-gradient';
-import TouchID from 'react-native-touch-id'
+import TouchID from 'react-native-touch-id';
 
 const Fingerprint = () => {
   const navigation = useNavigation();
 
   const optionalConfigObject = {
-    title: 'Authentication Required', // Android
-    imageColor: Theme.green, // Android
-    imageErrorColor: '#ff0000', // Android
-    sensorDescription: 'Touch sensor', // Android
-    sensorErrorDescription: 'Failed', // Android
-    cancelText: 'Cancel', // Android
-    unifiedErrors: false, // use unified error messages (default false)
+    title: 'Authentication Required', 
+    imageColor: Theme.green, 
+    imageErrorColor: '#ff0000',
+    sensorDescription: 'Touch sensor',
+    sensorErrorDescription: 'Failed',
+    cancelText: 'Cancel',
+    unifiedErrors: false,
   };
 
-    TouchID.authenticate('Use your finger print', optionalConfigObject)
+  TouchID.authenticate('Use your finger print', optionalConfigObject)
     .then(success => {
-      Alert.alert(
-        "Success!",
-        "Authenticated Successfully",
-        [
-
-          { text: "OK", onPress: () => navigation.navigate("BottomTab") }
-        ]
-      );
+      Alert.alert('Success!', 'Authenticated Successfully', [
+        {text: 'OK', onPress: () => navigation.navigate('BottomTab')},
+      ]);
       Alert.alert('Authenticated Successfully');
     })
     .catch(error => {
       Alert.alert('Authentication Failed');
-    });  
-
-   
-  
+    });
 
   return (
     <View style={styles.container}>
@@ -45,12 +44,7 @@ const Fingerprint = () => {
         <Image source={Icons.scan} style={styles.image}></Image>
         <Text style={styles.fingerprint}>Use Fingerprint for Banking</Text>
         <Text style={styles.city}>Unlock City Bank</Text>
-        <View style={styles.line}/>
-        {/* <TouchableOpacity
-          activeOpacity="0.6"
-          onPress={() => navigation.navigate('RecoveryPhase')}>
-          <Text style={styles.Pin}>Use Pin</Text>
-        </TouchableOpacity> */}
+        <View style={styles.line} />
       </LinearGradient>
     </View>
   );
@@ -84,21 +78,21 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
   city: {
-    color: Theme.white, 
-    fontSize: Theme.small, 
+    color: Theme.white,
+    fontSize: Theme.small,
     marginTop: '3%',
-    alignSelf:'center'
+    alignSelf: 'center',
   },
   line: {
     borderWidth: 0.3,
-    marginTop:"20%",
+    marginTop: '20%',
     borderColor: Theme.white,
   },
   Pin: {
     fontSize: Theme.title,
     color: Theme.golden,
-    marginTop:'3%',
-    alignSelf:'center'
+    marginTop: '3%',
+    alignSelf: 'center',
   },
   image: {
     height: 45,

@@ -13,7 +13,6 @@ import PortfolioComponent from '../../components/PortfolioComponent';
 import Icons from '../../constants/Icons';
 import Images from '../../constants/Images';
 import Theme from '../../utils/Theme';
-import {LineChart} from 'react-native-chart-kit';
 import {chargeBank, coinPrices} from '../../Services/Apis';
 
 const Data = [
@@ -115,25 +114,23 @@ const Balance = ({navigation}) => {
       fullname: 'mian nouman',
       type: 'debit_ng_account',
       account_number: '0690000037',
-    }
+    };
 
-    chargeBank(data).then(({data}) => {
-      if(data?.result?.status == "success"){
-        Alert.alert(
-          "Success!",
-          "Bank Charged Successfully",
-          [
-            {text: "Ok", onPress: () => navigation.goBack()}
-          ]
-          )
-      } else {
-        Alert.alert("Something went wrong")
-      }
-      console.log("RES: ",data?.result);
-    }).catch((e) => {
-      console.log("Error ",e);
-    })
-  }
+    chargeBank(data)
+      .then(({data}) => {
+        if (data?.result?.status == 'success') {
+          Alert.alert('Success!', 'Bank Charged Successfully', [
+            {text: 'Ok', onPress: () => navigation.goBack()},
+          ]);
+        } else {
+          Alert.alert('Something went wrong');
+        }
+        console.log('RES: ', data?.result);
+      })
+      .catch(e => {
+        console.log('Error ', e);
+      });
+  };
 
   const renderItem = ({item, index}) => (
     <PortfolioComponent
@@ -145,9 +142,7 @@ const Balance = ({navigation}) => {
       category={item.name}
       cash={item.symbol}
       bchDigit={item.current_price}
-      // cashDigit={item.cashDigit}
       bchPrice={'$' + item.high_24h}
-      // cashPrice={item.cashPrice}
     />
   );
 
@@ -186,110 +181,15 @@ const Balance = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* <LineChart
-      style={{marginHorizontal:'3%'}}
-        data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-          datasets: [
-            {
-              data: [20, 45, 28, 80, 99, 43],
-            },
-          ],
-        }}
-        width={400}
-        height={120}
-        withInnerLines={false}
-        withOuterLines={false}
-        withVerticalLabels={false}
-        withHorizontalLabels={false}
-        verticalLabelRotation={30}
-        chartConfig={{
-          backgroundGradientFrom: '#1E2923',
-          backgroundGradientFromOpacity: 0,
-          backgroundGradientTo: '#08130D',
-          backgroundGradientToOpacity: 0.5,
-          color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-          strokeWidth: 2, // optional, default 3
-          barPercentage: 0.5,
-          useShadowColorFromDataset: false,
-        }}
-        bezier={true}
-      /> */}
       <View style={styles.menuBg}>
         <View style={styles.iconTextBg}>
           <Text style={styles.menu}>Coins</Text>
-          {/* <View style={{marginLeft: '5%'}}>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View> */}
         </View>
         <View style={styles.iconTextBg}>
           <Text style={styles.menu}>Holdings</Text>
-          {/* <View style={{marginLeft: '5%'}}>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View> */}
         </View>
         <View style={styles.iconTextBg}>
           <Text style={styles.menu}>Price</Text>
-          {/* <View style={{marginLeft: '5%'}}>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.upBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                style={{
-                  ...styles.icon,
-                  tintColor: Theme.white,
-                }}
-                source={Icons.downBold}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View> */}
         </View>
       </View>
       {loading ? (

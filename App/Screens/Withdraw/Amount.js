@@ -158,7 +158,6 @@ const Amount = ({navigation}) => {
       <Header
         onPress={() => navigation.goBack()}
         title={'Enter Amount'}
-        // rightIcon={Images.upload2}
       />
       <Text numberOfLines={1} style={styles.textInput}>
         {sign + inputNum}
@@ -238,9 +237,6 @@ const Amount = ({navigation}) => {
         show={modal}
         setShow={() => setModal(!modal)}
         onPress={handleConfirmTrade}
-        // onPress={() => {
-        //   setModal(!modal), setCongrats(true);
-        // }}
         btnText={trade === 'Buy' ? 'Buy' : 'Sell'}
         btnBorder={trade === 'Buy' ? Theme.green : Theme.orange}
         btnBackground={trade === 'Buy' ? Theme.green : Theme.orange}

@@ -98,7 +98,7 @@ const BuySell = ({navigation}) => {
                   backgroundGradientToOpacity: 0.5,
                   color: (opacity = 1) => '#ff4f12',
                   labelColor: (opacity = 1) => '#7F8D81',
-                  strokeWidth: 2, // optional, default 3
+                  strokeWidth: 2,
                   barPercentage: 0.5,
                   useShadowColorFromDataset: false,
                 }}
@@ -109,12 +109,18 @@ const BuySell = ({navigation}) => {
                 title={'Buy'}
                 width={'48%'}
                 onPress={() => {
-                  navigation.navigate('Amount', {item: 'Buy', coinData: coinData});
+                  navigation.navigate('Amount', {
+                    item: 'Buy',
+                    coinData: coinData,
+                  });
                 }}
               />
               <Button
                 onPress={() => {
-                  navigation.navigate('Amount', {item: 'Sell', coinData: coinData});
+                  navigation.navigate('Amount', {
+                    item: 'Sell',
+                    coinData: coinData,
+                  });
                 }}
                 title={'Sell'}
                 width={'48%'}

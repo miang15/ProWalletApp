@@ -1,13 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
   ScrollView,
-  KeyboardAvoidingView,
-  Alert,
 } from 'react-native';
 import Theme from '../../utils/Theme';
 import Icons from '../../constants/Icons';
@@ -23,37 +20,21 @@ const ForgotPin = () => {
   const [code, setCode] = useState('');
   const [timerCount, setTimer] = useState(60);
 
-  // useEffect(() => {
-  //   if (timerCount == 0) {
-  //     console.log('stop');
-  //   } else {
-  //     let interval = setInterval(() => {
-  //       setTimer(lastTimerCount => {
-  //         lastTimerCount <= 1 && clearInterval(interval);
-  //         return lastTimerCount - 1;
-  //       });
-  //     }, 1000); //each count lasts for a second
-  //     //cleanup the interval on complete
-  //     return () => clearInterval(interval);
-  //   }
-  // }, []);
-
   return (
     <View style={styles.container}>
       <Header onPress={() => navigation.goBack()} />
       <ScrollView showsVerticalScrollIndicator={false}>
-      <CountDown
-        size={25}
-        until={60 * 10}
-        onFinish={() => alert('Finished')}
-        digitStyle={{backgroundColor: Theme.black,}}
-        digitTxtStyle={{color: Theme.white}}
-        separatorStyle={{color: Theme.white}}
-        timeToShow={['M', 'S']}
-        timeLabels={{m: null, s: null}}
-        showSeparator
-      />
-        {/* <Text style={styles.Timer}>00:{timerCount}</Text> */}
+        <CountDown
+          size={25}
+          until={60 * 10}
+          onFinish={() => alert('Finished')}
+          digitStyle={{backgroundColor: Theme.black}}
+          digitTxtStyle={{color: Theme.white}}
+          separatorStyle={{color: Theme.white}}
+          timeToShow={['M', 'S']}
+          timeLabels={{m: null, s: null}}
+          showSeparator
+        />
         <View style={styles.body}>
           <Text style={styles.title}>
             Type the verification code{'\n'}

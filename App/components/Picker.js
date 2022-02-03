@@ -12,7 +12,7 @@ const Picker = ({
   label,
   valueText,
   onChangeText,
-  placeholder
+  placeholder,
 }) => {
   const styles = StyleSheet.create({
     topRow: {
@@ -58,10 +58,10 @@ const Picker = ({
       width: '75%',
     },
     input: {
-      color:Theme.white,
-      width:"75%",
-      height:40
-    }
+      color: Theme.white,
+      width: '75%',
+      height: 40,
+    },
   });
 
   return (
@@ -73,18 +73,12 @@ const Picker = ({
         </View>
       </TouchableOpacity>
       <TextInput
-      style={styles.input}
-      placeholder={placeholder}
-      value={valueText}
-      placeholderTextColor={Theme.white}
-      onChangeText={onChangeText}
+        style={styles.input}
+        placeholder={placeholder}
+        value={valueText}
+        placeholderTextColor={Theme.white}
+        onChangeText={onChangeText}
       />
-      {/* <TouchableOpacity onPress={onRightPress} style={styles.secondRow}>
-        <Text style={styles.label}>{valueText}</Text>
-        <View style={styles.downView}>
-          <Image resizeMode="cover" style={styles.down} source={Images.Down} />
-        </View>
-      </TouchableOpacity> */}
     </View>
   );
 };

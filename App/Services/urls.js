@@ -25,7 +25,5 @@ const Urls = {
   coinWithdraw: `${API_URL}/coin/withdraw`,
   coinCharge: `${API_URL}/coin/charge`,
   coinOrder: `${API_URL}/coinbase/order`,
-
-
 };
 export default Urls;

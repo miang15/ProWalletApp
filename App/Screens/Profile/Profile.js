@@ -7,7 +7,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -37,7 +36,6 @@ const DATA = [
     id: 2,
     img: Images.Wallet,
     label: 'Bank Deposit',
-    // value: '$292,339.64',
   },
   {
     id: 3,
@@ -179,7 +177,6 @@ const Profile = ({navigation}) => {
     <WalletComponent
       leftIcon={item.img}
       title={item.label}
-      // value={item.value}
       onPress={() => handleOnClick(item.label)}
     />
   );
@@ -290,9 +287,9 @@ const Profile = ({navigation}) => {
     } else if (phone == '') {
       setPhoneError('Phone Number is Required');
     } else {
-      setUserName(name)
-      setUserEmail(email)
-      setUserPhone(phone)
+      setUserName(name);
+      setUserEmail(email);
+      setUserPhone(phone);
       setEditModal(!editModal);
       setEditCongrats(true);
     }
@@ -338,7 +335,6 @@ const Profile = ({navigation}) => {
               </Text>
               <View style={styles.innerRow}>
                 <Text style={styles.Vip}>VIP 0</Text>
-                {/* <Text style={styles.verifiedText}>Not Verified</Text> */}
               </View>
             </View>
           </View>
@@ -475,7 +471,6 @@ const Profile = ({navigation}) => {
                   }}>
                   <Button
                     onPress={handleSaveChanges}
-                    // onPress={() => setEditModal(!editModal)}
                     title={'Save'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -566,9 +561,6 @@ const Profile = ({navigation}) => {
                   }}>
                   <Button
                     onPress={handleConfirmPaypal}
-                    // onPress={() => {
-                    //   setPaypalModal(!paypalModal), setConfirmModal(true);
-                    // }}
                     title={'Confirm'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -618,9 +610,6 @@ const Profile = ({navigation}) => {
                   }}>
                   <Button
                     onPress={submitPaypalAmount}
-                    // onPress={() => {
-                    //   setConfirmModal(!confirmModal), setCongrats(true);
-                    // }}
                     title={'Continue'}
                     backgroundColor={Theme.orange}
                     borderColor={Theme.orange}
@@ -683,9 +672,6 @@ const Profile = ({navigation}) => {
               </View>
               <Button
                 onPress={handleUsdcWithdraw}
-                // onPress={() => {
-                //   setUsdcModal(!usdcModal), setUsdcConfirm(true);
-                // }}
                 title={'Confirm Withdraw'}
                 backgroundColor={Theme.orange}
                 borderColor={Theme.orange}
@@ -700,9 +686,6 @@ const Profile = ({navigation}) => {
         show={usdcConfirm}
         setShow={() => setUsdcConfirm(!usdcConfirm)}
         onPress={handleConfirmationUsdc}
-        // onPress={() => {
-        //   setUsdcConfirm(!usdcConfirm), setUsdcCongrats(true);
-        // }}
         heading={'Confirm Withdraw'}
         DATA={RECIPIENTDATA}
         btnText={'Confirm Withdraw'}

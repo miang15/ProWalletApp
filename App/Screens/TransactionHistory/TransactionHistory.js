@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
     width: 12,
     marginRight: 5,
     marginLeft: 10,
-    // alignSelf:'center',
   },
   status: {
     fontSize: Theme.medium,

@@ -65,12 +65,7 @@ const Exchange = ({navigation}) => {
     'BCH/LTC',
     'LTC/PEPE',
   ]);
-  const [list2, setList2] = useState([
-    'One',
-    'Two',
-    'Three',
-    'Four',
-  ]);
+  const [list2, setList2] = useState(['One', 'Two', 'Three', 'Four']);
   const refRBSheet = useRef();
   const limitSheet = useRef();
 
@@ -81,7 +76,7 @@ const Exchange = ({navigation}) => {
 
   const handleSelectedLimit = val => {
     limitSheet.current.close();
-    setLimitText (val);
+    setLimitText(val);
   };
 
   const renderPrices = ({item}) => (
@@ -172,10 +167,13 @@ const Exchange = ({navigation}) => {
         <View style={styles.innerContainer}>
           <View style={styles.rowView}>
             <View style={{width: '48%', overflow: 'hidden'}}>
-              <TouchableOpacity onPress={() => limitSheet.current.open()}
+              <TouchableOpacity
+                onPress={() => limitSheet.current.open()}
                 style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Text style={styles.limitText}>{limitText}</Text>
-                <TouchableOpacity onPress={() => limitSheet.current.open()} style={styles.downView}>
+                <TouchableOpacity
+                  onPress={() => limitSheet.current.open()}
+                  style={styles.downView}>
                   <Image
                     resizeMode="cover"
                     style={styles.down}
@@ -221,29 +219,6 @@ const Exchange = ({navigation}) => {
               <Text style={{...styles.limitText, marginVertical: '2%'}}>
                 Equivalent $1.08
               </Text>
-              {/* <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginVertical: '3%',
-                }}>
-                <TouchableOpacity
-                  style={{...styles.symbolView, justifyContent: 'center'}}>
-                  <Image
-                    resizeMode="cover"
-                    style={{...styles.symbol, height: '20%'}}
-                    source={Images.minus}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.symbolView}>
-                  <Image
-                    resizeMode="cover"
-                    style={styles.symbol}
-                    source={Images.plus}
-                  />
-                </TouchableOpacity>
-              </View> */}
               <View
                 style={{
                   flexDirection: 'row',
@@ -328,7 +303,7 @@ const Exchange = ({navigation}) => {
                     backgroundGradientTo: '#08130D',
                     backgroundGradientToOpacity: 0.5,
                     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-                    strokeWidth: 2, // optional, default 3
+                    strokeWidth: 2,
                     barPercentage: 0.5,
                     useShadowColorFromDataset: false,
                   }}

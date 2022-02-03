@@ -79,7 +79,7 @@ export async function getUsers(email) {
   const options = {
     method: 'Get',
     data: {
-      email: email
+      email: email,
     },
     url: Urls.getUsers + `?email=${email}`,
     headers: {},
@@ -211,10 +211,6 @@ export async function rate(from, to) {
 
   const options = {
     method: 'Get',
-    // data: {
-    //   from: from,
-    //   to: to,
-    // },
     url: Urls.rate + `?from=${from}&to=${to}`,
     headers: {
       Authorization: token,
@@ -230,11 +226,6 @@ export async function payoutFee(amount, currency, type) {
 
   const options = {
     method: 'Get',
-    // data: {
-    //   amount: amount,
-    //   currency: currency,
-    //   type: type
-    // },
     url:
       Urls.payout_fee + `?amount=${amount}&currency=${currency}&type=${type}`,
     headers: {
@@ -266,11 +257,6 @@ export async function coin(coinId) {
 
   const options = {
     method: 'Get',
-    // data: {
-    //   amount: amount,
-    //   currency: currency,
-    //   type: type
-    // },
     url: Urls.coin + `?coin_id=${coinId}`,
     headers: {
       Authorization: token,
@@ -286,11 +272,6 @@ export async function coinChart(coinId, day) {
 
   const options = {
     method: 'Get',
-    // data: {
-    //   amount: amount,
-    //   currency: currency,
-    //   type: type
-    // },
     url: Urls.coinChart + `?coin_id=${coinId}&days=${day}`,
     headers: {
       Authorization: token,
@@ -318,7 +299,6 @@ export async function coinCharge(currency) {
 }
 
 export async function coinOrder(mydata) {
-
   let token = await AsyncStorage.getItem('LOGINTOKEN');
 
   console.log('BODY DATA', token);
@@ -335,7 +315,6 @@ export async function coinOrder(mydata) {
 }
 
 export async function coinWithdraw(mydata) {
-
   let token = await AsyncStorage.getItem('LOGINTOKEN');
 
   console.log('BODY DATA', token);

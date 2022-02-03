@@ -20,7 +20,7 @@ import Images from '../../constants/Images';
 import Congratulations from '../../components/Congratulations';
 import {useRoute} from '@react-navigation/native';
 import Contacts from 'react-native-contacts';
-import { cashPay } from '../../Services/Apis';
+import {cashPay} from '../../Services/Apis';
 
 const CONTACTLIST = [
   {
@@ -63,12 +63,11 @@ const Contact = ({navigation}) => {
   const [congrats, setCongrats] = useState(false);
   const [allContacts, setAllContacts] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState('')
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const emailRegex =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const getContacts = async () => {
     let status = await PermissionsAndroid.request(
@@ -99,29 +98,30 @@ const Contact = ({navigation}) => {
   }, []);
 
   const handlePay = () => {
-      setEmailError('')
+    setEmailError('');
 
-      if(email == ''){
-        setEmailError("Email is Required")
-      } else if(!email.match(emailRegex)){
-        setEmailError("Enter valid Email")
-      } else {
-        const data = {
-          amount: values,
-          receiver: email
-        }
-        cashPay(data).then(({data}) => {
-          console.log("RES: ",data);
+    if (email == '') {
+      setEmailError('Email is Required');
+    } else if (!email.match(emailRegex)) {
+      setEmailError('Enter valid Email');
+    } else {
+      const data = {
+        amount: values,
+        receiver: email,
+      };
+      cashPay(data)
+        .then(({data}) => {
+          console.log('RES: ', data);
           setCongrats(true);
-        }).catch((e) => {
-          console.log("Error: ",e?.response?.data);
         })
-      }
-  }
+        .catch(e => {
+          console.log('Error: ', e?.response?.data);
+        });
+    }
+  };
 
   const renderContacts = ({item, index}) => (
     <ContactList
-      // onPress={() => setCongrats(true)}
       title={item.displayName}
       number={item.phoneNumbers[0].number}
       backgroundColor={index % 2 == 0 ? Theme.orange : Theme.blue}
@@ -163,11 +163,12 @@ const Contact = ({navigation}) => {
             backgroundColor={Theme.darkGrey}
             borderColor={Theme.darkGrey}
           />
-          {emailError ? <Text style={styles.errorMsg}>{emailError}</Text> : null}
+          {emailError ? (
+            <Text style={styles.errorMsg}>{emailError}</Text>
+          ) : null}
           <Text style={styles.suggested}>Suggested</Text>
           {allContacts ? (
             <ContactList
-              // onPress={() => setCongrats(true)}
               title={allContacts[3]?.displayName}
               number={allContacts[3]?.phoneNumbers[0].number}
             />
@@ -237,8 +238,8 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   errorMsg: {
-    color:Theme.red,
-    fontSize:13,
-    marginHorizontal:"3%"
-  }
+    color: Theme.red,
+    fontSize: 13,
+    marginHorizontal: '3%',
+  },
 });

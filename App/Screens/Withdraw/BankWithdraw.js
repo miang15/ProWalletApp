@@ -178,28 +178,30 @@ const BankWithdraw = ({navigation}) => {
       clone[4].value = a;
       setModalData(clone);
       setTransferModal(true);
-      console.log("FULLNAME: ",a);
+      console.log('FULLNAME: ', a);
     }
   };
 
   const hanldeConfirmTransfer = () => {
     const data = {
-      currency: "NGN",
-      account_bank: "044",
-      account_number: "0690000037",
-      amount: "200",
-      email: "xyz@gmail.com",
-      phone_number: "123321123",
-      fullname: "mian nouman",
-    }
-    payoutBank(data).then(({data}) => {
-      setTransferModal(!transferModal)
-      setCongrats(true)
-      console.log("RES: ",data?.result);
-    }).catch((e) => {
-      console.log("Error: ",e?.response);
-    })
-  }
+      currency: 'NGN',
+      account_bank: '044',
+      account_number: '0690000037',
+      amount: '200',
+      email: 'xyz@gmail.com',
+      phone_number: '123321123',
+      fullname: 'mian nouman',
+    };
+    payoutBank(data)
+      .then(({data}) => {
+        setTransferModal(!transferModal);
+        setCongrats(true);
+        console.log('RES: ', data?.result);
+      })
+      .catch(e => {
+        console.log('Error: ', e?.response);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -397,7 +399,6 @@ const BankWithdraw = ({navigation}) => {
             />
             <Button
               onPress={handleTransferData}
-              // onPress={() => setTransferModal(true)}
               title={'Transfer'}
               width={'48%'}
               backgroundColor={Theme.orange}
@@ -419,9 +420,6 @@ const BankWithdraw = ({navigation}) => {
         DATA={ModalDATA}
         show={transferModal}
         onPress={hanldeConfirmTransfer}
-        // onPress={() => {
-        //   setTransferModal(!transferModal), setCongrats(true);
-        // }}
         setShow={() => setTransferModal(!transferModal)}
         btnText={'Confirm Transfer'}
       />

@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   expandContainer: {
-    //    justifyContent:"flex-start",
     backgroundColor: 'red',
     width: '100%',
   },

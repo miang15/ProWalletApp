@@ -17,8 +17,6 @@ const Header = ({onPress, title, rightIcon, onRightIcon, backgroundColor}) => {
     imgView: {
       width: 30,
       height: 20,
-      //   marginHorizontal: '3%',
-      //   marginVertical: '5%',
       overflow: 'hidden',
       alignItems: 'center',
     },

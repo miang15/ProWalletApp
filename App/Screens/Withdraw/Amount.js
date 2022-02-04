@@ -106,7 +106,7 @@ const Amount = ({navigation}) => {
             setRateValue(a);
             const clone = [...modalDATA];
             clone[0].value = inputNum;
-            clone[1].value = "$" + a;
+            clone[1].value = '$' + a;
             setModal(true);
           } else {
             Alert.alert('Something went wrong');
@@ -149,16 +149,13 @@ const Amount = ({navigation}) => {
       .catch(e => {
         console.log('Error: ', e?.response?.data);
         setModal(!modal);
-        Alert.alert("Something went wrong")
+        Alert.alert('Something went wrong');
       });
   };
 
   return (
     <View style={styles.container}>
-      <Header
-        onPress={() => navigation.goBack()}
-        title={'Enter Amount'}
-      />
+      <Header onPress={() => navigation.goBack()} title={'Enter Amount'} />
       <Text numberOfLines={1} style={styles.textInput}>
         {sign + inputNum}
       </Text>
@@ -189,13 +186,6 @@ const Amount = ({navigation}) => {
               <Text style={styles.label}>{coin?.symbol}</Text>
             </View>
           </View>
-          {/* <View style={styles.downarrowView}>
-                <Image
-                  resizeMode="contain"
-                  style={styles.downarrowImg}
-                  source={Images.arrow}
-                />
-              </View> */}
         </TouchableOpacity>
         <FlatList
           numColumns={3}

@@ -55,7 +55,6 @@ const SettingComponent = props => {
         ) : null}
         <View>
           <Text style={styles.Title}>{props.Title}</Text>
-          {/* <Text style={styles.heading}>{props.heading} </Text> */}
         </View>
       </View>
       {props.rightIcon ? (

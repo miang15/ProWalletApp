@@ -22,7 +22,6 @@ const TradeComponent = props => {
           placeholderTextColor={Theme.white}
           style={styles.input}
         />
-        {/* <Text style={styles.heading}>{props.title}</Text> */}
       </View>
       <TouchableOpacity
         onPress={props.onPress}
